@@ -33,7 +33,7 @@
   .nav-cta:hover { background: var(--teal) !important; }
 
   /* PAGE HEADER */
-  .page-header { max-width: 960px; margin: 0 auto; padding: 48px 2rem 32px; border-bottom: 1px solid var(--border); }
+  .page-header { max-width: 920px; margin: 0 auto; padding: 48px 2rem 32px; border-bottom: 1px solid var(--border); }
   .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1rem; }
   .breadcrumb a { color: var(--teal); text-decoration: none; }
   .header-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
@@ -47,7 +47,7 @@
   .mode-tab.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
   /* SPLIT LAYOUT */
-  .split { max-width: 960px; margin: 0 auto; padding: 32px 2rem 64px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: start; }
+  .split { max-width: 920px; margin: 0 auto; padding: 32px 2rem 64px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: start; }
 
   /* CHAT PANEL */
   .chat-panel { background: var(--ink); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; min-height: 600px; }
@@ -131,7 +131,7 @@
   <div class="header-row">
     <div>
       <h1>Your <em>learning mind,</em> understood</h1>
-      <p>Two research-grounded tools. Assess your SRL profile or ask anything about the science of learning.</p>
+      <p>Two tools built on real educational psychology research. The SRL assessment identifies how you naturally regulate your learning across Zimmerman's three phases. The concept explainer answers any question about learning science with evidence-based responses, not generic AI advice.</p>
     </div>
     <div class="mode-tabs">
       <button class="mode-tab active" id="tab-assess" onclick="switchMode('assess')">SRL assessment</button>
@@ -154,7 +154,7 @@
     </div>
     <div class="chat-messages" id="chat-messages"></div>
     <div class="chat-input-area">
-      <input class="chat-input" id="chat-input" placeholder="Type your response..." onkeydown="if(event.key==='Enter') sendMessage()">
+      <input class="chat-input" id="chat-input" placeholder="Type your answer..." id="chat-placeholder" onkeydown="if(event.key==='Enter') sendMessage()">
       <button class="send-btn" id="send-btn" onclick="sendMessage()">Send</button>
     </div>
   </div>
@@ -239,6 +239,7 @@ function switchMode(mode) {
   document.getElementById('info-explain').style.display = mode === 'explain' ? 'block' : 'none';
   document.getElementById('chat-messages').innerHTML = '';
   document.getElementById('chat-input').value = '';
+  document.getElementById('chat-input').placeholder = mode === 'assess' ? 'Type your answer...' : 'Ask about any learning science concept...';
   setTimeout(() => addMessage('ai', OPENERS[mode]), 200);
 }
 
