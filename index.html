@@ -61,7 +61,11 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--teal); }
-  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
+  .nav-cta {
+    background: var(--ink); color: var(--paper) !important;
+    padding: 7px 16px; border-radius: 6px; font-size: 13px !important;
+    font-weight: 500 !important;
+  }
   .nav-cta:hover { background: var(--teal); color: var(--paper) !important; }
 
   /* HERO */
@@ -345,7 +349,7 @@
     <h1>How do you <em>actually</em> learn?</h1>
     <p class="hero-desc">SRLens translates cutting-edge research on self-regulated learning, metacognition, and motivation into interactive visualizations and AI-powered tools — no jargon, no paywalls.</p>
     <div class="hero-actions">
-      <a href="pages/ai-tool.html" class="btn-primary">Assess my SRL profile</a>
+      <a href="#ai-tool" class="btn-primary">Assess my SRL profile</a>
       <a href="#topics" class="btn-ghost">Explore the science</a>
     </div>
   </div>
@@ -489,29 +493,6 @@
   </div>
 </section>
 
-<!-- AI TOOL -->
-<section class="ai-section" id="ai-tool">
-  <div class="ai-inner">
-    <p class="section-label">SRLens AI</p>
-    <div class="ai-header">
-      <h2>Understand your <em>learning mind</em></h2>
-      <p>Two AI-powered tools grounded in real learning science research. Not generic study tips — evidence-based insights built on Educational Psychology and cognitive science.</p>
-    </div>
-    <div class="ai-tabs">
-      <button class="ai-tab active" onclick="switchTab('assess', this)">SRL profile assessment</button>
-      <button class="ai-tab" onclick="switchTab('explain', this)">Concept explainer</button>
-    </div>
-    <div class="ai-chat" id="chat-window">
-    </div>
-    <div class="chat-input-row">
-      <input class="chat-input" id="user-input" placeholder="Type your response..." onkeydown="if(event.key==='Enter') sendMessage()">
-      <button class="chat-send" id="send-btn" onclick="sendMessage()">Send →</button>
-    </div>
-  </div>
-</section>
-
-<hr class="section-divider">
-
 <!-- ABOUT -->
 <section class="about-strip" id="about">
   <div>
@@ -532,7 +513,7 @@
 
 <footer>
   <p>© 2026 SRLens · Research-backed, open access</p>
-  <a href="mailto:contact@srlens.netlify.app">Contact</a>
+  <a href="#">Contact</a>
 </footer>
 
 <script>
