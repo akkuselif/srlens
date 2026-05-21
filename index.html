@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRLens — The Science of How You Learn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-2: #4a4740;
+    --ink-3: #8a8780;
+    --paper: #f7f4ef;
+    --paper-2: #ede9e2;
+    --paper-3: #e2ddd5;
+    --teal: #1D9E75;
+    --teal-light: #d0f0e4;
+    --teal-dark: #0a5c44;
+    --amber: #c8821a;
+    --amber-light: #faecd4;
+    --border: rgba(26,24,20,0.12);
+    --radius: 12px;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 16px;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; height: 60px;
+    gap: 2rem;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 20px; color: var(--ink);
+    text-decoration: none; letter-spacing: -0.01em;
+  }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a {
+    font-size: 13px; color: var(--ink-2); text-decoration: none;
+    font-weight: 400; letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-cta {
+    background: var(--ink); color: var(--paper) !important;
+    padding: 7px 16px; border-radius: 6px; font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+  .nav-cta:hover { background: var(--teal); color: var(--paper) !important; }
+
+  /* HERO */
+  .hero {
+    max-width: 900px; margin: 0 auto;
+    padding: 80px 2rem 60px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.12em;
+    color: var(--teal); text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.15; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 1.25rem;
+  }
+  .hero h1 em { color: var(--teal); font-style: italic; }
+  .hero-desc {
+    font-size: 15px; color: var(--ink-2);
+    line-height: 1.75; margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--teal); color: white;
+    padding: 10px 22px; border-radius: 8px;
+    font-size: 14px; font-weight: 500; text-decoration: none;
+    border: none; cursor: pointer; transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--teal-dark); }
+  .btn-ghost {
+    background: transparent; color: var(--ink-2);
+    padding: 10px 22px; border-radius: 8px;
+    font-size: 14px; font-weight: 400; text-decoration: none;
+    border: 1px solid var(--border); cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--ink-2); color: var(--ink); }
+
+  /* HERO STATS */
+  .hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .stat-card {
+    background: var(--paper-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .stat-card .num {
+    font-family: var(--font-display);
+    font-size: 32px; color: var(--teal);
+    line-height: 1; margin-bottom: 4px;
+  }
+  .stat-card .label {
+    font-size: 12px; color: var(--ink-3); line-height: 1.4;
+  }
+  .stat-card.accent {
+    background: var(--teal); border-color: var(--teal);
+    grid-column: span 2;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .stat-card.accent .num { color: white; font-size: 24px; }
+  .stat-card.accent .label { color: rgba(255,255,255,0.75); }
+
+  /* DIVIDER */
+  .section-divider {
+    border: none; border-top: 1px solid var(--border);
+    margin: 0 2rem;
+  }
+
+  /* TOPICS */
+  .topics { max-width: 900px; margin: 0 auto; padding: 60px 2rem; }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.12em;
+    color: var(--ink-3); text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .topics-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  }
+  .topic-card {
+    background: var(--paper-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+    text-decoration: none; color: inherit;
+  }
+  .topic-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .topic-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; margin-bottom: 14px;
+  }
+  .topic-card h3 {
+    font-family: var(--font-display);
+    font-size: 18px; margin-bottom: 8px; line-height: 1.2;
+  }
+  .topic-card p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+  .topic-tag {
+    display: inline-block; margin-top: 12px;
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--teal); background: var(--teal-light);
+    padding: 3px 8px; border-radius: 4px;
+  }
+
+  /* VIZ PREVIEW */
+  .viz-section { max-width: 900px; margin: 0 auto; padding: 60px 2rem; }
+  .viz-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 24px;
+  }
+  .viz-header h2 {
+    font-family: var(--font-display);
+    font-size: 28px; letter-spacing: -0.02em;
+  }
+  .viz-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+  .viz-card {
+    background: var(--paper-2); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    cursor: pointer; transition: border-color 0.2s;
+  }
+  .viz-card:hover { border-color: var(--teal); }
+  .viz-card-preview {
+    height: 160px; background: var(--paper-3);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; position: relative; overflow: hidden;
+  }
+  .viz-mini-chart { width: 100%; height: 100%; }
+  .viz-card-body { padding: 16px 18px; }
+  .viz-card-body h4 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .viz-card-body p { font-size: 12px; color: var(--ink-3); }
+  .viz-card-meta {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--ink-3); margin-top: 8px; letter-spacing: 0.04em;
+  }
+
+  /* AI TOOL */
+  .ai-section {
+    background: var(--ink); color: var(--paper);
+    padding: 60px 2rem;
+  }
+  .ai-inner { max-width: 900px; margin: 0 auto; }
+  .ai-inner .section-label { color: rgba(247,244,239,0.4); }
+  .ai-header { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-bottom: 32px; }
+  .ai-header h2 {
+    font-family: var(--font-display);
+    font-size: 32px; line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .ai-header h2 em { color: var(--teal); font-style: italic; }
+  .ai-header p { font-size: 14px; color: rgba(247,244,239,0.6); line-height: 1.75; }
+  .ai-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+  .ai-tab {
+    font-size: 12px; padding: 6px 14px; border-radius: 6px;
+    border: 1px solid rgba(247,244,239,0.15);
+    background: transparent; color: rgba(247,244,239,0.5);
+    cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
+  }
+  .ai-tab.active {
+    background: var(--teal); border-color: var(--teal);
+    color: white;
+  }
+  .ai-chat {
+    background: rgba(247,244,239,0.05);
+    border: 1px solid rgba(247,244,239,0.1);
+    border-radius: var(--radius); padding: 20px;
+    min-height: 280px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .chat-msg {
+    display: flex; gap: 10px; align-items: flex-start;
+    animation: fadeUp 0.3s ease both;
+  }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .chat-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500; flex-shrink: 0; margin-top: 2px;
+  }
+  .chat-avatar.ai { background: var(--teal); color: white; }
+  .chat-avatar.user { background: rgba(247,244,239,0.15); color: rgba(247,244,239,0.7); }
+  .chat-bubble {
+    font-size: 13px; line-height: 1.65;
+    padding: 10px 14px; border-radius: 10px; max-width: 85%;
+  }
+  .chat-bubble.ai { background: rgba(247,244,239,0.08); color: rgba(247,244,239,0.85); }
+  .chat-bubble.user { background: var(--teal); color: white; margin-left: auto; }
+  .chat-input-row {
+    display: flex; gap: 8px; margin-top: 8px;
+  }
+  .chat-input {
+    flex: 1; background: rgba(247,244,239,0.08);
+    border: 1px solid rgba(247,244,239,0.15);
+    border-radius: 8px; padding: 10px 14px;
+    color: var(--paper); font-family: var(--font-body); font-size: 13px;
+    outline: none;
+  }
+  .chat-input::placeholder { color: rgba(247,244,239,0.3); }
+  .chat-input:focus { border-color: var(--teal); }
+  .chat-send {
+    background: var(--teal); border: none; border-radius: 8px;
+    padding: 10px 16px; color: white; cursor: pointer;
+    font-size: 13px; font-family: var(--font-body);
+    transition: background 0.2s;
+  }
+  .chat-send:hover { background: var(--teal-dark); }
+  .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+  .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(247,244,239,0.4);
+    animation: blink 1.2s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100%{opacity:0.3} 40%{opacity:1} }
+
+  /* ABOUT STRIP */
+  .about-strip {
+    max-width: 900px; margin: 0 auto; padding: 60px 2rem;
+    display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: center;
+  }
+  .about-strip h2 {
+    font-family: var(--font-display);
+    font-size: 28px; letter-spacing: -0.02em; line-height: 1.2;
+  }
+  .about-strip p { font-size: 14px; color: var(--ink-2); line-height: 1.8; }
+  .about-strip p + p { margin-top: 12px; }
+  .credential-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .pill {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
+    border: 1px solid var(--border); color: var(--ink-2);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 900px; margin: 0 auto;
+  }
+  footer p { font-size: 12px; color: var(--ink-3); }
+  footer a { color: var(--teal); text-decoration: none; font-size: 12px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 680px) {
+    .hero { grid-template-columns: 1fr; gap: 2rem; padding: 40px 1.25rem; }
+    .topics-grid { grid-template-columns: 1fr; }
+    .viz-grid { grid-template-columns: 1fr; }
+    .ai-header { grid-template-columns: 1fr; gap: 1rem; }
+    .about-strip { grid-template-columns: 1fr; gap: 1.5rem; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">SRL<span>ens</span></a>
+  <div class="nav-links">
+    <a href="#topics">Topics</a>
+    <a href="#visualizations">Data</a>
+    <a href="#ai-tool">AI tool</a>
+    <a href="#about">About</a>
+    <a href="#ai-tool" class="nav-cta">Try SRLens AI</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <p class="hero-eyebrow">Learning science · EdPsych · Data</p>
+    <h1>How do you <em>actually</em> learn?</h1>
+    <p class="hero-desc">SRLens translates cutting-edge research on self-regulated learning, metacognition, and motivation into interactive visualizations and AI-powered tools — no jargon, no paywalls.</p>
+    <div class="hero-actions">
+      <a href="#ai-tool" class="btn-primary">Assess my SRL profile</a>
+      <a href="#topics" class="btn-ghost">Explore the science</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="num">4</div>
+      <div class="label">Learner profiles discovered in real VLE data</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">80+</div>
+      <div class="label">Countries in PISA 2022 dataset</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">2.8k</div>
+      <div class="label">Students in KU Leuven clickstream study</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">100%</div>
+      <div class="label">Open-access, peer-reviewed sources</div>
+    </div>
+    <div class="stat-card accent">
+      <div>
+        <div class="num">New</div>
+        <div class="label">PISA 2025 SRL process data — analysis pipeline ready</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- TOPICS -->
+<section class="topics" id="topics">
+  <p class="section-label">Core topics</p>
+  <div class="topics-grid">
+    <a href="#" class="topic-card">
+      <div class="topic-icon" style="background:#d0f0e4">🔄</div>
+      <h3>Self-regulated learning</h3>
+      <p>How students plan, monitor, and reflect on their own learning — and why it predicts outcomes more than raw ability.</p>
+      <span class="topic-tag">SRL</span>
+    </a>
+    <a href="#" class="topic-card">
+      <div class="topic-icon" style="background:#faecd4">🧠</div>
+      <h3>Metacognition</h3>
+      <p>Thinking about thinking. The research on why knowing what you don't know is one of the most powerful learning tools.</p>
+      <span class="topic-tag">Metacognition</span>
+    </a>
+    <a href="#" class="topic-card">
+      <div class="topic-icon" style="background:#eeedfe">⚡</div>
+      <h3>Motivation & emotion</h3>
+      <p>Self-determination theory, intrinsic vs extrinsic motivation, and how anxiety shapes the way students navigate content.</p>
+      <span class="topic-tag">SDT</span>
+    </a>
+    <a href="#" class="topic-card">
+      <div class="topic-icon" style="background:#d0f0e4">📊</div>
+      <h3>Learning analytics</h3>
+      <p>What behavioral data from virtual learning environments reveals about how different learner types actually navigate content.</p>
+      <span class="topic-tag">VLE · Clickstream</span>
+    </a>
+    <a href="#" class="topic-card">
+      <div class="topic-icon" style="background:#faecd4">🌍</div>
+      <h3>Cross-cultural learning</h3>
+      <p>Do SRL strategies work the same across countries? PISA 2022 data across 80+ nations tells a more complex story.</p>
+      <span class="topic-tag">PISA 2022</span>
+    </a>
+    <a href="#" class="topic-card">
+      <div class="topic-icon" style="background:#eeedfe">🤖</div>
+      <h3>AI & learning</h3>
+      <p>How AI tutors, adaptive systems, and large language models interact with self-regulation — what works and what doesn't.</p>
+      <span class="topic-tag">EdAI</span>
+    </a>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- VISUALIZATIONS -->
+<section class="viz-section" id="visualizations">
+  <div class="viz-header">
+    <div>
+      <p class="section-label">Interactive data</p>
+      <h2 style="font-family:var(--font-display);font-size:28px;letter-spacing:-0.02em">What the data actually shows</h2>
+    </div>
+    <a href="#" class="btn-ghost" style="font-size:13px">See all →</a>
+  </div>
+  <div class="viz-grid">
+    <div class="viz-card">
+      <div class="viz-card-preview">
+        <svg class="viz-mini-chart" viewBox="0 0 320 120">
+          <polyline points="10,90 40,75 70,60 100,70 130,40 160,55 190,20 220,35 250,15 280,25 310,18"
+            fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="10,95 40,90 70,88 100,85 130,88 160,90 190,85 220,88 250,92 280,95 310,97"
+            fill="none" stroke="#534AB7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5,3"/>
+          <polyline points="10,80 40,70 70,85 100,65 130,90 160,75 190,85 220,60 250,80 280,55 310,70"
+            fill="none" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="10" y="115" font-size="9" fill="#8a8780" font-family="monospace">Week 1</text>
+          <text x="260" y="115" font-size="9" fill="#8a8780" font-family="monospace">Week 13</text>
+        </svg>
+      </div>
+      <div class="viz-card-body">
+        <h4>How learner types navigate content over a semester</h4>
+        <p>Four distinct behavioral profiles from VLE clickstream data — each tells a different psychological story.</p>
+        <p class="viz-card-meta">KU Leuven dataset · 2,847 students · interactive</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="viz-card">
+        <div class="viz-card-preview" style="height:100px">
+          <svg width="100%" height="80" viewBox="0 0 200 80">
+            <rect x="10" y="30" width="30" height="40" fill="#1D9E75" rx="3"/>
+            <rect x="50" y="45" width="30" height="25" fill="#534AB7" rx="3"/>
+            <rect x="90" y="20" width="30" height="50" fill="#EF9F27" rx="3"/>
+            <rect x="130" y="55" width="30" height="15" fill="#D85A30" rx="3"/>
+            <text x="10" y="78" font-size="8" fill="#8a8780" font-family="monospace">High SRL</text>
+            <text x="50" y="78" font-size="8" fill="#8a8780" font-family="monospace">Surface</text>
+            <text x="90" y="78" font-size="8" fill="#8a8780" font-family="monospace">Anxious</text>
+            <text x="130" y="78" font-size="8" fill="#8a8780" font-family="monospace">Disengaged</text>
+          </svg>
+        </div>
+        <div class="viz-card-body">
+          <h4>Does motivation predict performance?</h4>
+          <p class="viz-card-meta">PISA 2022 · 80 countries</p>
+        </div>
+      </div>
+      <div class="viz-card">
+        <div class="viz-card-preview" style="height:100px;padding:16px">
+          <svg width="100%" height="80" viewBox="0 0 200 80">
+            <circle cx="100" cy="40" r="35" fill="none" stroke="#e2ddd5" stroke-width="1"/>
+            <circle cx="100" cy="40" r="35" fill="none" stroke="#1D9E75" stroke-width="8"
+              stroke-dasharray="110 220" stroke-dashoffset="-55" stroke-linecap="round"/>
+            <text x="100" y="38" text-anchor="middle" font-size="14" font-weight="500" fill="#1a1814" font-family="serif">68%</text>
+            <text x="100" y="52" text-anchor="middle" font-size="8" fill="#8a8780" font-family="monospace">high metacog.</text>
+          </svg>
+        </div>
+        <div class="viz-card-body">
+          <h4>SRL profiles across cultures</h4>
+          <p class="viz-card-meta">PISA 2025 · coming late 2026</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI TOOL -->
+<section class="ai-section" id="ai-tool">
+  <div class="ai-inner">
+    <p class="section-label">SRLens AI</p>
+    <div class="ai-header">
+      <h2>Understand your <em>learning mind</em></h2>
+      <p>Two AI-powered tools grounded in real learning science research. Not generic study tips — evidence-based insights built on Educational Psychology and cognitive science.</p>
+    </div>
+    <div class="ai-tabs">
+      <button class="ai-tab active" onclick="switchTab('assess', this)">SRL profile assessment</button>
+      <button class="ai-tab" onclick="switchTab('explain', this)">Concept explainer</button>
+    </div>
+    <div class="ai-chat" id="chat-window">
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="user-input" placeholder="Type your response..." onkeydown="if(event.key==='Enter') sendMessage()">
+      <button class="chat-send" id="send-btn" onclick="sendMessage()">Send →</button>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ABOUT -->
+<section class="about-strip" id="about">
+  <div>
+    <h2>Built by a researcher, for everyone.</h2>
+  </div>
+  <div>
+    <p>SRLens is built by a PhD candidate in Teacher Education and Learning Sciences (concentration: Educational Psychology) with an MS in Data Science and AI. The gap between what learning science research shows and what people actually hear about learning is vast — this site exists to close it.</p>
+    <p>Every visualization is grounded in peer-reviewed research. Every AI response is constrained by what the evidence actually supports. No pseudoscience, no productivity-culture myths.</p>
+    <div class="credential-pills">
+      <span class="pill">EdPsych PhD candidate</span>
+      <span class="pill">MS Data Science & AI</span>
+      <span class="pill">Learning Sciences</span>
+      <span class="pill">Open data</span>
+      <span class="pill">PISA · KU Leuven · OULAD</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 SRLens · Research-backed, open access</p>
+  <a href="#">Contact</a>
+</footer>
+
+<script>
+const ASSESS_QUESTIONS = [
+  "Hi! I'm SRLens AI. I'll ask you a few questions to identify your SRL profile — the way you naturally regulate your own learning.\n\nLet's start: When you sit down to study, do you usually have a clear plan for what you want to accomplish in that session?",
+  "Interesting. Now — when you're reading something difficult and realize you don't understand it, what do you typically do?",
+  "One more: How do you feel about quizzes or self-tests while studying — do you use them, avoid them, or something else?",
+];
+
+const EXPLAIN_STARTERS = [
+  "What concept would you like me to explain? I can cover self-regulated learning, metacognition, self-determination theory, cognitive load, spaced repetition, retrieval practice, or anything else in learning science.",
+];
+
+let currentTab = 'assess';
+let messageCount = 0;
+let isTyping = false;
+
+function switchTab(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll('.ai-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('chat-window').innerHTML = '';
+  messageCount = 0;
+  document.getElementById('user-input').value = '';
+  const starters = tab === 'assess' ? ASSESS_QUESTIONS : EXPLAIN_STARTERS;
+  setTimeout(() => addMessage('ai', starters[0]), 300);
+}
+
+function addMessage(role, text) {
+  const window = document.getElementById('chat-window');
+  const msg = document.createElement('div');
+  msg.className = 'chat-msg';
+  msg.style.animationDelay = '0s';
+  const initials = role === 'ai' ? 'SR' : 'You';
+  msg.innerHTML = `
+    <div class="chat-avatar ${role}">${initials}</div>
+    <div class="chat-bubble ${role}">${text}</div>`;
+  if (role === 'user') {
+    msg.style.flexDirection = 'row-reverse';
+  }
+  window.appendChild(msg);
+  window.scrollTop = window.scrollHeight;
+}
+
+function showTyping() {
+  const window = document.getElementById('chat-window');
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg'; typing.id = 'typing';
+  typing.innerHTML = `
+    <div class="chat-avatar ai">SR</div>
+    <div class="chat-bubble ai">
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>`;
+  window.appendChild(typing);
+  window.scrollTop = window.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text || isTyping) return;
+  input.value = '';
+  addMessage('user', text);
+  messageCount++;
+  isTyping = true;
+  document.getElementById('send-btn').disabled = true;
+  showTyping();
+
+  const systemPrompt = currentTab === 'assess'
+    ? `You are SRLens AI, an educational psychology assistant on a research-grounded learning science website. You are conducting a brief SRL (self-regulated learning) profile assessment. Based on the conversation so far, ask follow-up questions or provide an evidence-based profile assessment. Keep responses concise (2-4 sentences). The four profiles are: High SRL (strategic, balanced), Surface learner (passive, avoids quizzes), Anxious striver (high effort, high anxiety, over-tests), Disengaged (minimal interaction). After 3-4 exchanges, synthesize a profile. Always tie insights to real learning science theory (SDT, metacognition, Zimmerman's SRL model). Be warm but academic in tone.`
+    : `You are SRLens AI, an educational psychology assistant on a research-grounded learning science website. You explain learning science concepts clearly and accessibly, always grounding explanations in peer-reviewed research. Keep responses concise (3-5 sentences). Reference real theories and researchers where relevant (Flavell on metacognition, Deci & Ryan on SDT, Zimmerman on SRL, Sweller on cognitive load, etc.). Be warm but academic in tone.`;
+
+  const messages = [];
+  document.querySelectorAll('.chat-msg').forEach(m => {
+    const isAI = m.querySelector('.chat-avatar').classList.contains('ai');
+    const bubble = m.querySelector('.chat-bubble');
+    if (!bubble || bubble.querySelector('.typing-indicator')) return;
+    messages.push({ role: isAI ? 'assistant' : 'user', content: bubble.textContent.trim() });
+  });
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: messages
+      })
+    });
+    const data = await res.json();
+    removeTyping();
+    const reply = data.content?.[0]?.text || "I couldn't generate a response. Please try again.";
+    addMessage('ai', reply);
+  } catch(e) {
+    removeTyping();
+    addMessage('ai', "Something went wrong connecting to the AI. Please try again in a moment.");
+  }
+
+  isTyping = false;
+  document.getElementById('send-btn').disabled = false;
+  document.getElementById('user-input').focus();
+}
+
+switchTab('assess', document.querySelector('.ai-tab.active'));
+</script>
+</body>
+</html>

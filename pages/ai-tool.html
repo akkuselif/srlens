@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRLens — AI Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
+    --paper: #f7f4ef; --paper-2: #ede9e2; --paper-3: #e2ddd5;
+    --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --border: rgba(26,24,20,0.12);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; overflow-x: hidden; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+  .nav-logo { font-family: var(--font-display); font-size: 20px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+  .nav-cta { background: var(--ink); color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--teal) !important; }
+
+  /* PAGE HEADER */
+  .page-header { max-width: 1100px; margin: 0 auto; padding: 48px 2rem 32px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1rem; }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .header-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 42px); line-height: 1.15; letter-spacing: -0.02em; }
+  .page-header h1 em { color: var(--teal); font-style: italic; }
+  .page-header p { font-size: 15px; color: var(--ink-2); max-width: 480px; line-height: 1.75; margin-top: 8px; }
+
+  /* MODE TABS */
+  .mode-tabs { display: flex; gap: 8px; }
+  .mode-tab { font-size: 13px; padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--ink-2); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; font-weight: 400; }
+  .mode-tab.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* SPLIT LAYOUT */
+  .split { max-width: 1100px; margin: 0 auto; padding: 32px 2rem 64px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: start; }
+
+  /* CHAT PANEL */
+  .chat-panel { background: var(--ink); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; min-height: 600px; }
+  .chat-panel-header { padding: 18px 24px; border-bottom: 1px solid rgba(247,244,239,0.08); display: flex; align-items: center; gap: 10px; }
+  .chat-panel-header .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--teal); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: white; flex-shrink: 0; }
+  .chat-panel-header .info p { font-size: 14px; color: rgba(247,244,239,0.9); font-weight: 500; }
+  .chat-panel-header .info span { font-size: 11px; color: rgba(247,244,239,0.4); font-family: var(--font-mono); }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); margin-left: auto; }
+
+  .chat-messages { flex: 1; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; min-height: 420px; overflow-y: auto; }
+  .chat-msg { display: flex; gap: 10px; align-items: flex-start; animation: fadeUp 0.3s ease both; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .chat-msg.user { flex-direction: row-reverse; }
+  .msg-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; margin-top: 2px; }
+  .msg-avatar.ai { background: var(--teal); color: white; }
+  .msg-avatar.user { background: rgba(247,244,239,0.15); color: rgba(247,244,239,0.7); }
+  .msg-bubble { font-size: 14px; line-height: 1.65; padding: 11px 15px; border-radius: 12px; max-width: 82%; }
+  .msg-bubble.ai { background: rgba(247,244,239,0.08); color: rgba(247,244,239,0.88); }
+  .msg-bubble.user { background: var(--teal); color: white; }
+
+  .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 2px 0; }
+  .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(247,244,239,0.4); animation: blink 1.2s infinite; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100%{opacity:0.3} 40%{opacity:1} }
+
+  .chat-input-area { padding: 16px 24px; border-top: 1px solid rgba(247,244,239,0.08); display: flex; gap: 8px; }
+  .chat-input { flex: 1; background: rgba(247,244,239,0.08); border: 1px solid rgba(247,244,239,0.12); border-radius: 8px; padding: 10px 14px; color: var(--paper); font-family: var(--font-body); font-size: 14px; outline: none; resize: none; }
+  .chat-input::placeholder { color: rgba(247,244,239,0.3); }
+  .chat-input:focus { border-color: var(--teal); }
+  .send-btn { background: var(--teal); border: none; border-radius: 8px; padding: 10px 18px; color: white; cursor: pointer; font-size: 14px; font-family: var(--font-body); transition: background 0.2s; white-space: nowrap; }
+  .send-btn:hover { background: var(--teal-dark); }
+  .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* INFO PANEL */
+  .info-panel { display: flex; flex-direction: column; gap: 16px; }
+
+  .info-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+  .info-card h3 { font-family: var(--font-display); font-size: 18px; margin-bottom: 8px; line-height: 1.3; }
+  .info-card p { font-size: 14px; color: var(--ink-2); line-height: 1.75; }
+  .info-card p + p { margin-top: 10px; }
+
+  .profile-cards { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .profile-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 8px; background: var(--paper); border: 1px solid var(--border); }
+  .profile-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .profile-item h4 { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+  .profile-item p { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+
+  .concept-list { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .concept-chip { font-size: 13px; padding: 7px 12px; border-radius: 8px; background: var(--paper); border: 1px solid var(--border); color: var(--ink-2); cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: space-between; }
+  .concept-chip:hover { border-color: var(--teal); color: var(--teal); }
+  .concept-chip span { font-size: 11px; color: var(--ink-3); }
+
+  .research-note { background: var(--teal-light); border: 1px solid rgba(29,158,117,0.2); border-radius: 12px; padding: 16px 18px; }
+  .research-note p { font-size: 13px; color: var(--teal-dark); line-height: 1.7; }
+  .research-note strong { font-weight: 500; }
+
+  /* RESPONSIVE */
+  @media (max-width: 780px) {
+    .split { grid-template-columns: 1fr; }
+    .info-panel { order: -1; }
+    .mode-tabs { margin-top: 12px; }
+    .header-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+  <div class="nav-links">
+    <a href="../index.html#topics">Topics</a>
+    <a href="analytics.html">Data</a>
+    <a href="ai-tool.html" class="active">AI tool</a>
+    <a href="../index.html#about">About</a>
+    <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <p class="breadcrumb"><a href="../index.html">SRLens</a> → AI Tool</p>
+  <div class="header-row">
+    <div>
+      <h1>Your <em>learning mind,</em> understood</h1>
+      <p>Two research-grounded tools. Assess your SRL profile or ask anything about the science of learning.</p>
+    </div>
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tab-assess" onclick="switchMode('assess')">SRL assessment</button>
+      <button class="mode-tab" id="tab-explain" onclick="switchMode('explain')">Concept explainer</button>
+    </div>
+  </div>
+</header>
+
+<div class="split">
+
+  <!-- CHAT -->
+  <div class="chat-panel">
+    <div class="chat-panel-header">
+      <div class="avatar">SR</div>
+      <div class="info">
+        <p>SRLens AI</p>
+        <span id="mode-label">SRL profile assessment</span>
+      </div>
+      <div class="status-dot"></div>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-area">
+      <input class="chat-input" id="chat-input" placeholder="Type your response..." onkeydown="if(event.key==='Enter') sendMessage()">
+      <button class="send-btn" id="send-btn" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- INFO PANEL -->
+  <div class="info-panel">
+
+    <div class="info-card" id="info-assess">
+      <h3>The four learner profiles</h3>
+      <p>Based on Zimmerman's SRL model and self-determination theory. The assessment identifies which profile best describes your natural learning approach.</p>
+      <div class="profile-cards">
+        <div class="profile-item">
+          <div class="profile-dot" style="background:#1D9E75"></div>
+          <div><h4>High SRL</h4><p>Strategic, balanced, intrinsically motivated. Plans ahead and monitors progress.</p></div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-dot" style="background:#534AB7"></div>
+          <div><h4>Surface learner</h4><p>Passive content consumer. Avoids self-testing, relies on reading and re-reading.</p></div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-dot" style="background:#EF9F27"></div>
+          <div><h4>Anxious striver</h4><p>High effort, high anxiety. Over-tests as anxiety management rather than strategy.</p></div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-dot" style="background:#D85A30"></div>
+          <div><h4>Disengaged</h4><p>Minimal engagement. Checks deadlines but rarely interacts with content deeply.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card" id="info-explain" style="display:none">
+      <h3>Try asking about</h3>
+      <p>Click any topic to start a conversation, or type your own question below.</p>
+      <div class="concept-list">
+        <div class="concept-chip" onclick="askConcept('What is metacognition and why does it matter for learning?')">
+          Metacognition <span>Flavell, 1979</span>
+        </div>
+        <div class="concept-chip" onclick="askConcept('Explain self-determination theory and its relevance to student motivation')">
+          Self-determination theory <span>Deci & Ryan</span>
+        </div>
+        <div class="concept-chip" onclick="askConcept('What is cognitive load theory and how should it inform teaching?')">
+          Cognitive load theory <span>Sweller, 1988</span>
+        </div>
+        <div class="concept-chip" onclick="askConcept('What does research say about spaced repetition and retrieval practice?')">
+          Spaced repetition <span>Ebbinghaus</span>
+        </div>
+        <div class="concept-chip" onclick="askConcept('What is the difference between intrinsic and extrinsic motivation in learning?')">
+          Intrinsic vs extrinsic motivation <span>SDT</span>
+        </div>
+        <div class="concept-chip" onclick="askConcept('What is self-regulated learning and how does Zimmerman define it?')">
+          Self-regulated learning <span>Zimmerman, 2000</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="research-note">
+      <p><strong>Research-grounded responses only.</strong> Every answer is constrained by peer-reviewed evidence. No productivity myths, no pseudoscience. Sources include Zimmerman, Deci & Ryan, Flavell, Sweller, Pintrich, and PISA 2022 data.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SYSTEM_ASSESS = `You are SRLens AI, an educational psychology assistant on a research-grounded learning science website. You conduct a brief, warm SRL profile assessment grounded in Zimmerman's self-regulated learning model and self-determination theory. Ask 3 to 4 focused questions about the user's study habits, then synthesize a clear profile from these four types: High SRL (strategic, balanced, intrinsically motivated), Surface learner (passive, avoids quizzes, re-reads), Anxious striver (high effort, high anxiety, over-tests as coping), Disengaged (minimal interaction, deadline-focused). Keep responses concise at 2 to 4 sentences. No em dashes. Be warm but academic. Always tie the final profile to real theory.`;
+
+const SYSTEM_EXPLAIN = `You are SRLens AI, an educational psychology assistant on a research-grounded learning science website. You explain learning science concepts clearly and accessibly, always grounded in peer-reviewed research. Keep responses concise at 3 to 5 sentences. Reference real researchers and theories where relevant, for example Flavell on metacognition, Deci and Ryan on SDT, Zimmerman on SRL, Sweller on cognitive load. No em dashes. Be warm but academic in tone.`;
+
+const OPENERS = {
+  assess: "Hi! I am SRLens AI. I will ask you a few short questions to identify your SRL profile, which is the way you naturally regulate your own learning. Let us start: when you sit down to study, do you usually have a clear plan for what you want to accomplish in that session?",
+  explain: "Hi! I am SRLens AI. Ask me anything about the science of learning. I can explain metacognition, self-determination theory, cognitive load, spaced repetition, retrieval practice, self-regulated learning, or any other concept in educational psychology. What would you like to explore?"
+};
+
+let currentMode = 'assess';
+let isTyping = false;
+
+function switchMode(mode) {
+  currentMode = mode;
+  document.getElementById('tab-assess').classList.toggle('active', mode === 'assess');
+  document.getElementById('tab-explain').classList.toggle('active', mode === 'explain');
+  document.getElementById('mode-label').textContent = mode === 'assess' ? 'SRL profile assessment' : 'Concept explainer';
+  document.getElementById('info-assess').style.display = mode === 'assess' ? 'block' : 'none';
+  document.getElementById('info-explain').style.display = mode === 'explain' ? 'block' : 'none';
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('chat-input').value = '';
+  setTimeout(() => addMessage('ai', OPENERS[mode]), 200);
+}
+
+function askConcept(question) {
+  if (isTyping) return;
+  document.getElementById('chat-input').value = question;
+  sendMessage();
+}
+
+function addMessage(role, text) {
+  const container = document.getElementById('chat-messages');
+  const msg = document.createElement('div');
+  msg.className = 'chat-msg' + (role === 'user' ? ' user' : '');
+  msg.innerHTML = `
+    <div class="msg-avatar ${role}">${role === 'ai' ? 'SR' : 'You'}</div>
+    <div class="msg-bubble ${role}">${text}</div>`;
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+}
+
+function showTyping() {
+  const container = document.getElementById('chat-messages');
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg'; typing.id = 'typing-indicator';
+  typing.innerHTML = `
+    <div class="msg-avatar ai">SR</div>
+    <div class="msg-bubble ai">
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>`;
+  container.appendChild(typing);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-indicator');
+  if (t) t.remove();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text || isTyping) return;
+  input.value = '';
+  addMessage('user', text);
+  isTyping = true;
+  document.getElementById('send-btn').disabled = true;
+  showTyping();
+
+  const messages = [];
+  document.querySelectorAll('.chat-msg').forEach(m => {
+    const isAI = m.querySelector('.msg-avatar').classList.contains('ai');
+    const bubble = m.querySelector('.msg-bubble');
+    if (!bubble || bubble.querySelector('.typing-indicator')) return;
+    messages.push({ role: isAI ? 'assistant' : 'user', content: bubble.textContent.trim() });
+  });
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: currentMode === 'assess' ? SYSTEM_ASSESS : SYSTEM_EXPLAIN,
+        messages
+      })
+    });
+    const data = await res.json();
+    removeTyping();
+    addMessage('ai', data.content?.[0]?.text || "Something went wrong. Please try again.");
+  } catch(e) {
+    removeTyping();
+    addMessage('ai', "Connection issue. Please try again in a moment.");
+  }
+
+  isTyping = false;
+  document.getElementById('send-btn').disabled = false;
+  document.getElementById('chat-input').focus();
+}
+
+switchMode('assess');
+</script>
+</body>
+</html>

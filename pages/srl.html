@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRLens — Self-Regulated Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
+    --paper: #f7f4ef; --paper-2: #ede9e2; --paper-3: #e2ddd5;
+    --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --amber: #c8821a; --amber-light: #faecd4;
+    --purple: #534AB7; --purple-light: #eeedfe;
+    --coral: #D85A30; --coral-light: #faece7;
+    --border: rgba(26,24,20,0.12);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; overflow-x: hidden; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+  .nav-logo { font-family: var(--font-display); font-size: 20px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+  .nav-cta { background: var(--ink); color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--teal) !important; }
+
+  /* PAGE HEADER */
+  .page-header { max-width: 860px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .page-header h1 em { color: var(--teal); font-style: italic; }
+  .page-header p { font-size: 16px; color: var(--ink-2); max-width: 580px; line-height: 1.8; }
+  .header-meta { display: flex; gap: 16px; margin-top: 1.5rem; flex-wrap: wrap; }
+  .meta-pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); color: var(--ink-2); }
+
+  /* CONTENT */
+  .content { max-width: 860px; margin: 0 auto; padding: 0 2rem 80px; }
+  .section { margin-top: 64px; }
+  .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1rem; }
+  .section h2 { font-family: var(--font-display); font-size: 30px; letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.2; }
+  .section p { font-size: 16px; color: var(--ink-2); line-height: 1.85; max-width: 640px; }
+  .section p + p { margin-top: 14px; }
+
+  /* ZIMMERMAN DIAGRAM */
+  .diagram-wrap { margin-top: 2rem; background: var(--paper-2); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px; position: relative; }
+  .diagram-title { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); text-align: center; margin-bottom: 32px; }
+
+  .cycle-container { position: relative; width: 100%; max-width: 540px; margin: 0 auto; aspect-ratio: 1; }
+
+  .phase-node {
+    position: absolute; width: 148px; cursor: pointer;
+    background: var(--paper); border: 2px solid var(--border);
+    border-radius: 12px; padding: 16px;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .phase-node:hover, .phase-node.active { transform: scale(1.03); }
+  .phase-node.active { border-color: var(--teal); }
+  .phase-node .phase-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); margin-bottom: 6px; }
+  .phase-node h3 { font-family: var(--font-display); font-size: 16px; line-height: 1.2; margin-bottom: 4px; }
+  .phase-node p { font-size: 11px; color: var(--ink-3); line-height: 1.5; }
+  .phase-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-bottom: 8px; }
+
+  /* Position phases in a triangle */
+  .phase-forethought { top: 0; left: 50%; transform: translateX(-50%); }
+  .phase-forethought.active { transform: translateX(-50%) scale(1.03); }
+  .phase-performance { top: 55%; right: 0; }
+  .phase-reflection { top: 55%; left: 0; }
+
+  /* Center label */
+  .cycle-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+  .cycle-center p { font-family: var(--font-display); font-size: 15px; color: var(--ink-3); font-style: italic; }
+
+  /* SVG arrows */
+  .cycle-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  /* DETAIL PANEL */
+  .detail-panel { margin-top: 24px; background: var(--ink); border-radius: 14px; padding: 28px 32px; min-height: 160px; transition: all 0.2s; }
+  .detail-panel h3 { font-family: var(--font-display); font-size: 22px; color: var(--paper); margin-bottom: 8px; }
+  .detail-panel .detail-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; display: block; }
+  .detail-panel p { font-size: 15px; color: rgba(247,244,239,0.75); line-height: 1.8; }
+  .detail-subphases { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .subphase { background: rgba(247,244,239,0.08); border: 1px solid rgba(247,244,239,0.12); border-radius: 8px; padding: 8px 14px; font-size: 13px; color: rgba(247,244,239,0.7); }
+  .subphase strong { color: rgba(247,244,239,0.9); font-weight: 500; display: block; font-size: 12px; margin-bottom: 2px; }
+
+  /* QUOTE BLOCK */
+  .quote-block { margin-top: 2rem; border-left: 3px solid var(--teal); padding: 16px 20px; background: var(--teal-light); border-radius: 0 10px 10px 0; }
+  .quote-block p { font-family: var(--font-display); font-size: 18px; color: var(--teal-dark); font-style: italic; line-height: 1.65; }
+  .quote-block cite { font-size: 13px; color: var(--teal); font-style: normal; font-family: var(--font-mono); display: block; margin-top: 8px; }
+
+  /* CONCEPTS GRID */
+  .concepts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 1.5rem; }
+  .concept-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .concept-card .icon { font-size: 20px; margin-bottom: 10px; display: block; }
+  .concept-card h4 { font-family: var(--font-display); font-size: 17px; margin-bottom: 6px; line-height: 1.3; }
+  .concept-card p { font-size: 14px; color: var(--ink-2); line-height: 1.7; }
+
+  /* RESEARCH NOTE */
+  .research-note { margin-top: 48px; padding: 20px 24px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; }
+  .research-note p { font-size: 14px; color: var(--ink-3); line-height: 1.7; }
+  .research-note a { color: var(--teal); text-decoration: none; }
+
+  /* CTA */
+  .cta-strip { margin-top: 48px; background: var(--ink); border-radius: 16px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-strip h3 { font-family: var(--font-display); font-size: 22px; color: var(--paper); }
+  .cta-strip p { font-size: 14px; color: rgba(247,244,239,0.6); margin-top: 4px; }
+  .btn-teal { background: var(--teal); color: white; padding: 11px 24px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+  .btn-teal:hover { background: var(--teal-dark); }
+
+  @media (max-width: 640px) {
+    .concepts-grid { grid-template-columns: 1fr; }
+    .cta-strip { flex-direction: column; }
+    .cycle-container { max-width: 320px; }
+    .phase-node { width: 110px; padding: 12px; }
+    .phase-node h3 { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+  <div class="nav-links">
+    <a href="../index.html#topics" class="active">Topics</a>
+    <a href="analytics.html">Data</a>
+    <a href="ai-tool.html">AI tool</a>
+    <a href="../index.html#about">About</a>
+    <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <p class="breadcrumb"><a href="../index.html">SRLens</a> → Topics → Self-Regulated Learning</p>
+  <h1>What is <em>self-regulated learning</em> and why does it matter?</h1>
+  <p>Self-regulated learning is the process by which learners actively monitor and control their own cognition, motivation, and behavior in pursuit of learning goals. It is one of the strongest predictors of academic achievement across age groups and contexts.</p>
+  <div class="header-meta">
+    <span class="meta-pill">Zimmerman, 2000</span>
+    <span class="meta-pill">Pintrich, 2004</span>
+    <span class="meta-pill">Bandura, 1986</span>
+    <span class="meta-pill">Peer-reviewed</span>
+  </div>
+</header>
+
+<main class="content">
+
+  <!-- ZIMMERMAN MODEL -->
+  <div class="section">
+    <p class="section-label">Core model</p>
+    <h2>Zimmerman's cyclical model of SRL</h2>
+    <p>Barry Zimmerman (2000) proposed that self-regulated learning operates as a three-phase cycle: forethought, performance, and self-reflection. Each phase feeds into the next, creating a continuous loop of learning improvement. Click each phase to explore what happens inside it.</p>
+
+    <div class="diagram-wrap">
+      <p class="diagram-title">Zimmerman's cyclical SRL model (2000) — click each phase</p>
+
+      <div class="cycle-container" id="cycle">
+
+        <svg class="cycle-svg" viewBox="0 0 540 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Arrow: Forethought to Performance (top to right) -->
+          <path d="M 340 130 Q 460 200 430 320" stroke="#1D9E75" stroke-width="2" stroke-dasharray="6 4" opacity="0.5"/>
+          <polygon points="425,320 438,308 442,322" fill="#1D9E75" opacity="0.5"/>
+          <!-- Arrow: Performance to Reflection (right to left) -->
+          <path d="M 250 430 Q 270 480 200 450" stroke="#1D9E75" stroke-width="2" stroke-dasharray="6 4" opacity="0.5"/>
+          <polygon points="200,450 215,440 210,455" fill="#1D9E75" opacity="0.5"/>
+          <!-- Arrow: Reflection to Forethought (left to top) -->
+          <path d="M 110 320 Q 80 200 200 130" stroke="#1D9E75" stroke-width="2" stroke-dasharray="6 4" opacity="0.5"/>
+          <polygon points="200,130 187,143 198,128" fill="#1D9E75" opacity="0.5"/>
+        </svg>
+
+        <div class="phase-node phase-forethought" id="phase-0" onclick="selectPhase(0)">
+          <div class="phase-icon" style="background:#d0f0e4">🎯</div>
+          <div class="phase-num">Phase 1</div>
+          <h3>Forethought</h3>
+          <p>Planning and goal setting before the task</p>
+        </div>
+
+        <div class="phase-node phase-performance" id="phase-1" onclick="selectPhase(1)">
+          <div class="phase-icon" style="background:#eeedfe">⚡</div>
+          <div class="phase-num">Phase 2</div>
+          <h3>Performance</h3>
+          <p>Monitoring and controlling during the task</p>
+        </div>
+
+        <div class="phase-node phase-reflection" id="phase-2" onclick="selectPhase(2)">
+          <div class="phase-icon" style="background:#faecd4">🔁</div>
+          <div class="phase-num">Phase 3</div>
+          <h3>Self-reflection</h3>
+          <p>Evaluating outcomes after the task</p>
+        </div>
+
+        <div class="cycle-center">
+          <p>Learning<br>cycle</p>
+        </div>
+
+      </div>
+
+      <div class="detail-panel" id="detail-panel">
+        <span class="detail-tag">Select a phase above to explore it</span>
+        <h3>The three-phase cycle</h3>
+        <p>Zimmerman's model describes how effective learners do not just study — they plan what they will do, monitor how it is going, and reflect on what worked afterward. This cycle repeats with every learning task, gradually building metacognitive awareness and strategic skill.</p>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <p>"Self-regulation refers to self-generated thoughts, feelings, and actions that are planned and cyclically adapted to the attainment of personal goals."</p>
+      <cite>Zimmerman, B. J. (2000). Attaining self-regulation: A social cognitive perspective.</cite>
+    </div>
+  </div>
+
+  <!-- WHY IT MATTERS -->
+  <div class="section">
+    <p class="section-label">Why it matters</p>
+    <h2>SRL predicts outcomes beyond raw ability</h2>
+    <p>Decades of research show that self-regulation skills predict academic achievement above and beyond general intelligence or prior knowledge. Students who plan, monitor, and reflect learn more efficiently, persist longer on difficult tasks, and recover faster from setbacks.</p>
+    <p>Critically, SRL is teachable. Unlike fixed cognitive ability, self-regulation strategies can be explicitly taught and deliberately practiced — making it one of the highest-leverage targets for educational intervention.</p>
+
+    <div class="concepts-grid">
+      <div class="concept-card">
+        <span class="icon">🧭</span>
+        <h4>Goal setting and planning</h4>
+        <p>Effective learners set specific, proximal goals rather than vague distal ones. "I will complete two practice problems on derivatives tonight" outperforms "I will study math."</p>
+      </div>
+      <div class="concept-card">
+        <span class="icon">👁</span>
+        <h4>Self-monitoring</h4>
+        <p>Tracking your own comprehension in real time. The illusion of knowing, where re-reading feels like understanding, is one of the most common self-monitoring failures.</p>
+      </div>
+      <div class="concept-card">
+        <span class="icon">🔧</span>
+        <h4>Strategy use</h4>
+        <p>High SRL learners select study strategies based on the task rather than habit. Retrieval practice for memorization, elaborative interrogation for conceptual understanding.</p>
+      </div>
+      <div class="concept-card">
+        <span class="icon">💬</span>
+        <h4>Self-evaluation</h4>
+        <p>After a task, effective learners ask what worked, what did not, and what to adjust next time. This reflection loop is what makes the cycle self-improving over time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESEARCH NOTE -->
+  <div class="research-note">
+    <p><strong style="color:var(--ink)">Primary sources</strong> — Zimmerman, B. J. (2000). Attaining self-regulation: A social cognitive perspective. In M. Boekaerts, P. R. Pintrich, & M. Zeidner (Eds.), Handbook of self-regulation (pp. 13-39). Academic Press. Pintrich, P. R. (2004). A conceptual framework for assessing motivation and self-regulated learning in college students. Educational Psychology Review, 16(4), 385-407. Bandura, A. (1986). Social foundations of thought and action. Prentice Hall.</p>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-strip">
+    <div>
+      <h3>Find out your SRL profile</h3>
+      <p>The AI tool asks a few short questions and maps your learning style onto these three phases.</p>
+    </div>
+    <a href="ai-tool.html" class="btn-teal">Take the assessment</a>
+  </div>
+
+</main>
+
+<script>
+const phases = [
+  {
+    tag: 'Phase 1 — Forethought',
+    title: 'Forethought phase',
+    desc: 'The forethought phase happens before the learning task begins. It includes two main processes: task analysis and motivational beliefs. Task analysis involves goal setting, where the learner defines what they want to achieve, and strategic planning, where they decide how to approach it. Motivational beliefs include self-efficacy (believing you can do it), outcome expectations (believing effort will pay off), intrinsic interest, and goal orientation.',
+    subphases: [
+      { name: 'Goal setting', detail: 'Specific, proximal goals outperform vague ones' },
+      { name: 'Strategic planning', detail: 'Selecting methods before starting' },
+      { name: 'Self-efficacy', detail: 'Belief in capability to succeed' },
+      { name: 'Intrinsic motivation', detail: 'Interest in the task itself' }
+    ]
+  },
+  {
+    tag: 'Phase 2 — Performance',
+    title: 'Performance phase',
+    desc: 'The performance phase occurs during the learning task itself. It involves self-control processes such as attention focusing, self-instruction, and strategy deployment, as well as self-observation, which means tracking your own performance as it happens. This is where metacognitive monitoring becomes critical: noticing when you do not understand something and adjusting accordingly rather than continuing on autopilot.',
+    subphases: [
+      { name: 'Self-instruction', detail: 'Talking yourself through the task' },
+      { name: 'Attention focusing', detail: 'Managing distractions actively' },
+      { name: 'Self-monitoring', detail: 'Tracking comprehension in real time' },
+      { name: 'Strategy adjustment', detail: 'Changing approach when stuck' }
+    ]
+  },
+  {
+    tag: 'Phase 3 — Self-reflection',
+    title: 'Self-reflection phase',
+    desc: 'The self-reflection phase follows the learning task and closes the cycle. It involves self-judgment, comparing your performance against your original goals and attributing outcomes to causes, and self-reaction, which shapes how you feel about the experience and what you decide to do differently next time. Learners who attribute failure to strategy choice (controllable) rather than ability (fixed) are far more likely to improve.',
+    subphases: [
+      { name: 'Self-evaluation', detail: 'Comparing outcome to goal' },
+      { name: 'Causal attribution', detail: 'Why did this go well or badly?' },
+      { name: 'Self-satisfaction', detail: 'Emotional response to outcome' },
+      { name: 'Adaptive inference', detail: 'What to change next cycle' }
+    ]
+  }
+];
+
+let activePhase = null;
+
+function selectPhase(i) {
+  activePhase = i;
+  document.querySelectorAll('.phase-node').forEach((n, idx) => {
+    n.classList.toggle('active', idx === i);
+  });
+  const p = phases[i];
+  const panel = document.getElementById('detail-panel');
+  panel.innerHTML = `
+    <span class="detail-tag">${p.tag}</span>
+    <h3>${p.title}</h3>
+    <p>${p.desc}</p>
+    <div class="detail-subphases">
+      ${p.subphases.map(s => `<div class="subphase"><strong>${s.name}</strong>${s.detail}</div>`).join('')}
+    </div>`;
+}
+</script>
+</body>
+</html>

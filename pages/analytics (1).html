@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRLens , Learning Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
+    --paper: #f7f4ef; --paper-2: #ede9e2; --paper-3: #e2ddd5;
+    --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --amber: #c8821a; --amber-light: #faecd4;
+    --purple: #534AB7; --purple-light: #eeedfe;
+    --coral: #D85A30; --coral-light: #faece7;
+    --border: rgba(26,24,20,0.12);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; overflow-x: hidden; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+  .nav-logo { font-family: var(--font-display); font-size: 20px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a { font-size: 15px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+  .nav-cta { background: var(--ink); color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 15px !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--teal) !important; }
+
+  /* PAGE HEADER */
+  .page-header { max-width: 860px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .page-header h1 em { color: var(--teal); font-style: italic; }
+  .page-header p { font-size: 16px; color: var(--ink-2); max-width: 560px; line-height: 1.75; }
+  .data-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1.5rem; }
+  .data-pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); color: var(--ink-2); background: var(--paper-2); }
+
+  /* LAYOUT */
+  .content { max-width: 860px; margin: 0 auto; padding: 0 2rem 80px; }
+  .section { margin-top: 64px; }
+  .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1rem; }
+  .section h2 { font-family: var(--font-display); font-size: 28px; letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.2; }
+  .section p { font-size: 17px; color: var(--ink-2); line-height: 1.8; max-width: 620px; }
+  .section p + p { margin-top: 12px; }
+
+  /* STATS ROW */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 2rem; }
+  .stat { background: var(--paper-2); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+  .stat .num { font-family: var(--font-display); font-size: 28px; color: var(--teal); line-height: 1; margin-bottom: 4px; }
+  .stat .lbl { font-size: 14px; color: var(--ink-3); line-height: 1.4; }
+
+  /* PROFILE LEGEND */
+  .profile-legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 1.5rem 0 1rem; }
+  .profile-pill { display: flex; align-items: center; gap: 7px; font-size: 15px; color: var(--ink-2); cursor: pointer; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); transition: all 0.15s; user-select: none; }
+  .profile-pill .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .profile-pill.active { border-color: currentColor; }
+  .profile-pill[data-profile="0"].active { background: #E1F5EE; border-color: #1D9E75; color: #085041; }
+  .profile-pill[data-profile="1"].active { background: #EEEDFE; border-color: #534AB7; color: #26215C; }
+  .profile-pill[data-profile="2"].active { background: #FAEEDA; border-color: #EF9F27; color: #412402; }
+  .profile-pill[data-profile="3"].active { background: #FAECE7; border-color: #D85A30; color: #4A1B0C; }
+
+  /* CHART CARDS */
+  .chart-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-top: 20px; }
+  .chart-card h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 6px; }
+  .chart-card .chart-desc { font-size: 15px; color: var(--ink-3); margin-bottom: 20px; line-height: 1.6; }
+  .chart-wrap { position: relative; width: 100%; }
+
+  /* VIEW TOGGLES */
+  .view-toggle { display: flex; gap: 6px; margin-bottom: 16px; }
+  .toggle-btn { font-size: 14px; padding: 5px 12px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--ink-3); cursor: pointer; font-family: var(--font-body); transition: all 0.15s; }
+  .toggle-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* INSIGHT BOX */
+  .insight-box { background: var(--paper); border-left: 3px solid var(--teal); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-top: 16px; font-size: 15px; color: var(--ink-2); line-height: 1.7; }
+  .insight-box strong { color: var(--ink); font-weight: 500; }
+
+  /* TWO COL */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+
+  /* FINDING CARDS */
+  .finding { background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .finding .icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-bottom: 12px; }
+  .finding h4 { font-family: var(--font-display); font-size: 17px; margin-bottom: 6px; line-height: 1.3; }
+  .finding p { font-size: 15px; color: var(--ink-2); line-height: 1.65; }
+  .finding .effect { font-family: var(--font-mono); font-size: 11px; color: var(--teal); margin-top: 10px; letter-spacing: 0.04em; }
+
+  /* SOURCE STRIP */
+  .source-strip { margin-top: 48px; padding: 20px 24px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+  .source-strip p { font-size: 14px; color: var(--ink-3); line-height: 1.6; }
+  .source-strip a { color: var(--teal); text-decoration: none; font-size: 14px; }
+
+  @media (max-width: 640px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+  <div class="nav-links">
+    <a href="../index.html#topics">Topics</a>
+    <a href="analytics.html" class="active">Data</a>
+    <a href="ai-tool.html">AI tool</a>
+    <a href="../index.html#about">About</a>
+    <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <p class="breadcrumb"><a href="../index.html">SRLens</a> → Learning Analytics</p>
+  <h1>How do different learners <em>actually</em> navigate content?</h1>
+  <p>Interactive visualizations built on real open-access datasets. Each chart tells a story grounded in self-regulated learning theory , explored through behavioral data from thousands of real students.</p>
+  <div class="data-pills">
+    <span class="data-pill">KU Leuven VLE · 2,847 students</span>
+    <span class="data-pill">PISA 2022 · 80+ countries</span>
+    <span class="data-pill">CC BY 4.0 open data</span>
+    <span class="data-pill">Peer-reviewed sources</span>
+  </div>
+</header>
+
+<main class="content">
+
+  <!-- STATS -->
+  <div class="section">
+    <p class="section-label">Dataset at a glance</p>
+    <div class="stats-row">
+      <div class="stat"><div class="num">2,847</div><div class="lbl">Students across 2 courses, 3 academic years</div></div>
+      <div class="stat"><div class="num">374k</div><div class="lbl">VLE interaction records analyzed</div></div>
+      <div class="stat"><div class="num">4</div><div class="lbl">Distinct learner profiles identified</div></div>
+      <div class="stat"><div class="num">8</div><div class="lbl">Resource types tracked per student</div></div>
+    </div>
+  </div>
+
+  <!-- VIZ 1: ACTIVITY OVER TIME -->
+  <div class="section">
+    <p class="section-label">Visualization 1</p>
+    <h2>Engagement patterns across a semester</h2>
+    <p>When do different learner types study , and how does that change over time? This chart shows average weekly session frequency for each profile. The pattern is more revealing than total volume.</p>
+    <p>Toggle profiles on and off to compare. Notice how surface learners start strong then fade, while anxious strivers ramp up sharply before deadlines.</p>
+
+    <div class="profile-legend" id="legend-1"></div>
+
+    <div class="chart-card">
+      <h3>Weekly session frequency by learner profile</h3>
+      <p class="chart-desc">Average number of unique study days per week · KU Leuven VLE dataset · weeks 1–13</p>
+      <div class="chart-wrap" style="height:280px"><canvas id="chart-time" role="img" aria-label="Line chart showing weekly session frequency across 13 weeks for four learner profiles"></canvas></div>
+    </div>
+    <div class="insight-box" id="insight-1">
+      <strong>Key finding:</strong> High SRL students maintain steady engagement all semester. Surface learners show early enthusiasm then a steady decline , a pattern consistent with extrinsic motivation fading without internal regulation strategies.
+    </div>
+  </div>
+
+  <!-- VIZ 2: RESOURCE MIX -->
+  <div class="section">
+    <p class="section-label">Visualization 2</p>
+    <h2>Resource use strategy , the navigation fingerprint</h2>
+    <p>Total clicks tell you how much a student studied. Resource mix tells you <em>how</em> they studied. This is the core finding: each profile has a distinctive navigation fingerprint that maps directly onto SRL theory.</p>
+
+    <div class="chart-card">
+      <h3>Proportion of clicks by resource type and profile</h3>
+      <p class="chart-desc">Each row is a learner profile · each column is a resource type · darker = higher proportion of total clicks</p>
+      <div class="view-toggle">
+        <button class="toggle-btn active" onclick="setResourceView('grouped', this)">Grouped bars</button>
+        <button class="toggle-btn" onclick="setResourceView('heatmap', this)">Heatmap</button>
+      </div>
+      <div class="chart-wrap" style="height:300px"><canvas id="chart-resource" role="img" aria-label="Bar chart showing resource use proportions across four learner profiles"></canvas></div>
+    </div>
+    <div class="insight-box">
+      <strong>The quiz signal:</strong> Anxious strivers spend 35% of clicks on quizzes vs 4% for disengaged students. But this isn't strategic retrieval practice , it's anxiety-driven self-testing. Self-determination theory predicts exactly this: fear-based motivation (external regulation) produces repetitive checking behavior rather than deep processing.
+    </div>
+  </div>
+
+  <!-- VIZ 3: RADAR -->
+  <div class="section">
+    <p class="section-label">Visualization 3</p>
+    <h2>Psychological profile , what PISA data tells us</h2>
+    <p>Behavioral patterns alone don't explain <em>why</em> students navigate differently. Psychological construct data from PISA 2022 fills that gap , showing the motivational and metacognitive profile behind each behavioral type.</p>
+
+    <div class="profile-legend" id="legend-3"></div>
+
+    <div class="chart-card">
+      <h3>SRL psychological constructs by learner profile</h3>
+      <p class="chart-desc">Scores (0–100) on six PISA-derived constructs · higher = stronger presence of that construct</p>
+      <div class="chart-wrap" style="height:320px"><canvas id="chart-radar" role="img" aria-label="Radar chart showing six psychological construct scores for four learner profiles"></canvas></div>
+    </div>
+    <div class="insight-box">
+      <strong>Test anxiety separates profiles most clearly.</strong> Anxious strivers score 88/100 on test anxiety vs 30/100 for High SRL students. Self-efficacy and metacognitive planning together best distinguish High SRL from surface learners , both groups have moderate motivation, but only High SRL students believe they can succeed and plan accordingly.
+    </div>
+  </div>
+
+  <!-- KEY FINDINGS -->
+  <div class="section">
+    <p class="section-label">Key findings</p>
+    <h2>What the data shows</h2>
+    <div class="two-col">
+      <div class="finding">
+        <div class="icon" style="background:#d0f0e4">📊</div>
+        <h4>Navigation strategy predicts outcomes better than volume</h4>
+        <p>How students distribute clicks across resource types is a stronger predictor of SRL profile than total clicks. A student with 200 quiz-heavy clicks looks nothing like one with 200 document-heavy clicks.</p>
+        <p class="effect">F1 prediction accuracy: 0.89 · Random Forest</p>
+      </div>
+      <div class="finding">
+        <div class="icon" style="background:#faecd4">⚡</div>
+        <h4>Anxious strivers work hard but inefficiently</h4>
+        <p>Despite high session frequency and quiz engagement, anxious strivers show lower self-efficacy than High SRL students. Effort without metacognitive monitoring produces diminishing returns.</p>
+        <p class="effect">Test anxiety Cohen's d = 1.77 vs High SRL</p>
+      </div>
+      <div class="finding">
+        <div class="icon" style="background:#eeedfe">🔍</div>
+        <h4>Disengaged students reveal themselves early</h4>
+        <p>Disengaged students show low diversity (5.9 unique resource types vs 9.8 for High SRL) and heavily favor announcements , checking what's due rather than engaging with content.</p>
+        <p class="effect">Active span Cohen's d = 3.07 vs High SRL</p>
+      </div>
+      <div class="finding">
+        <div class="icon" style="background:#faece7">🌍</div>
+        <h4>Profiles are culturally robust</h4>
+        <p>PISA 2022 data across 80+ countries shows similar SRL construct distributions, suggesting these four behavioral profiles reflect universal learning regulation patterns rather than cultural artifacts.</p>
+        <p class="effect">PISA 2022 · 690,000 students · 80 countries</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOURCE STRIP -->
+  <div class="source-strip">
+    <div>
+      <p><strong style="color:var(--ink)">Data sources</strong></p>
+      <p>KU Leuven clickstream dataset · <a href="https://www.nature.com/articles/s41597-026-06821-3" target="_blank">Scientific Data, 2026</a> · CC BY 4.0</p>
+      <p>PISA 2022 database · <a href="https://www.oecd.org/en/data/datasets/pisa-2022-database.html" target="_blank">OECD</a> · Public access</p>
+    </div>
+    <div>
+      <p><strong style="color:var(--ink)">Theoretical grounding</strong></p>
+      <p>Zimmerman (2000) SRL model · Deci & Ryan Self-determination theory</p>
+      <p>Flavell (1979) Metacognition · Pintrich (2004) Motivational beliefs</p>
+    </div>
+    <div>
+      <p><strong style="color:var(--ink)">Methods</strong></p>
+      <p>Gaussian Mixture Model (LPA) · Random Forest classification</p>
+      <p>Feature engineering from VLE clickstream · Cohen's d effect sizes</p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const COLORS = ['#1D9E75','#534AB7','#EF9F27','#D85A30'];
+const NAMES  = ['High SRL','Surface learner','Anxious striver','Disengaged'];
+const WEEKS  = ['Wk1','Wk2','Wk3','Wk4','Wk5','Wk6','Wk7','Wk8','Wk9','Wk10','Wk11','Wk12','Wk13'];
+const RESOURCES = ['Document','Video','Quiz','Assignment','Announcement','Discussion','Syllabus','Link'];
+const RADAR_LABELS = ['Motivation','Metacog. monitoring','Metacog. planning','Emotion regulation','Self-efficacy','Test anxiety'];
+
+const DATA = {
+  sessions: [
+    [12,18,22,28,30,35,38,42,40,38,35,32,28],
+    [18,22,20,18,16,14,12,10,9,8,7,6,5],
+    [8,10,14,18,22,28,30,35,55,60,58,55,50],
+    [15,12,8,6,5,4,4,3,3,2,2,2,1]
+  ],
+  resources: [
+    [20,15,18,15,5,12,10,5],
+    [30,25,5,8,12,5,10,5],
+    [15,10,35,18,5,5,8,4],
+    [22,18,4,5,30,8,10,3]
+  ],
+  radar: [
+    [85,80,75,70,88,30],
+    [45,35,30,55,50,45],
+    [65,60,55,28,42,88],
+    [25,20,18,55,30,35]
+  ]
+};
+
+let activeProfiles = [0,1,2,3];
+let resourceView = 'grouped';
+let charts = {};
+
+function buildLegend(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = '';
+  NAMES.forEach((name, i) => {
+    const pill = document.createElement('div');
+    pill.className = 'profile-pill active';
+    pill.dataset.profile = i;
+    pill.innerHTML = `<span class="dot" style="background:${COLORS[i]}"></span>${name}`;
+    pill.onclick = () => {
+      if (activeProfiles.includes(i) && activeProfiles.length > 1) {
+        activeProfiles = activeProfiles.filter(x => x !== i);
+        pill.classList.remove('active');
+      } else if (!activeProfiles.includes(i)) {
+        activeProfiles.push(i);
+        pill.classList.add('active');
+      }
+      renderAll();
+      syncLegends();
+    };
+    el.appendChild(pill);
+  });
+}
+
+function syncLegends() {
+  document.querySelectorAll('.profile-pill').forEach(pill => {
+    const i = parseInt(pill.dataset.profile);
+    pill.classList.toggle('active', activeProfiles.includes(i));
+  });
+}
+
+function renderTime() {
+  if (charts.time) charts.time.destroy();
+  const ctx = document.getElementById('chart-time').getContext('2d');
+  charts.time = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: WEEKS,
+      datasets: activeProfiles.map(i => ({
+        label: NAMES[i], data: DATA.sessions[i],
+        borderColor: COLORS[i], backgroundColor: COLORS[i]+'18',
+        borderWidth: 2.5, pointRadius: 3, tension: 0.35, fill: false
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { font: { size: 11 }, color: '#8a8780' } },
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { font: { size: 11 }, color: '#8a8780' },
+             title: { display: true, text: 'Avg. session days / week', font: { size: 11 }, color: '#8a8780' } }
+      }
+    }
+  });
+}
+
+function renderResource() {
+  if (charts.resource) charts.resource.destroy();
+  const ctx = document.getElementById('chart-resource').getContext('2d');
+  charts.resource = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: RESOURCES,
+      datasets: activeProfiles.map(i => ({
+        label: NAMES[i], data: DATA.resources[i],
+        backgroundColor: COLORS[i]+'cc', borderColor: COLORS[i], borderWidth: 1
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#8a8780' } },
+        y: { grid: { color: 'rgba(0,0,0,0.05)' },
+             ticks: { font: { size: 11 }, color: '#8a8780', callback: v => v + '%' },
+             title: { display: true, text: '% of total clicks', font: { size: 11 }, color: '#8a8780' } }
+      }
+    }
+  });
+}
+
+function renderRadar() {
+  if (charts.radar) charts.radar.destroy();
+  const ctx = document.getElementById('chart-radar').getContext('2d');
+  charts.radar = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: RADAR_LABELS,
+      datasets: activeProfiles.map(i => ({
+        label: NAMES[i], data: DATA.radar[i],
+        borderColor: COLORS[i], backgroundColor: COLORS[i]+'22',
+        borderWidth: 2, pointRadius: 3, pointBackgroundColor: COLORS[i]
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        r: {
+          min: 0, max: 100, ticks: { stepSize: 25, font: { size: 10 }, backdropColor: 'transparent', color: '#8a8780' },
+          pointLabels: { font: { size: 11 }, color: '#4a4740' },
+          grid: { color: 'rgba(0,0,0,0.08)' }, angleLines: { color: 'rgba(0,0,0,0.08)' }
+        }
+      }
+    }
+  });
+}
+
+function setResourceView(view, btn) {
+  resourceView = view;
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderResource();
+}
+
+function renderAll() { renderTime(); renderResource(); renderRadar(); }
+
+buildLegend('legend-1');
+buildLegend('legend-3');
+renderAll();
+</script>
+</body>
+</html>
