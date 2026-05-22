@@ -332,6 +332,7 @@
   /* ENTRY SECTION */
   .entry-section { max-width: 920px; margin: 0 auto; padding: 64px 2rem; }
   .entry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 2rem; }
+  .entry-card:last-child { grid-column: 1 / -1; max-width: 50%; margin: 0 auto; width: 100%; }
   .entry-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; text-decoration: none; color: inherit; display: block; transition: border-color 0.2s, transform 0.15s; }
   .entry-card:hover { border-color: var(--teal); transform: translateY(-2px); }
   .entry-card.entry-featured { background: var(--ink); border-color: var(--ink); grid-column: span 2; display: grid; grid-template-columns: auto 1fr; gap: 0 2rem; align-items: center; }
@@ -352,7 +353,7 @@
 <div class="nav-inner">
   <a href="index.html" class="nav-logo">SRL<span>ens</span></a>
   <div class="nav-links">
-    <a href="#topics">Topics</a>
+    <a href="pages/topics.html">Topics</a>
     <a href="pages/analytics.html">Data</a>
     <a href="pages/about.html">About</a>
     <a href="pages/ai-tool.html" class="nav-cta">Try SRLens AI</a>
