@@ -113,7 +113,9 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 18px 20px;
+    transition: border-color 0.2s;
   }
+  a.stat-card:hover { border-color: var(--teal); }
   .stat-card .num {
     font-family: var(--font-display);
     font-size: 32px; color: var(--teal);
@@ -164,9 +166,9 @@
   }
   .topic-card h3 {
     font-family: var(--font-display);
-    font-size: 20px; margin-bottom: 8px; line-height: 1.2;
+    font-size: 28px; margin-bottom: 8px; line-height: 1.2;
   }
-  .topic-card p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+  .topic-card p { font-size: 18px; color: var(--ink-2); line-height: 1.6; }
   .topic-tag {
     display: inline-block; margin-top: 12px;
     font-family: var(--font-body); font-size: 10px;
@@ -311,8 +313,8 @@
     display: flex; justify-content: space-between; align-items: center;
     max-width: 920px; margin: 0 auto;
   }
-  footer p { font-size: 12px; color: var(--ink-3); }
-  footer a { color: var(--teal); text-decoration: none; font-size: 12px; }
+  footer p { font-size: 20px; color: var(--ink-3); }
+  footer a { color: var(--teal); text-decoration: none; font-size: 20px; }
 
   /* RESPONSIVE */
   @media (max-width: 680px) {
@@ -350,22 +352,22 @@
     </div>
   </div>
   <div class="hero-stats">
-    <div class="stat-card">
-      <div class="num">🎯</div>
-      <div class="label">Assess your SRL profile with AI-powered questions</div>
-    </div>
-    <div class="stat-card">
-      <div class="num">6</div>
-      <div class="label">Research topics explained clearly, no jargon</div>
-    </div>
-    <div class="stat-card">
+    <a href="pages/srl.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;">
+      <div class="num">📚</div>
+      <div class="label">Explore SRL, metacognition, motivation and more research topics</div>
+    </a>
+    <a href="pages/ai-learning.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;">
+      <div class="num">🤖</div>
+      <div class="label">How does AI affect the way we learn and study?</div>
+    </a>
+    <a href="pages/analytics.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;">
       <div class="num">📊</div>
       <div class="label">Interactive visualizations from real learning data</div>
-    </div>
-    <div class="stat-card">
-      <div class="num">100%</div>
-      <div class="label">Free and open access, always</div>
-    </div>
+    </a>
+    <a href="pages/ai-tool.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;">
+      <div class="num">🎯</div>
+      <div class="label">What type of learner are you? Find out with the SRLens AI tool</div>
+    </a>
     <div class="stat-card accent">
       <div>
         <div class="num">New</div>
@@ -509,7 +511,7 @@
 
 <footer>
   <p>© 2026 SRLens · Research-backed, open access</p>
-  <a href="mailto:eakkus@ncsu.edu">Contact</a>
+  <a href="pages/about.html">Contact</a>
 </footer>
 
 <script>
