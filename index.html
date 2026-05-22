@@ -44,9 +44,10 @@
     position: sticky; top: 0; z-index: 100;
     background: var(--paper);
     border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex; align-items: center; height: 60px;
-    gap: 2rem;
+  }
+  .nav-inner {
+    max-width: 920px; margin: 0 auto; padding: 0 2rem;
+    display: flex; align-items: center; height: 60px; gap: 2rem;
   }
   .nav-logo {
     font-family: var(--font-display);
@@ -331,12 +332,14 @@
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">SRL<span>ens</span></a>
-  <div class="nav-links">
-    <a href="#topics">Topics</a>
-    <a href="pages/analytics.html">Data</a>
-    <a href="pages/about.html">About</a>
-    <a href="pages/ai-tool.html" class="nav-cta">Try SRLens AI</a>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SRL<span>ens</span></a>
+    <div class="nav-links">
+      <a href="#topics">Topics</a>
+      <a href="pages/analytics.html">Data</a>
+      <a href="pages/about.html">About</a>
+      <a href="pages/ai-tool.html" class="nav-cta">Try SRLens AI</a>
+    </div>
   </div>
 </nav>
 
