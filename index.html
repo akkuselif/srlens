@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <meta property="og:title" content="SRLens — The Science of How You Learn">
+  <meta property="og:title" content="SRLens, The Science of How You Learn">
   <meta property="og:description" content="Explore self-regulated learning, metacognition, and motivation through interactive visualizations and AI-powered tools. Built by a researcher, grounded in evidence.">
   <meta property="og:image" content="https://akkuselif.github.io/srlens/og-image.png">
   <meta property="og:url" content="https://akkuselif.github.io/srlens/">
@@ -22,9 +22,12 @@
     --ink-3: #8a8780;
     --paper: #f7f4ef;
     --paper-2: #ede9e2;
+    --paper-3: #e2ddd5;
     --teal: #1D9E75;
     --teal-light: #d0f0e4;
     --teal-dark: #0a5c44;
+    --amber: #c8821a;
+    --amber-light: #faecd4;
     --border: rgba(26,24,20,0.12);
     --radius: 12px;
     --font-display: 'DM Serif Display', Georgia, serif;
@@ -43,8 +46,7 @@
     overflow-x: hidden;
   }
 
-  /* NAV */
-  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); }
   .nav-inner { max-width: 920px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
   .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--ink); text-decoration: none; }
   .nav-logo span { color: var(--teal); }
@@ -56,21 +58,268 @@
   .nav-cta:hover { background: var(--teal) !important; color: white !important; }
 
   /* HERO */
-  .hero { max-width: 920px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
-  .hero-eyebrow { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.12em; color: var(--teal); text-transform: uppercase; margin-bottom: 1rem; }
-  .hero h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px); line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 1.25rem; }
+  .hero {
+    max-width: 920px; margin: 0 auto;
+    padding: 64px 2rem 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    font-family: var(--font-body);
+    font-size: 11px; letter-spacing: 0.12em;
+    color: var(--teal); text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.15; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 1.25rem;
+  }
   .hero h1 em { color: var(--teal); font-style: italic; }
-  .hero-desc { font-size: 16px; color: var(--ink-2); line-height: 1.75; margin-bottom: 2rem; }
+  .hero-desc {
+    font-size: 16px; color: var(--ink-2);
+    line-height: 1.75; margin-bottom: 2rem;
+  }
   .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-  .btn-primary { background: var(--teal); color: white; padding: 10px 22px; border-radius: 8px; font-size: 18px; font-weight: 500; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s; }
+  .btn-primary {
+    background: var(--teal); color: white;
+    padding: 10px 22px; border-radius: 8px;
+    font-size: 18px; font-weight: 500; text-decoration: none;
+    border: none; cursor: pointer; transition: background 0.2s;
+  }
   .btn-primary:hover { background: var(--teal-dark); }
-  .btn-ghost { background: transparent; color: var(--ink-2); padding: 10px 22px; border-radius: 8px; font-size: 18px; font-weight: 400; text-decoration: none; border: 1px solid var(--border); cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+  .btn-ghost {
+    background: transparent; color: var(--ink-2);
+    padding: 10px 22px; border-radius: 8px;
+    font-size: 18px; font-weight: 400; text-decoration: none;
+    border: 1px solid var(--border); cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
   .btn-ghost:hover { border-color: var(--ink-2); color: var(--ink); }
 
-  /* SECTION LABEL */
-  .section-label { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 2rem; }
+  /* HERO STATS */
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 2rem;
+  }
+  .stat-card {
+    background: var(--paper-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    transition: border-color 0.2s;
+  }
+  a.stat-card:hover { border-color: var(--teal); }
+  .stat-card .num {
+    font-family: var(--font-display);
+    font-size: 32px; color: var(--teal);
+    line-height: 1; margin-bottom: 4px;
+  }
+  .stat-card .label {
+    font-size: 14px; color: var(--ink-3); line-height: 1.4;
+  }
+  .stat-card.accent {
+    background: var(--teal); border-color: var(--teal);
+    grid-column: span 4;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .stat-card.accent .num { color: white; font-size: 24px; }
+  .stat-card.accent .label { color: rgba(255,255,255,0.75); }
 
-  /* HOOK */
+  /* DIVIDER */
+  .section-divider {
+    border: none; border-top: 1px solid var(--border);
+    margin: 0 2rem;
+  }
+
+  /* TOPICS */
+  .topics { max-width: 920px; margin: 0 auto; padding: 60px 2rem; }
+  .section-label {
+    font-family: var(--font-body);
+    font-size: 11px; letter-spacing: 0.12em;
+    color: var(--ink-3); text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .topics-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  }
+  .topic-card {
+    background: var(--paper-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+    text-decoration: none; color: inherit;
+  }
+  .topic-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .topic-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 14px;
+  }
+  .topic-card h3 {
+    font-family: var(--font-display);
+    font-size: 28px; margin-bottom: 8px; line-height: 1.2;
+  }
+  .topic-card p { font-size: 18px; color: var(--ink-2); line-height: 1.6; }
+  .topic-tag {
+    display: inline-block; margin-top: 12px;
+    font-family: var(--font-body); font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--teal); background: var(--teal-light);
+    padding: 3px 8px; border-radius: 4px;
+  }
+
+  /* VIZ PREVIEW */
+  .viz-section { max-width: 920px; margin: 0 auto; padding: 60px 2rem; }
+  .viz-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 24px;
+  }
+  .viz-header h2 {
+    font-family: var(--font-display);
+    font-size: 28px; letter-spacing: -0.02em;
+  }
+  .viz-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; min-width: 0; }
+  .viz-card {
+    background: var(--paper-2); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    cursor: pointer; transition: border-color 0.2s; display: block;
+  }
+  .viz-card:hover { border-color: var(--teal); }
+  .viz-card-preview {
+    height: 160px; background: var(--paper-3);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; position: relative; overflow: hidden;
+  }
+  .viz-mini-chart { width: 100%; height: 100%; }
+  .viz-card-body { padding: 16px 18px; }
+  .viz-card-body h4 { font-size: 24px; font-weight: 500; margin-bottom: 4px; }
+  .viz-card-body p { font-size: 20px; color: var(--ink-3); }
+  .viz-card-meta {
+    font-family: var(--font-body); font-size: 10px;
+    color: var(--ink-3); margin-top: 8px; letter-spacing: 0.04em;
+  }
+
+  /* AI TOOL */
+  .ai-section {
+    background: var(--ink); color: var(--paper);
+    padding: 60px 2rem;
+  }
+  .ai-inner { max-width: 920px; margin: 0 auto; }
+  .ai-inner .section-label { color: rgba(247,244,239,0.4); }
+  .ai-header { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-bottom: 32px; }
+  .ai-header h2 {
+    font-family: var(--font-display);
+    font-size: 32px; line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .ai-header h2 em { color: var(--teal); font-style: italic; }
+  .ai-header p { font-size: 18px; color: rgba(247,244,239,0.6); line-height: 1.75; }
+  .ai-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+  .ai-tab {
+    font-size: 20px; padding: 6px 14px; border-radius: 6px;
+    border: 1px solid rgba(247,244,239,0.15);
+    background: transparent; color: rgba(247,244,239,0.5);
+    cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
+  }
+  .ai-tab.active {
+    background: var(--teal); border-color: var(--teal);
+    color: white;
+  }
+  .ai-chat {
+    background: rgba(247,244,239,0.05);
+    border: 1px solid rgba(247,244,239,0.1);
+    border-radius: var(--radius); padding: 20px;
+    min-height: 280px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .chat-msg {
+    display: flex; gap: 10px; align-items: flex-start;
+    animation: fadeUp 0.3s ease both;
+  }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .chat-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500; flex-shrink: 0; margin-top: 2px;
+  }
+  .chat-avatar.ai { background: var(--teal); color: white; }
+  .chat-avatar.user { background: rgba(247,244,239,0.15); color: rgba(247,244,239,0.7); }
+  .chat-bubble {
+    font-size: 21px; line-height: 1.65;
+    padding: 10px 14px; border-radius: 10px; max-width: 85%;
+  }
+  .chat-bubble.ai { background: rgba(247,244,239,0.08); color: rgba(247,244,239,0.85); }
+  .chat-bubble.user { background: var(--teal); color: white; margin-left: auto; }
+  .chat-input-row {
+    display: flex; gap: 8px; margin-top: 8px;
+  }
+  .chat-input {
+    flex: 1; background: rgba(247,244,239,0.08);
+    border: 1px solid rgba(247,244,239,0.15);
+    border-radius: 8px; padding: 10px 14px;
+    color: var(--paper); font-family: var(--font-body); font-size: 21px;
+    outline: none;
+  }
+  .chat-input::placeholder { color: rgba(247,244,239,0.3); }
+  .chat-input:focus { border-color: var(--teal); }
+  .chat-send {
+    background: var(--teal); border: none; border-radius: 8px;
+    padding: 10px 16px; color: white; cursor: pointer;
+    font-size: 21px; font-family: var(--font-body);
+    transition: background 0.2s;
+  }
+  .chat-send:hover { background: var(--teal-dark); }
+  .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+  .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(247,244,239,0.4);
+    animation: blink 1.2s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100%{opacity:0.3} 40%{opacity:1} }
+
+  /* ABOUT STRIP */
+  .about-strip {
+    max-width: 920px; margin: 0 auto; padding: 60px 2rem;
+    display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: center;
+  }
+  .about-strip h2 {
+    font-family: var(--font-display);
+    font-size: 28px; letter-spacing: -0.02em; line-height: 1.2;
+  }
+  .about-strip p { font-size: 18px; color: var(--ink-2); line-height: 1.8; }
+  .about-strip p + p { margin-top: 12px; }
+  .credential-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .pill {
+    font-family: var(--font-body); font-size: 10px; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
+    border: 1px solid var(--border); color: var(--ink-2);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 920px; margin: 0 auto;
+  }
+  footer p { font-size: 20px; color: var(--ink-3); }
+  footer a { color: var(--teal); text-decoration: none; font-size: 20px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 680px) {
+    .hero { grid-template-columns: 1fr; gap: 2rem; padding: 40px 1.25rem; }
+    .topics-grid { grid-template-columns: 1fr; }
+    .viz-grid { grid-template-columns: 1fr; }
+    .ai-header { grid-template-columns: 1fr; gap: 1rem; }
+    .about-strip { grid-template-columns: 1fr; gap: 1.5rem; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+
+  /* HOOK SECTION */
   .hook-section { max-width: 920px; margin: 0 auto; padding: 64px 2rem; }
   .hook-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 2rem; }
   .hook-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; text-decoration: none; color: inherit; display: block; transition: border-color 0.2s, transform 0.15s; }
@@ -80,8 +329,8 @@
   .hook-card p { font-size: 15px; color: var(--ink-2); line-height: 1.7; margin-bottom: 14px; }
   .hook-link { font-size: 13px; color: var(--teal); font-weight: 500; }
 
-  /* ENTRY */
-  .entry-section { max-width: 920px; margin: 0 auto; padding: 64px 2rem; border-top: 1px solid var(--border); }
+  /* ENTRY SECTION */
+  .entry-section { max-width: 920px; margin: 0 auto; padding: 64px 2rem; }
   .entry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 2rem; }
   .entry-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; text-decoration: none; color: inherit; display: block; transition: border-color 0.2s, transform 0.15s; }
   .entry-card:hover { border-color: var(--teal); transform: translateY(-2px); }
@@ -93,28 +342,7 @@
   .entry-card p { font-size: 15px; color: var(--ink-2); line-height: 1.7; margin-bottom: 14px; }
   .entry-card.entry-featured p { color: rgba(247,244,239,0.65); }
   .entry-link { font-size: 13px; color: var(--teal); font-weight: 500; }
-
-  /* ABOUT */
-  .about-strip { max-width: 920px; margin: 0 auto; padding: 60px 2rem; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: center; }
-  .about-strip h2 { font-family: var(--font-display); font-size: 28px; letter-spacing: -0.02em; line-height: 1.2; }
-  .about-strip p { font-size: 16px; color: var(--ink-2); line-height: 1.8; }
-  .about-strip p + p { margin-top: 12px; }
-  .credential-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
-  .pill { font-family: var(--font-body); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); color: var(--ink-2); }
-
-  /* FOOTER */
-  footer { border-top: 1px solid var(--border); padding: 24px 2rem; display: flex; justify-content: space-between; align-items: center; max-width: 920px; margin: 0 auto; }
-  footer p { font-size: 12px; color: var(--ink-3); }
-  footer a { color: var(--teal); text-decoration: none; font-size: 12px; }
-
-  /* RESPONSIVE */
-  @media (max-width: 680px) {
-    .hook-grid { grid-template-columns: 1fr; }
-    .entry-grid { grid-template-columns: 1fr; }
-    .entry-card.entry-featured { grid-template-columns: 1fr; }
-    .about-strip { grid-template-columns: 1fr; gap: 1.5rem; }
-    footer { flex-direction: column; gap: 8px; text-align: center; }
-  }
+  .entry-card.entry-featured .entry-link { color: var(--teal); }
 </style>
 </head>
 <body>
@@ -124,7 +352,7 @@
 <div class="nav-inner">
   <a href="index.html" class="nav-logo">SRL<span>ens</span></a>
   <div class="nav-links">
-    <a href="#topics">Topics</a>
+    <a href="pages/topics.html">Topics</a>
     <a href="pages/analytics.html">Data</a>
     <a href="pages/about.html">About</a>
     <a href="pages/ai-tool.html" class="nav-cta">Try SRLens AI</a>
@@ -199,6 +427,11 @@
   </div>
 </section>
 
+<hr class="section-divider">
+
+<!-- VISUALIZATIONS -->
+
+
 <!-- ABOUT -->
 <section class="about-strip" id="about">
   <div>
@@ -219,8 +452,122 @@
 
 <footer>
   <p>© 2026 SRLens · Research-backed, open access</p>
-  <a href="mailto:eakkus@ncsu.edu">Contact</a>
+  <a href="pages/about.html">Contact</a>
 </footer>
 
+<script>
+const ASSESS_QUESTIONS = [
+  "Hi! I'm SRLens AI. I'll ask you a few questions to identify your SRL profile, the way you naturally regulate your own learning.\n\nLet's start: When you sit down to study, do you usually have a clear plan for what you want to accomplish in that session?",
+  "Interesting. Now, when you're reading something difficult and realize you don't understand it, what do you typically do?",
+  "One more: How do you feel about quizzes or self-tests while studying, do you use them, avoid them, or something else?",
+];
+
+const EXPLAIN_STARTERS = [
+  "What concept would you like me to explain? I can cover self-regulated learning, metacognition, self-determination theory, cognitive load, spaced repetition, retrieval practice, or anything else in learning science.",
+];
+
+let currentTab = 'assess';
+let messageCount = 0;
+let isTyping = false;
+
+function switchTab(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll('.ai-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('chat-window').innerHTML = '';
+  messageCount = 0;
+  document.getElementById('user-input').value = '';
+  const starters = tab === 'assess' ? ASSESS_QUESTIONS : EXPLAIN_STARTERS;
+  setTimeout(() => addMessage('ai', starters[0]), 300);
+}
+
+function addMessage(role, text) {
+  const window = document.getElementById('chat-window');
+  const msg = document.createElement('div');
+  msg.className = 'chat-msg';
+  msg.style.animationDelay = '0s';
+  const initials = role === 'ai' ? 'SR' : 'You';
+  msg.innerHTML = `
+    <div class="chat-avatar ${role}">${initials}</div>
+    <div class="chat-bubble ${role}">${text}</div>`;
+  if (role === 'user') {
+    msg.style.flexDirection = 'row-reverse';
+  }
+  window.appendChild(msg);
+  window.scrollTop = window.scrollHeight;
+}
+
+function showTyping() {
+  const window = document.getElementById('chat-window');
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg'; typing.id = 'typing';
+  typing.innerHTML = `
+    <div class="chat-avatar ai">SR</div>
+    <div class="chat-bubble ai">
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>`;
+  window.appendChild(typing);
+  window.scrollTop = window.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text || isTyping) return;
+  input.value = '';
+  addMessage('user', text);
+  messageCount++;
+  isTyping = true;
+  document.getElementById('send-btn').disabled = true;
+  showTyping();
+
+  const systemPrompt = currentTab === 'assess'
+    ? `You are SRLens AI, an educational psychology assistant on a research-grounded learning science website. You are conducting a brief SRL (self-regulated learning) profile assessment. Based on the conversation so far, ask follow-up questions or provide an evidence-based profile assessment. Keep responses concise (2-4 sentences). The four profiles are: High SRL (strategic, balanced), Surface learner (passive, avoids quizzes), Anxious striver (high effort, high anxiety, over-tests), Disengaged (minimal interaction). After 3-4 exchanges, synthesize a profile. Always tie insights to real learning science theory (SDT, metacognition, Zimmerman's SRL model). Be warm but academic in tone.`
+    : `You are SRLens AI, an educational psychology assistant on a research-grounded learning science website. You explain learning science concepts clearly and accessibly, always grounding explanations in peer-reviewed research. Keep responses concise (3-5 sentences). Reference real theories and researchers where relevant (Flavell on metacognition, Deci & Ryan on SDT, Zimmerman on SRL, Sweller on cognitive load, etc.). Be warm but academic in tone.`;
+
+  const messages = [];
+  document.querySelectorAll('.chat-msg').forEach(m => {
+    const isAI = m.querySelector('.chat-avatar').classList.contains('ai');
+    const bubble = m.querySelector('.chat-bubble');
+    if (!bubble || bubble.querySelector('.typing-indicator')) return;
+    messages.push({ role: isAI ? 'assistant' : 'user', content: bubble.textContent.trim() });
+  });
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: messages
+      })
+    });
+    const data = await res.json();
+    removeTyping();
+    const reply = data.content?.[0]?.text || "I couldn't generate a response. Please try again.";
+    addMessage('ai', reply);
+  } catch(e) {
+    removeTyping();
+    addMessage('ai', "Something went wrong connecting to the AI. Please try again in a moment.");
+  }
+
+  isTyping = false;
+  document.getElementById('send-btn').disabled = false;
+  document.getElementById('user-input').focus();
+}
+
+switchTab('assess', document.querySelector('.ai-tab.active'));
+</script>
 </body>
 </html>

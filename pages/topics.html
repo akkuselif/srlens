@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <meta property="og:title" content="SRLens — Topics">
+  <meta property="og:description" content="Explore six research-backed topics in learning science: self-regulated learning, metacognition, motivation, learning analytics, cross-cultural learning, and AI in education.">
+  <meta property="og:image" content="https://akkuselif.github.io/srlens/og-image.png">
+  <meta property="og:url" content="https://akkuselif.github.io/srlens/pages/topics.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://akkuselif.github.io/srlens/og-image.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRLens — Topics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
+    --paper: #f7f4ef; --paper-2: #ede9e2;
+    --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --border: rgba(26,24,20,0.12);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; overflow-x: hidden; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 920px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+  .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--teal) !important; color: white !important; }
+
+  .page-header { max-width: 920px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .page-header h1 em { color: var(--teal); font-style: italic; }
+  .page-header p { font-size: 17px; color: var(--ink-2); max-width: 920px; line-height: 1.8; }
+
+  .content { max-width: 920px; margin: 0 auto; padding: 48px 2rem 80px; }
+  .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.5rem; }
+
+  .topics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .topic-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; text-decoration: none; color: inherit; display: block; transition: border-color 0.2s, transform 0.15s; }
+  .topic-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .topic-icon { font-size: 26px; display: block; margin-bottom: 14px; }
+  .topic-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); display: block; margin-bottom: 10px; }
+  .topic-card h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 8px; line-height: 1.2; }
+  .topic-card p { font-size: 14px; color: var(--ink-2); line-height: 1.7; margin-bottom: 14px; }
+  .topic-link { font-size: 13px; color: var(--teal); font-weight: 500; }
+
+  footer { border-top: 1px solid var(--border); padding: 24px 2rem; display: flex; justify-content: space-between; align-items: center; max-width: 920px; margin: 0 auto; }
+  footer p { font-size: 12px; color: var(--ink-3); }
+  footer a { color: var(--teal); text-decoration: none; font-size: 12px; }
+
+  @media (max-width: 640px) {
+    .topics-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+    <div class="nav-links">
+      <a href="topics.html" class="active">Topics</a>
+      <a href="analytics.html">Data</a>
+      <a href="about.html">About</a>
+      <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <p class="breadcrumb"><a href="../index.html">SRLens</a> → Topics</p>
+  <h1>The science of <em>how you learn</em></h1>
+  <p>Six research areas in educational psychology and learning science, each grounded in peer-reviewed evidence. No jargon, no paywalls, no productivity myths.</p>
+</header>
+
+<main class="content">
+  <p class="section-label">All topics</p>
+  <div class="topics-grid">
+
+    <a href="srl.html" class="topic-card">
+      <span class="topic-icon">🔄</span>
+      <span class="topic-tag">SRL</span>
+      <h3>Self-regulated learning</h3>
+      <p>How students plan, monitor, and reflect on their own learning — and why it predicts outcomes more than raw ability.</p>
+      <span class="topic-link">Explore →</span>
+    </a>
+
+    <a href="metacognition.html" class="topic-card">
+      <span class="topic-icon">🧠</span>
+      <span class="topic-tag">Metacognition</span>
+      <h3>Metacognition</h3>
+      <p>Thinking about thinking. Why knowing what you don't know is one of the most powerful tools a learner can develop.</p>
+      <span class="topic-link">Explore →</span>
+    </a>
+
+    <a href="motivation.html" class="topic-card">
+      <span class="topic-icon">⚡</span>
+      <span class="topic-tag">SDT</span>
+      <h3>Motivation & emotion</h3>
+      <p>Self-determination theory, intrinsic vs extrinsic motivation, and how academic emotions shape the way students navigate content.</p>
+      <span class="topic-link">Explore →</span>
+    </a>
+
+    <a href="analytics.html" class="topic-card">
+      <span class="topic-icon">📊</span>
+      <span class="topic-tag">VLE · Clickstream</span>
+      <h3>Learning analytics</h3>
+      <p>What behavioral data from virtual learning environments reveals about how different learner types actually navigate content.</p>
+      <span class="topic-link">Explore →</span>
+    </a>
+
+    <a href="cross-cultural.html" class="topic-card">
+      <span class="topic-icon">🌍</span>
+      <span class="topic-tag">PISA 2022</span>
+      <h3>Cross-cultural learning</h3>
+      <p>Do SRL strategies work the same across countries? PISA 2022 data across 80+ nations tells a more complex story.</p>
+      <span class="topic-link">Explore →</span>
+    </a>
+
+    <a href="ai-learning.html" class="topic-card">
+      <span class="topic-icon">🤖</span>
+      <span class="topic-tag">EdAI</span>
+      <h3>AI & learning</h3>
+      <p>How AI tutors, adaptive systems, and large language models interact with self-regulation — what works and what doesn't.</p>
+      <span class="topic-link">Explore →</span>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 SRLens · Research-backed, open access</p>
+  <a href="mailto:eakkus@ncsu.edu">Contact</a>
+</footer>
+
+</body>
+</html>
