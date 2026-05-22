@@ -21,15 +21,15 @@
   html { scroll-behavior: smooth; }
   body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 22px; overflow-x: hidden; }
 
-  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); padding: 0; height: 60px; }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); }
   .nav-inner { max-width: 920px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
   .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--ink); text-decoration: none; }
   .nav-logo span { color: var(--teal); }
   .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
-  .nav-links a { font-size: 21px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--teal); }
   .nav-links a.active { color: var(--teal); font-weight: 500; }
-  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 21px !important; font-weight: 500 !important; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
   .nav-cta:hover { background: var(--teal) !important; color: white !important; }
 
   /* HERO */
@@ -38,7 +38,7 @@
   .hero-text .breadcrumb a { color: var(--teal); text-decoration: none; }
   .hero-text h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
   .hero-text .title { font-family: var(--font-mono); font-size: 20px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.25rem; }
-  .hero-text p { font-size: 20px; color: var(--ink-2); line-height: 1.85; max-width: 920px; }
+  .hero-text p { font-size: 20px; color: var(--ink-2); line-height: 1.85; max-width: 720px; }
   .social-links { display: flex; gap: 10px; margin-top: 1.75rem; flex-wrap: wrap; }
   .social-link { display: flex; align-items: center; gap: 7px; font-size: 21px; color: var(--ink-2); text-decoration: none; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s; font-family: var(--font-mono); letter-spacing: 0.04em; }
   .social-link:hover { border-color: var(--teal); color: var(--teal); }
@@ -51,7 +51,7 @@
   .section { margin-top: 64px; }
   .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1rem; }
   .section h2 { font-family: var(--font-display); font-size: 28px; letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.2; }
-  .section p { font-size: 20px; color: var(--ink-2); line-height: 1.85; max-width: 920px; }
+  .section p { font-size: 20px; color: var(--ink-2); line-height: 1.85; max-width: 720px; }
   .section p + p { margin-top: 14px; }
 
   /* RESEARCH AREAS */
@@ -81,7 +81,7 @@
   .btn-teal { background: var(--teal); color: white; padding: 11px 24px; border-radius: 8px; font-size: 18px; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
   .btn-teal:hover { background: var(--teal-dark); }
 
-  @media (max-width: 920px) {
+  @media (max-width: 720px) {
     .hero { grid-template-columns: 1fr; gap: 2rem; }
     .photo-wrap { order: -1; }
     .photo-circle { width: 160px; height: 160px; }

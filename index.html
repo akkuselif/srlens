@@ -39,30 +39,22 @@
     overflow-x: hidden;
   }
 
-  /* NAV */
-  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); padding: 0; height: 60px; }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); }
   .nav-inner { max-width: 920px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
-  .nav-logo {
-    font-family: var(--font-display);
-    font-size: 22px; color: var(--ink);
-    text-decoration: none;
-  }
+  .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--ink); text-decoration: none; }
   .nav-logo span { color: var(--teal); }
   .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
-  .nav-links a {
-    font-size: 13px; color: var(--ink-2); text-decoration: none;
-    font-weight: 400; letter-spacing: 0.02em;
-    transition: color 0.2s;
-  }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
   .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
-  .nav-cta:hover { background: var(--teal); color: var(--paper) !important; }
+  .nav-cta:hover { background: var(--teal) !important; color: white !important; }
 
   /* HERO */
   .hero {
     max-width: 920px; margin: 0 auto;
-    padding: 80px 2rem 60px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    padding: 64px 2rem 48px;
+    border-bottom: 1px solid var(--border);
   }
   .hero-eyebrow {
     font-family: var(--font-body);
@@ -100,7 +92,7 @@
 
   /* HERO STATS */
   .hero-stats {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 2rem;
   }
   .stat-card {
     background: var(--paper-2);
@@ -120,7 +112,7 @@
   }
   .stat-card.accent {
     background: var(--teal); border-color: var(--teal);
-    grid-column: span 2;
+    grid-column: span 4;
     display: flex; align-items: center; gap: 16px;
   }
   .stat-card.accent .num { color: white; font-size: 24px; }
@@ -337,30 +329,28 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div>
-    <p class="hero-eyebrow">For students · For researchers · Open access</p>
-    <h1>Understand <em>how you learn,</em> backed by science</h1>
-    <p class="hero-desc">SRLens makes learning science accessible to everyone. Assess your own learning profile, explore research-backed visualizations, and understand the psychology behind how students actually learn. Built by a researcher, grounded in evidence.</p>
-    <div class="hero-actions">
-      <a href="pages/ai-tool.html" class="btn-primary">Assess my SRL profile</a>
-      <a href="pages/srl.html" class="btn-ghost">Explore the science</a>
-    </div>
+<section class="hero" id="home">
+  <p class="hero-eyebrow">For students · For researchers · Open access</p>
+  <h1>Understand <em>how you learn,</em> backed by science</h1>
+  <p class="hero-desc">SRLens makes learning science accessible to everyone. Assess your own learning profile, explore research-backed visualizations, and understand the psychology behind how students actually learn. Built by a researcher, grounded in evidence.</p>
+  <div class="hero-actions">
+    <a href="pages/ai-tool.html" class="btn-primary">Assess my SRL profile</a>
+    <a href="pages/srl.html" class="btn-ghost">Explore the science</a>
   </div>
   <div class="hero-stats">
-    <a href="pages/srl.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;">
+    <a href="pages/srl.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;transition:border-color 0.2s;">
       <div class="num">📚</div>
       <div class="label">Explore SRL, metacognition, motivation and more research topics</div>
     </a>
-    <a href="pages/ai-learning.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;">
+    <a href="pages/ai-learning.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;transition:border-color 0.2s;">
       <div class="num">🤖</div>
       <div class="label">How does AI affect the way we learn and study?</div>
     </a>
-    <a href="pages/analytics.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;">
+    <a href="pages/analytics.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;transition:border-color 0.2s;">
       <div class="num">📊</div>
       <div class="label">Interactive visualizations from real learning data</div>
     </a>
-    <a href="pages/ai-tool.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;">
+    <a href="pages/ai-tool.html" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;transition:border-color 0.2s;">
       <div class="num">🎯</div>
       <div class="label">What type of learner are you? Find out with the SRLens AI tool</div>
     </a>
