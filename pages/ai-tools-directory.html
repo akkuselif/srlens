@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <meta property="og:title" content="SRLens — AI Tools for Learning">
+  <meta property="og:description" content="A research-informed directory of AI tools for learning. What works, what doesn't, and what the evidence actually says.">
+  <meta property="og:image" content="https://akkuselif.github.io/srlens/og-image.png">
+  <meta property="og:url" content="https://akkuselif.github.io/srlens/pages/ai-tools-directory.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://akkuselif.github.io/srlens/og-image.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRLens — AI Tools for Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
+    --paper: #f7f4ef; --paper-2: #ede9e2; --paper-3: #e2ddd5;
+    --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --amber: #c8821a; --amber-light: #faecd4;
+    --purple: #534AB7; --purple-light: #eeedfe;
+    --coral: #D85A30; --coral-light: #faece7;
+    --border: rgba(26,24,20,0.12);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; overflow-x: hidden; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 920px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+  .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--teal) !important; color: white !important; }
+
+  .page-header { max-width: 920px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .page-header h1 em { color: var(--teal); font-style: italic; }
+  .page-header p { font-size: 17px; color: var(--ink-2); max-width: 920px; line-height: 1.8; }
+  .header-meta { display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
+  .meta-pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); color: var(--ink-2); }
+
+  .content { max-width: 920px; margin: 0 auto; padding: 0 2rem 80px; }
+  .section { margin-top: 56px; }
+  .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1rem; }
+  .section h2 { font-family: var(--font-display); font-size: 28px; letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.2; }
+  .section > p { font-size: 16px; color: var(--ink-2); line-height: 1.85; max-width: 920px; margin-bottom: 1.5rem; }
+
+  /* VERDICT BADGE */
+  .verdict { display: inline-block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 4px; margin-bottom: 12px; }
+  .verdict-strong { background: var(--teal-light); color: var(--teal-dark); }
+  .verdict-mixed { background: var(--amber-light); color: var(--amber); }
+  .verdict-caution { background: var(--coral-light); color: var(--coral); }
+
+  /* TOOL GRID */
+  .tool-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .tool-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; }
+  .tool-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 10px; }
+  .tool-name { font-family: var(--font-display); font-size: 20px; line-height: 1.2; }
+  .tool-type { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+  .tool-desc { font-size: 15px; color: var(--ink-2); line-height: 1.75; margin-bottom: 14px; }
+  .tool-srl { font-size: 13px; color: var(--ink-2); line-height: 1.65; padding: 12px 14px; background: var(--paper-3); border-radius: 8px; }
+  .tool-srl strong { color: var(--ink); font-weight: 500; }
+
+  /* CALLOUT */
+  .callout { margin-top: 2rem; background: var(--ink); border-radius: 16px; padding: 32px; }
+  .callout h3 { font-family: var(--font-display); font-size: 22px; color: var(--paper); margin-bottom: 10px; }
+  .callout p { font-size: 15px; color: rgba(247,244,239,0.7); line-height: 1.8; }
+  .callout p + p { margin-top: 10px; }
+  .callout .highlight { color: var(--teal); font-weight: 500; }
+
+  .research-note { margin-top: 48px; padding: 20px 24px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; }
+  .research-note p { font-size: 14px; color: var(--ink-3); line-height: 1.7; }
+
+  .cta-strip { margin-top: 48px; border: 1px solid var(--border); border-radius: 16px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-strip h3 { font-family: var(--font-display); font-size: 22px; }
+  .cta-strip p { font-size: 14px; color: var(--ink-3); margin-top: 4px; }
+  .btn-teal { background: var(--teal); color: white; padding: 11px 24px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+  .btn-teal:hover { background: var(--teal-dark); }
+
+  footer { border-top: 1px solid var(--border); padding: 24px 2rem; display: flex; justify-content: space-between; align-items: center; max-width: 920px; margin: 0 auto; }
+  footer p { font-size: 12px; color: var(--ink-3); }
+  footer a { color: var(--teal); text-decoration: none; font-size: 12px; }
+
+  @media (max-width: 640px) {
+    .tool-grid { grid-template-columns: 1fr; }
+    .cta-strip { flex-direction: column; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+    <div class="nav-links">
+      <a href="topics.html">Topics</a>
+      <a href="analytics.html">Data</a>
+      <a href="about.html">About</a>
+      <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <p class="breadcrumb"><a href="../index.html">SRLens</a> → AI Tools Directory</p>
+  <h1>AI tools for learning: <em>what the evidence says</em></h1>
+  <p>A research-informed directory of AI tools used in education. Rated not by features, but by what the learning science literature says about how each tool affects self-regulation, metacognition, and long-term retention.</p>
+  <div class="header-meta">
+    <span class="meta-pill">Updated 2025</span>
+    <span class="meta-pill">SRL lens</span>
+    <span class="meta-pill">Evidence-based ratings</span>
+  </div>
+</header>
+
+<main class="content">
+
+  <div class="section">
+    <p class="section-label">Intelligent tutoring systems</p>
+    <h2>Established AI tutoring platforms</h2>
+    <p>These tools have the longest research track record in educational AI. They use adaptive algorithms to adjust difficulty and provide immediate feedback — the two features most consistently linked to learning gains.</p>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <span class="verdict verdict-strong">Strong evidence</span>
+        <div class="tool-header">
+          <span class="tool-name">Khan Academy / Khanmigo</span>
+        </div>
+        <p class="tool-type">Adaptive tutoring · AI tutor · K–12 & higher ed</p>
+        <p class="tool-desc">Khan Academy's AI tutor Khanmigo is built to ask questions rather than give answers — a deliberate design choice grounded in productive struggle research. The underlying adaptive platform has 30+ years of ITS research behind it.</p>
+        <p class="tool-srl"><strong>SRL impact:</strong> Supports forethought and self-monitoring. Khanmigo's Socratic prompting style preserves metacognitive demand rather than bypassing it.</p>
+      </div>
+      <div class="tool-card">
+        <span class="verdict verdict-strong">Strong evidence</span>
+        <div class="tool-header">
+          <span class="tool-name">Carnegie Learning MATHia</span>
+        </div>
+        <p class="tool-type">Intelligent tutoring system · Mathematics · K–12</p>
+        <p class="tool-desc">One of the most rigorously evaluated ITS platforms in existence, with randomized controlled trials showing significant math gains over several years. Uses cognitive modeling to identify specific knowledge gaps.</p>
+        <p class="tool-srl"><strong>SRL impact:</strong> Strong on performance-phase support. Limited on forethought and self-reflection phases of Zimmerman's model.</p>
+      </div>
+      <div class="tool-card">
+        <span class="verdict verdict-mixed">Mixed evidence</span>
+        <div class="tool-header">
+          <span class="tool-name">Duolingo</span>
+        </div>
+        <p class="tool-type">Adaptive learning · Language · Consumer</p>
+        <p class="tool-desc">Effective for vocabulary and pattern recognition via spaced repetition. The gamification layer drives engagement but can shift motivation from intrinsic interest to streak-maintenance — a known SDT concern.</p>
+        <p class="tool-srl"><strong>SRL impact:</strong> Weak on planning and monitoring. Strong on retrieval practice mechanics. The streak system can undermine autonomous motivation over time.</p>
+      </div>
+      <div class="tool-card">
+        <span class="verdict verdict-strong">Strong evidence</span>
+        <div class="tool-header">
+          <span class="tool-name">Anki / spaced repetition tools</span>
+        </div>
+        <p class="tool-type">Spaced repetition · Memory · Self-directed</p>
+        <p class="tool-desc">Not AI in the generative sense, but algorithmically adaptive. Spaced repetition has one of the strongest evidence bases in cognitive science. Requires self-discipline to use well — which is itself an SRL skill.</p>
+        <p class="tool-srl"><strong>SRL impact:</strong> High metacognitive demand — students must judge their own recall accuracy. This active monitoring is precisely what builds metacognitive skill over time.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Large language models</p>
+    <h2>LLMs as learning tools</h2>
+    <p>The research on LLMs in education is young but growing fast. The central question is not whether they can help — they clearly can — but whether the way most students use them helps or undermines long-term self-regulation.</p>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <span class="verdict verdict-mixed">Use with intention</span>
+        <div class="tool-header">
+          <span class="tool-name">ChatGPT / Claude / Gemini</span>
+        </div>
+        <p class="tool-type">General LLM · Multi-purpose · All levels</p>
+        <p class="tool-desc">Highly flexible study tools when used as Socratic partners, concept explainers, or feedback generators. The risk is well-documented: students who use LLMs to generate answers rather than check thinking show weaker metacognitive development.</p>
+        <p class="tool-srl"><strong>SRL impact:</strong> Depends entirely on how the student uses it. Prompting for explanations and counterarguments builds SRL. Prompting for answers bypasses it.</p>
+      </div>
+      <div class="tool-card">
+        <span class="verdict verdict-mixed">Promising</span>
+        <div class="tool-header">
+          <span class="tool-name">Perplexity / AI search</span>
+        </div>
+        <p class="tool-type">AI search · Research · Higher ed</p>
+        <p class="tool-desc">Useful for scoping unfamiliar topics quickly. The risk is that AI-synthesized summaries reduce the productive cognitive struggle of source evaluation — a key self-regulation skill in academic contexts.</p>
+        <p class="tool-srl"><strong>SRL impact:</strong> Can support planning when used to scope a topic. Can undermine information literacy and source monitoring if used as a replacement for primary source engagement.</p>
+      </div>
+      <div class="tool-card">
+        <span class="verdict verdict-caution">Significant SRL risk</span>
+        <div class="tool-header">
+          <span class="tool-name">AI writing assistants (general)</span>
+        </div>
+        <p class="tool-type">Writing AI · Essay generation · All levels</p>
+        <p class="tool-desc">Tools that generate, substantially rewrite, or complete writing tasks remove the cognitive processes that build self-regulation. Writing is one of the primary activities through which students develop planning, monitoring, and revision skills.</p>
+        <p class="tool-srl"><strong>SRL impact:</strong> High risk of SRL bypass. The planning, monitoring, and revision phases of writing are where metacognitive skill develops — outsourcing them to AI removes that developmental opportunity.</p>
+      </div>
+      <div class="tool-card">
+        <span class="verdict verdict-strong">Promising</span>
+        <div class="tool-header">
+          <span class="tool-name">SRLens AI</span>
+        </div>
+        <p class="tool-type">SRL assessment · Concept explainer · Research-grounded</p>
+        <p class="tool-desc">Designed explicitly around the SRL research literature. The assessment tool asks reflective questions rather than giving instant answers. The concept explainer grounds every response in peer-reviewed theory.</p>
+        <p class="tool-srl"><strong>SRL impact:</strong> Designed to build metacognitive awareness rather than bypass it. Every response is constrained by what the evidence actually supports.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="callout">
+      <h3>The question to ask about any AI learning tool</h3>
+      <p>Not: "Does it help students get the right answer?"</p>
+      <p>But: <span class="highlight">"Does it preserve or remove the cognitive processes through which self-regulation develops?"</span></p>
+      <p>Productive struggle, metacognitive monitoring, and self-reflection are not inefficiencies to be optimized away. They are the mechanism by which learning happens. An AI tool that removes them, however helpfully designed, removes the conditions for long-term skill development.</p>
+    </div>
+  </div>
+
+  <div class="research-note">
+    <p><strong style="color:var(--ink)">Primary sources</strong> — VanLehn, K. (2011). The relative effectiveness of human tutoring, intelligent tutoring systems, and other tutoring systems. Educational Psychologist, 46(4), 197–221. Kasneci, E., et al. (2023). ChatGPT for good? On opportunities and challenges of large language models for education. Learning and Individual Differences, 103, 102274. Kornell, N., & Bjork, R. A. (2008). Learning concepts and categories. Psychological Science, 19(6), 585–592.</p>
+  </div>
+
+  <div class="cta-strip">
+    <div>
+      <h3>See how AI should support learning</h3>
+      <p>SRLens AI prompts reflection rather than giving answers. Try it.</p>
+    </div>
+    <a href="ai-tool.html" class="btn-teal">Try SRLens AI →</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2026 SRLens · Research-backed, open access</p>
+  <a href="mailto:eakkus@ncsu.edu">Contact</a>
+</footer>
+
+</body>
+</html>
