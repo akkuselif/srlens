@@ -2,23 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <meta property="og:title" content="SRLens — Topics">
-  <meta property="og:description" content="Explore six research-backed topics in learning science: self-regulated learning, metacognition, motivation, learning analytics, cross-cultural learning, and AI in education.">
-  <meta property="og:image" content="https://akkuselif.github.io/srlens/og-image.png">
-  <meta property="og:url" content="https://akkuselif.github.io/srlens/pages/topics.html">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://akkuselif.github.io/srlens/og-image.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SRLens — Topics</title>
+<title>SRLens, Topics</title>
+<meta property="og:title" content="SRLens, Topics">
+<meta property="og:description" content="Explore self-regulated learning, metacognition, motivation, learning analytics, cross-cultural learning, and AI in education.">
+<meta property="og:image" content="https://akkuselif.github.io/srlens/og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://akkuselif.github.io/srlens/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
-    --paper: #f7f4ef; --paper-2: #ede9e2;
+    --paper: #f7f4ef; --paper-2: #ede9e2; --paper-3: #e2ddd5;
     --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --amber: #c8821a; --amber-light: #faecd4;
+    --purple: #534AB7; --purple-light: #eeedfe;
+    --coral: #D85A30; --coral-light: #faece7;
     --border: rgba(26,24,20,0.12);
     --font-display: 'DM Serif Display', Georgia, serif;
     --font-body: 'DM Sans', system-ui, sans-serif;
@@ -41,111 +43,122 @@
   .page-header { max-width: 920px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
   .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.25rem; }
   .breadcrumb a { color: var(--teal); text-decoration: none; }
-  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
   .page-header h1 em { color: var(--teal); font-style: italic; }
-  .page-header p { font-size: 17px; color: var(--ink-2); max-width: 920px; line-height: 1.8; }
+  .page-header p { font-size: 17px; color: var(--ink-2); max-width: 580px; line-height: 1.8; }
 
   .content { max-width: 920px; margin: 0 auto; padding: 48px 2rem 80px; }
-  .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.5rem; }
 
-  .topics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .topics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
   .topic-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; text-decoration: none; color: inherit; display: block; transition: border-color 0.2s, transform 0.15s; }
-  .topic-card:hover { border-color: var(--teal); transform: translateY(-2px); }
-  .topic-icon { font-size: 26px; display: block; margin-bottom: 14px; }
-  .topic-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); display: block; margin-bottom: 10px; }
-  .topic-card h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 8px; line-height: 1.2; }
-  .topic-card p { font-size: 14px; color: var(--ink-2); line-height: 1.7; margin-bottom: 14px; }
-  .topic-link { font-size: 13px; color: var(--teal); font-weight: 500; }
+  .topic-card:hover { transform: translateY(-2px); }
+  .topic-card.teal:hover { border-color: var(--teal); }
+  .topic-card.amber:hover { border-color: var(--amber); }
+  .topic-card.purple:hover { border-color: var(--purple); }
+  .topic-card.coral:hover { border-color: var(--coral); }
 
-  footer { border-top: 1px solid var(--border); padding: 24px 2rem; display: flex; justify-content: space-between; align-items: center; max-width: 920px; margin: 0 auto; }
-  footer p { font-size: 12px; color: var(--ink-3); }
-  footer a { color: var(--teal); text-decoration: none; font-size: 12px; }
+  .topic-icon { font-size: 28px; display: block; margin-bottom: 14px; }
+  .topic-tag { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; display: block; }
+  .topic-card.teal .topic-tag { color: var(--teal); }
+  .topic-card.amber .topic-tag { color: var(--amber); }
+  .topic-card.purple .topic-tag { color: var(--purple); }
+  .topic-card.coral .topic-tag { color: var(--coral); }
+
+  .topic-card h3 { font-family: var(--font-display); font-size: 24px; margin-bottom: 10px; line-height: 1.2; }
+  .topic-card p { font-size: 16px; color: var(--ink-2); line-height: 1.75; margin-bottom: 16px; }
+  .topic-hook { font-size: 14px; color: var(--ink-3); font-style: italic; line-height: 1.6; padding: 12px 14px; background: var(--paper); border-radius: 8px; margin-bottom: 16px; }
+  .topic-link { font-size: 13px; font-weight: 500; }
+  .topic-card.teal .topic-link { color: var(--teal); }
+  .topic-card.amber .topic-link { color: var(--amber); }
+  .topic-card.purple .topic-link { color: var(--purple); }
+  .topic-card.coral .topic-link { color: var(--coral); }
 
   @media (max-width: 640px) {
     .topics-grid { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 8px; text-align: center; }
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-inner">
-    <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
-    <div class="nav-links">
-      <a href="topics.html" class="active">Topics</a>
+<div class="nav-inner">
+  <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+  <div class="nav-links">
+    <a href="topics.html" class="active">Topics</a>
+    <a href="ai-tools.html">AI Tools</a>
       <a href="analytics.html">Data</a>
-      <a href="about.html">About</a>
-      <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
-    </div>
+    <a href="about.html">About</a>
+    <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
   </div>
+</div>
 </nav>
 
 <header class="page-header">
   <p class="breadcrumb"><a href="../index.html">SRLens</a> → Topics</p>
-  <h1>The science of <em>how you learn</em></h1>
-  <p>Six research areas in educational psychology and learning science, each grounded in peer-reviewed evidence. No jargon, no paywalls, no productivity myths.</p>
+  <h1>Explore the <em>science of learning</em></h1>
+  <p>Six research areas that explain how students learn, what motivates them, and what the data actually shows. Each topic starts with a question you have probably asked yourself.</p>
 </header>
 
 <main class="content">
-  <p class="section-label">All topics</p>
   <div class="topics-grid">
 
-    <a href="srl.html" class="topic-card">
+    <a href="srl.html" class="topic-card teal">
       <span class="topic-icon">🔄</span>
       <span class="topic-tag">SRL</span>
       <h3>Self-regulated learning</h3>
-      <p>How students plan, monitor, and reflect on their own learning — and why it predicts outcomes more than raw ability.</p>
-      <span class="topic-link">Explore →</span>
+      <p class="topic-hook">"Why do some students seem to learn effortlessly while I work twice as hard?"</p>
+      <p>The research-backed framework that explains how students who plan, monitor, and reflect on their own learning consistently outperform those who do not, regardless of raw ability.</p>
+      <span class="topic-link">Explore SRL →</span>
     </a>
 
-    <a href="metacognition.html" class="topic-card">
+    <a href="metacognition.html" class="topic-card amber">
       <span class="topic-icon">🧠</span>
       <span class="topic-tag">Metacognition</span>
-      <h3>Metacognition</h3>
-      <p>Thinking about thinking. Why knowing what you don't know is one of the most powerful tools a learner can develop.</p>
-      <span class="topic-link">Explore →</span>
+      <h3>Thinking about thinking</h3>
+      <p class="topic-hook">"I studied for hours but forgot everything on the exam. What went wrong?"</p>
+      <p>Re-reading feels productive but barely works. Flavell's model of metacognition explains the gap between feeling like you know something and actually knowing it.</p>
+      <span class="topic-link">Explore metacognition →</span>
     </a>
 
-    <a href="motivation.html" class="topic-card">
+    <a href="motivation.html" class="topic-card purple">
       <span class="topic-icon">⚡</span>
-      <span class="topic-tag">SDT</span>
-      <h3>Motivation & emotion</h3>
-      <p>Self-determination theory, intrinsic vs extrinsic motivation, and how academic emotions shape the way students navigate content.</p>
-      <span class="topic-link">Explore →</span>
+      <span class="topic-tag">Motivation & emotion</span>
+      <h3>Why motivation disappears</h3>
+      <p class="topic-hook">"I felt motivated for a week then lost it completely. Is something wrong with me?"</p>
+      <p>Motivation is not a personality trait. It is a psychological state shaped by three basic needs. Self-determination theory explains why it comes and goes and what actually sustains it.</p>
+      <span class="topic-link">Explore motivation →</span>
     </a>
 
-    <a href="analytics.html" class="topic-card">
+    <a href="analytics.html" class="topic-card teal">
       <span class="topic-icon">📊</span>
-      <span class="topic-tag">VLE · Clickstream</span>
-      <h3>Learning analytics</h3>
-      <p>What behavioral data from virtual learning environments reveals about how different learner types actually navigate content.</p>
-      <span class="topic-link">Explore →</span>
+      <span class="topic-tag">Learning analytics</span>
+      <h3>What real learner data shows</h3>
+      <p class="topic-hook">"What does studying actually look like across thousands of students?"</p>
+      <p>Interactive visualizations from real VLE clickstream data revealing four distinct learner profiles. Each tells a different psychological story about how students navigate content.</p>
+      <span class="topic-link">Explore the data →</span>
     </a>
 
-    <a href="cross-cultural.html" class="topic-card">
+    <a href="cross-cultural.html" class="topic-card coral">
       <span class="topic-icon">🌍</span>
-      <span class="topic-tag">PISA 2022</span>
-      <h3>Cross-cultural learning</h3>
-      <p>Do SRL strategies work the same across countries? PISA 2022 data across 80+ nations tells a more complex story.</p>
-      <span class="topic-link">Explore →</span>
+      <span class="topic-tag">Cross-cultural learning</span>
+      <h3>Does SRL work the same everywhere?</h3>
+      <p class="topic-hook">"Why do students in some countries outperform others despite studying less?"</p>
+      <p>PISA 2022 data across 80 countries reveals surprising patterns. The self-efficacy paradox, cultural differences in motivation, and what it all means for how we understand learning.</p>
+      <span class="topic-link">Explore cross-cultural research →</span>
     </a>
 
-    <a href="ai-learning.html" class="topic-card">
+    <a href="ai-learning.html" class="topic-card amber">
       <span class="topic-icon">🤖</span>
-      <span class="topic-tag">EdAI</span>
-      <h3>AI & learning</h3>
-      <p>How AI tutors, adaptive systems, and large language models interact with self-regulation — what works and what doesn't.</p>
-      <span class="topic-link">Explore →</span>
+      <span class="topic-tag">AI & learning</span>
+      <h3>Is AI making us better or worse learners?</h3>
+      <p class="topic-hook">"I use AI to help me study but I feel like I am not actually learning anything."</p>
+      <p>AI tools are spreading faster than our understanding of their effects. The research reveals what actually helps, what quietly harms, and the bypass problem nobody talks about.</p>
+      <span class="topic-link">Explore AI & learning →</span>
     </a>
 
   </div>
 </main>
-
-<footer>
-  <p>© 2026 SRLens · Research-backed, open access</p>
-  <a href="mailto:eakkus@ncsu.edu">Contact</a>
-</footer>
 
 </body>
 </html>

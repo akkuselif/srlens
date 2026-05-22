@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRLens — AI Tools for Learning & Research</title>
+<meta property="og:title" content="SRLens — AI Tools for Learning and Research">
+<meta property="og:description" content="A curated guide to AI tools for researchers, educators, and students. What each tool is good for, what it is not, and how to use it well.">
+<meta property="og:image" content="https://akkuselif.github.io/srlens/og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://akkuselif.github.io/srlens/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
+    --paper: #f7f4ef; --paper-2: #ede9e2; --paper-3: #e2ddd5;
+    --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --amber: #c8821a; --amber-light: #faecd4;
+    --purple: #534AB7; --purple-light: #eeedfe;
+    --coral: #D85A30; --coral-light: #faece7;
+    --border: rgba(26,24,20,0.12);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; overflow-x: hidden; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 920px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+  .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--teal) !important; color: white !important; }
+
+  .page-header { max-width: 920px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .page-header h1 em { color: var(--teal); font-style: italic; }
+  .page-header p { font-size: 17px; color: var(--ink-2); max-width: 580px; line-height: 1.8; }
+
+  .content { max-width: 920px; margin: 0 auto; padding: 0 2rem 80px; }
+
+  /* AUDIENCE TABS */
+  .tabs { display: flex; gap: 8px; margin: 40px 0 32px; flex-wrap: wrap; }
+  .tab { font-size: 14px; padding: 8px 20px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--ink-2); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
+  .tab.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* AUDIENCE SECTION */
+  .audience-section { display: none; }
+  .audience-section.active { display: block; }
+  .audience-intro { font-size: 16px; color: var(--ink-2); line-height: 1.8; max-width: 680px; margin-bottom: 32px; padding: 20px 24px; background: var(--paper-2); border-radius: 12px; border-left: 3px solid var(--teal); }
+
+  /* TOOL CARDS */
+  .tools-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .tool-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; }
+  .tool-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 16px; flex-wrap: wrap; }
+  .tool-name-row { display: flex; align-items: center; gap: 12px; }
+  .tool-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .tool-card h3 { font-family: var(--font-display); font-size: 22px; }
+  .tool-badge { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  .badge-free { background: var(--teal-light); color: var(--teal-dark); }
+  .badge-freemium { background: var(--amber-light); color: var(--amber); }
+  .badge-paid { background: var(--paper-3); color: var(--ink-3); }
+
+  .tool-desc { font-size: 16px; color: var(--ink-2); line-height: 1.75; margin-bottom: 20px; }
+
+  .use-cases { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .use-case-col h4 { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .use-case-col.good h4 { color: var(--teal); }
+  .use-case-col.caution h4 { color: var(--coral); }
+  .use-case-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .use-case-list li { font-size: 14px; color: var(--ink-2); line-height: 1.5; padding: 6px 10px; border-radius: 6px; }
+  .use-case-col.good .use-case-list li { background: var(--teal-light); }
+  .use-case-col.caution .use-case-list li { background: var(--coral-light); }
+
+  .tool-link { display: inline-block; font-size: 13px; color: var(--teal); font-weight: 500; text-decoration: none; margin-top: 8px; }
+  .tool-link:hover { text-decoration: underline; }
+
+  /* SECTION DIVIDER */
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+  /* NOTE BOX */
+  .note-box { margin-top: 48px; padding: 24px 28px; background: var(--ink); border-radius: 14px; }
+  .note-box h3 { font-family: var(--font-display); font-size: 22px; color: var(--paper); margin-bottom: 10px; }
+  .note-box p { font-size: 15px; color: rgba(247,244,239,0.7); line-height: 1.8; }
+
+  @media (max-width: 640px) {
+    .use-cases { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+<div class="nav-inner">
+  <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+  <div class="nav-links">
+    <a href="topics.html">Topics</a>
+    <a href="ai-tools.html">AI Tools</a>
+      <a href="analytics.html">Data</a>
+    <a href="about.html">About</a>
+    <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
+  </div>
+</div>
+</nav>
+
+<header class="page-header">
+  <p class="breadcrumb"><a href="../index.html">SRLens</a> → AI Tools</p>
+  <h1>AI tools for <em>learning and research</em></h1>
+  <p>A practical guide to what AI tools actually do well, what they do not, and how to use them without letting them do your thinking for you. Organized by who you are and what you need.</p>
+</header>
+
+<main class="content">
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('researchers', this)">Researchers and PhD students</button>
+    <button class="tab" onclick="switchTab('educators', this)">Educators and teachers</button>
+    <button class="tab" onclick="switchTab('students', this)">Students and general learners</button>
+  </div>
+
+  <!-- RESEARCHERS -->
+  <div class="audience-section active" id="section-researchers">
+    <p class="audience-intro">These tools are most useful for literature search, synthesis, and research workflow. None of them replace critical reading or original thinking, but they can significantly reduce time spent on discovery and organization.</p>
+
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#d0f0e4">🔬</div>
+            <h3>Elicit</h3>
+          </div>
+          <span class="tool-badge badge-freemium">Freemium</span>
+        </div>
+        <p class="tool-desc">AI research assistant that searches academic literature, extracts key findings from papers, and helps synthesize across studies. Built specifically for research workflows, not general chat.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Finding papers on a specific research question</li>
+              <li>Extracting study designs, sample sizes, findings across multiple papers</li>
+              <li>Building a quick literature map before deep reading</li>
+              <li>Identifying gaps in a research area</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Always verify citations, it occasionally hallucinates</li>
+              <li>Does not replace reading the actual papers</li>
+              <li>Coverage is better for some fields than others</li>
+            </ul>
+          </div>
+        </div>
+        <a href="https://elicit.com" target="_blank" class="tool-link">Visit Elicit →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#eeedfe">🧭</div>
+            <h3>Consensus</h3>
+          </div>
+          <span class="tool-badge badge-freemium">Freemium</span>
+        </div>
+        <p class="tool-desc">Search engine for scientific evidence. Ask a research question in plain language and get a summary of what studies actually say, with direct links to papers.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Quick consensus checks on well-studied questions</li>
+              <li>Finding empirical evidence for claims</li>
+              <li>Explaining research to non-specialist audiences</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Works best for yes/no empirical questions</li>
+              <li>Less useful for nuanced theoretical questions</li>
+            </ul>
+          </div>
+        </div>
+        <a href="https://consensus.app" target="_blank" class="tool-link">Visit Consensus →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#faecd4">🗺️</div>
+            <h3>ResearchRabbit</h3>
+          </div>
+          <span class="tool-badge badge-free">Free</span>
+        </div>
+        <p class="tool-desc">Visual literature mapping tool. Start with one or two papers and explore citation networks, related work, and key authors in a field. Great for discovering literature you did not know to search for.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Mapping a new research area visually</li>
+              <li>Finding seminal papers in a field</li>
+              <li>Discovering related work through citation networks</li>
+              <li>Syncs with Zotero for reference management</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Not a replacement for systematic search</li>
+              <li>Can lead you down rabbit holes, be intentional</li>
+            </ul>
+          </div>
+        </div>
+        <a href="https://researchrabbit.ai" target="_blank" class="tool-link">Visit ResearchRabbit →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#d0f0e4">📚</div>
+            <h3>Claude or ChatGPT for research</h3>
+          </div>
+          <span class="tool-badge badge-freemium">Freemium</span>
+        </div>
+        <p class="tool-desc">General large language models used for research tasks. Powerful for thinking through ideas, drafting, and explaining concepts — but have significant limitations for literature work.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Thinking through a research argument or structure</li>
+              <li>Getting feedback on writing clarity</li>
+              <li>Explaining a concept in plain language</li>
+              <li>Brainstorming research questions</li>
+              <li>Summarizing a paper you upload yourself</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Never cite papers it mentions without verifying</li>
+              <li>Does not know recent literature reliably</li>
+              <li>Can sound confident while being wrong</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EDUCATORS -->
+  <div class="audience-section" id="section-educators">
+    <p class="audience-intro">AI tools can genuinely help educators with planning, differentiation, and feedback at scale. The key is using them to extend what you do, not to replace the judgment and relationships that make teaching work.</p>
+
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#d0f0e4">✏️</div>
+            <h3>Claude for lesson planning</h3>
+          </div>
+          <span class="tool-badge badge-freemium">Freemium</span>
+        </div>
+        <p class="tool-desc">Large language models are genuinely useful for generating lesson plan drafts, differentiated materials, and formative assessment questions. They work best when you provide detailed context about your students and learning goals.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Drafting lesson plans from learning objectives</li>
+              <li>Generating differentiated versions of materials</li>
+              <li>Creating formative assessment questions at different levels</li>
+              <li>Writing student-facing explanations of difficult concepts</li>
+              <li>Generating discussion prompts that promote metacognition</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Always review for accuracy before using with students</li>
+              <li>Generic prompts produce generic outputs, be specific</li>
+              <li>Student relationships and judgment cannot be outsourced</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#faecd4">💬</div>
+            <h3>MagicSchool AI</h3>
+          </div>
+          <span class="tool-badge badge-freemium">Freemium</span>
+        </div>
+        <p class="tool-desc">AI platform built specifically for educators with over 60 tools for lesson planning, rubric creation, communication, and differentiation. Designed around teacher workflows rather than general chat.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Rubric generation for assignments</li>
+              <li>Parent communication drafts</li>
+              <li>IEP accommodation suggestions</li>
+              <li>Text leveling for differentiation</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Review all outputs before sending to parents or students</li>
+              <li>Not a substitute for knowing your students</li>
+            </ul>
+          </div>
+        </div>
+        <a href="https://magicschool.ai" target="_blank" class="tool-link">Visit MagicSchool AI →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#eeedfe">🎯</div>
+            <h3>Khanmigo by Khan Academy</h3>
+          </div>
+          <span class="tool-badge badge-freemium">Freemium</span>
+        </div>
+        <p class="tool-desc">AI tutor and teaching assistant built into Khan Academy. Designed with learning science principles — it prompts students to think rather than giving answers directly. One of the few AI tools explicitly designed to support self-regulation.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Supporting students with guided practice</li>
+              <li>Generating discussion questions</li>
+              <li>Lesson hooks and engagement activities</li>
+              <li>Homework help that scaffolds rather than solves</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Best for math and science, limited in humanities</li>
+              <li>Students still need teacher guidance and feedback</li>
+            </ul>
+          </div>
+        </div>
+        <a href="https://khanacademy.org/khan-labs" target="_blank" class="tool-link">Visit Khanmigo →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STUDENTS -->
+  <div class="audience-section" id="section-students">
+    <p class="audience-intro">AI tools can help students learn more effectively, but only if used in ways that build understanding rather than bypass it. The most important question to ask is: is this tool making me think, or thinking for me?</p>
+
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#d0f0e4">🌐</div>
+            <h3>Khan Academy</h3>
+          </div>
+          <span class="tool-badge badge-free">Free</span>
+        </div>
+        <p class="tool-desc">Free learning platform covering thousands of topics from elementary school to university level. Combines short video explanations with practice exercises and immediate feedback. One of the most research-validated free learning tools available.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Building foundational understanding step by step</li>
+              <li>Practice with immediate feedback</li>
+              <li>Filling knowledge gaps at your own pace</li>
+              <li>Math, science, computing, humanities and more</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Passive watching without practice does not build retention</li>
+              <li>Use the exercises, not just the videos</li>
+            </ul>
+          </div>
+        </div>
+        <a href="https://khanacademy.org" target="_blank" class="tool-link">Visit Khan Academy →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#faecd4">🃏</div>
+            <h3>Anki</h3>
+          </div>
+          <span class="tool-badge badge-free">Free</span>
+        </div>
+        <p class="tool-desc">Spaced repetition flashcard app with decades of research support. Anki schedules review at the optimal time before you would forget — one of the most evidence-backed study strategies available. Steep learning curve but high payoff.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Vocabulary in any subject or language</li>
+              <li>Medical, law, and exam preparation</li>
+              <li>Any fact-heavy content you need long-term</li>
+              <li>Building cumulative knowledge over months</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Does not build conceptual understanding on its own</li>
+              <li>Making your own cards is more effective than downloading shared decks</li>
+            </ul>
+          </div>
+        </div>
+        <a href="https://apps.ankiweb.net" target="_blank" class="tool-link">Visit Anki →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#eeedfe">🤖</div>
+            <h3>Claude or ChatGPT for studying</h3>
+          </div>
+          <span class="tool-badge badge-freemium">Freemium</span>
+        </div>
+        <p class="tool-desc">General AI assistants can be powerful study tools if used correctly. The key distinction: use them to check your understanding, not to skip building it. Ask them to quiz you, explain your reasoning back to you, or find the flaw in your thinking.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Asking it to quiz you on material you have already studied</li>
+              <li>Explaining a concept in a different way when you are stuck</li>
+              <li>Getting feedback on your own written explanation of something</li>
+              <li>Breaking down a complex topic into smaller steps</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Having AI write your essays bypasses the learning entirely</li>
+              <li>Reading AI explanations without testing yourself does not build memory</li>
+              <li>It can be confidently wrong — always verify important facts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-name-row">
+            <div class="tool-icon" style="background:#d0f0e4">🎮</div>
+            <h3>Duolingo</h3>
+          </div>
+          <span class="tool-badge badge-freemium">Freemium</span>
+        </div>
+        <p class="tool-desc">AI-powered language learning app using spaced repetition, adaptive difficulty, and gamification. Research shows it can build real vocabulary and reading skills, especially at beginner to intermediate levels.</p>
+        <div class="use-cases">
+          <div class="use-case-col good">
+            <h4>Good for</h4>
+            <ul class="use-case-list">
+              <li>Building vocabulary and reading in a new language</li>
+              <li>Daily habit formation through short sessions</li>
+              <li>Beginner to intermediate level in many languages</li>
+            </ul>
+          </div>
+          <div class="use-case-col caution">
+            <h4>Be careful</h4>
+            <ul class="use-case-list">
+              <li>Not sufficient alone for conversational fluency</li>
+              <li>Streaks can become the goal rather than actual learning</li>
+            </ul>
+          </div>
+        </div>
+        <a href="https://duolingo.com" target="_blank" class="tool-link">Visit Duolingo →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="note-box">
+    <h3>A note on AI and self-regulation</h3>
+    <p>The most important thing research on AI and learning shows is that tools which do the thinking for you tend to weaken the metacognitive skills you need to become a better learner. Use AI to extend your thinking, not replace it. If you finish a session with AI and cannot explain what you learned in your own words, something went wrong.</p>
+  </div>
+
+</main>
+
+<script>
+function switchTab(audience, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.audience-section').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('section-' + audience).classList.add('active');
+}
+</script>
+</body>
+</html>
