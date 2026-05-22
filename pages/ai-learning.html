@@ -3,22 +3,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SRLens — Coming soon</title>
+<title>SRLens — AI & Learning</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'DM Sans', sans-serif; background: #f7f4ef; color: #1a1814; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-  .wrap { text-align: center; }
-  h1 { font-family: 'DM Serif Display', serif; font-size: 32px; margin-bottom: 12px; }
-  p { color: #8a8780; margin-bottom: 24px; font-size: 20px; }
-  a { color: #1D9E75; text-decoration: none; font-size: 18px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
+    --paper: #f7f4ef; --paper-2: #ede9e2; --paper-3: #e2ddd5;
+    --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --amber: #c8821a; --amber-light: #faecd4;
+    --purple: #534AB7; --purple-light: #eeedfe;
+    --coral: #D85A30; --coral-light: #faece7;
+    --border: rgba(26,24,20,0.12);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; overflow-x: hidden; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+  .nav-logo { font-family: var(--font-display); font-size: 20px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--teal) !important; }
+
+  .page-header { max-width: 920px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .page-header h1 em { color: var(--teal); font-style: italic; }
+  .page-header p { font-size: 17px; color: var(--ink-2); max-width: 580px; line-height: 1.8; }
+  .header-meta { display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
+  .meta-pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); color: var(--ink-2); }
+
+  .content { max-width: 920px; margin: 0 auto; padding: 0 2rem 80px; }
+  .section { margin-top: 64px; }
+  .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1rem; }
+  .section h2 { font-family: var(--font-display); font-size: 30px; letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.2; }
+  .section p { font-size: 17px; color: var(--ink-2); line-height: 1.85; max-width: 680px; }
+  .section p + p { margin-top: 14px; }
+
+  /* WORKS VS DOESNT */
+  .verdict-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 2rem; }
+  .verdict-card { border-radius: 14px; padding: 28px; }
+  .verdict-card.works { background: var(--teal-light); border: 1px solid rgba(29,158,117,0.25); }
+  .verdict-card.doesnt { background: var(--coral-light); border: 1px solid rgba(216,90,48,0.25); }
+  .verdict-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+  .verdict-card.works .verdict-label { color: var(--teal-dark); }
+  .verdict-card.doesnt .verdict-label { color: var(--coral); }
+  .verdict-card h3 { font-family: var(--font-display); font-size: 22px; margin-bottom: 14px; }
+  .verdict-items { display: flex; flex-direction: column; gap: 10px; }
+  .verdict-item { padding: 10px 14px; border-radius: 8px; font-size: 15px; line-height: 1.5; }
+  .verdict-card.works .verdict-item { background: rgba(29,158,117,0.1); color: var(--teal-dark); }
+  .verdict-card.doesnt .verdict-item { background: rgba(216,90,48,0.1); color: #4A1B0C; }
+
+  /* AI TYPES */
+  .ai-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 2rem; }
+  .ai-type { background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .ai-type .icon { font-size: 22px; margin-bottom: 10px; display: block; }
+  .ai-type h4 { font-family: var(--font-display); font-size: 19px; margin-bottom: 6px; }
+  .ai-type p { font-size: 15px; color: var(--ink-2); line-height: 1.65; }
+  .ai-type .verdict { font-family: var(--font-mono); font-size: 11px; margin-top: 12px; padding: 4px 10px; border-radius: 4px; display: inline-block; }
+  .verdict-good { background: var(--teal-light); color: var(--teal-dark); }
+  .verdict-caution { background: var(--amber-light); color: var(--amber); }
+  .verdict-concern { background: var(--coral-light); color: var(--coral); }
+
+  /* THE BYPASS PROBLEM */
+  .bypass-box { margin-top: 2rem; background: var(--ink); border-radius: 16px; padding: 36px; }
+  .bypass-box h3 { font-family: var(--font-display); font-size: 26px; color: var(--paper); margin-bottom: 16px; }
+  .bypass-box p { font-size: 16px; color: rgba(247,244,239,0.72); line-height: 1.85; max-width: 640px; }
+  .bypass-box p + p { margin-top: 14px; }
+  .bypass-box .highlight { color: var(--teal); }
+
+  /* RESEARCH QUESTIONS */
+  .rq-list { display: flex; flex-direction: column; gap: 12px; margin-top: 1.5rem; }
+  .rq-item { padding: 18px 20px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 10px; display: flex; gap: 16px; align-items: flex-start; }
+  .rq-num { font-family: var(--font-mono); font-size: 11px; color: var(--teal); flex-shrink: 0; margin-top: 3px; letter-spacing: 0.06em; }
+  .rq-item p { font-size: 16px; color: var(--ink-2); line-height: 1.7; }
+
+  .research-note { margin-top: 48px; padding: 20px 24px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; }
+  .research-note p { font-size: 14px; color: var(--ink-3); line-height: 1.7; }
+
+  .cta-strip { margin-top: 48px; background: var(--ink); border-radius: 16px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-strip h3 { font-family: var(--font-display); font-size: 22px; color: var(--paper); }
+  .cta-strip p { font-size: 15px; color: rgba(247,244,239,0.6); margin-top: 4px; }
+  .btn-teal { background: var(--teal); color: white; padding: 11px 24px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+  .btn-teal:hover { background: var(--teal-dark); }
+
+  @media (max-width: 640px) {
+    .verdict-grid { grid-template-columns: 1fr; }
+    .ai-types { grid-template-columns: 1fr; }
+    .cta-strip { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Coming soon</h1>
-  <p>This page is under construction.</p>
-  <a href="../index.html">Back to home</a>
-</div>
+
+<nav>
+  <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+  <div class="nav-links">
+    <a href="../index.html#topics" class="active">Topics</a>
+    <a href="analytics.html">Data</a>
+    <a href="about.html">About</a>
+    <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <p class="breadcrumb"><a href="../index.html">SRLens</a> → Topics → AI & Learning</p>
+  <h1>AI in education: what <em>actually works</em> and what does not</h1>
+  <p>AI tools are spreading faster in education than our understanding of their effects. The research on AI and self-regulated learning is young but already revealing clear patterns about when AI supports learning and when it undermines it.</p>
+  <div class="header-meta">
+    <span class="meta-pill">EdAI research</span>
+    <span class="meta-pill">ITS systems</span>
+    <span class="meta-pill">LLMs in education</span>
+    <span class="meta-pill">SRL implications</span>
+  </div>
+</header>
+
+<main class="content">
+
+  <div class="section">
+    <p class="section-label">The evidence so far</p>
+    <h2>What works and what does not</h2>
+    <p>Two decades of research on intelligent tutoring systems and the emerging research on large language models in education tells a nuanced story. AI can genuinely support learning in specific, well-designed contexts. It can also actively harm self-regulation when it removes the productive struggle that builds metacognitive skill.</p>
+
+    <div class="verdict-grid">
+      <div class="verdict-card works">
+        <p class="verdict-label">Evidence supports</p>
+        <h3>What works</h3>
+        <div class="verdict-items">
+          <div class="verdict-item">Immediate, specific feedback on errors during practice</div>
+          <div class="verdict-item">Adaptive difficulty that keeps students in the zone of proximal development</div>
+          <div class="verdict-item">Prompting metacognitive reflection after tasks</div>
+          <div class="verdict-item">Spaced repetition systems for vocabulary and factual knowledge</div>
+          <div class="verdict-item">Natural language explanations of why an answer is wrong</div>
+        </div>
+      </div>
+      <div class="verdict-card doesnt">
+        <p class="verdict-label">Evidence raises concerns</p>
+        <h3>What does not</h3>
+        <div class="verdict-items">
+          <div class="verdict-item">AI that completes tasks for students rather than scaffolding them</div>
+          <div class="verdict-item">Chatbots that answer questions without prompting the student to think first</div>
+          <div class="verdict-item">Replacing writing practice with AI-generated drafts</div>
+          <div class="verdict-item">Automated grading without explanation or human review</div>
+          <div class="verdict-item">Systems that remove struggle entirely in the name of efficiency</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Types of AI in education</p>
+    <h2>Not all AI tools are the same</h2>
+
+    <div class="ai-types">
+      <div class="ai-type">
+        <span class="icon">🧩</span>
+        <h4>Intelligent tutoring systems</h4>
+        <p>Rule-based adaptive systems like Carnegie Learning have 30 years of research behind them. Strong evidence for mathematics and language learning when used for practice, not instruction.</p>
+        <span class="verdict verdict-good">Strong evidence base</span>
+      </div>
+      <div class="ai-type">
+        <span class="icon">💬</span>
+        <h4>Large language models</h4>
+        <p>GPT-class models used as tutors or writing aids. Highly flexible but research is early. Key concern: students who use LLMs for answers rather than scaffolding show weaker metacognitive development.</p>
+        <span class="verdict verdict-caution">Mixed early evidence</span>
+      </div>
+      <div class="ai-type">
+        <span class="icon">📊</span>
+        <h4>Learning analytics</h4>
+        <p>AI systems that monitor student behavior and flag at-risk learners for intervention. Most promising when insights go to educators, not just automated systems, and when they include psychological context.</p>
+        <span class="verdict verdict-good">Promising with caveats</span>
+      </div>
+      <div class="ai-type">
+        <span class="icon">✍️</span>
+        <h4>AI writing tools</h4>
+        <p>Tools that generate, edit, or evaluate writing. The concern for SRL is acute: writing is one of the primary contexts where students develop planning, monitoring, and revision skills.</p>
+        <span class="verdict verdict-concern">Significant SRL risk</span>
+      </div>
+      <div class="ai-type">
+        <span class="icon">🎮</span>
+        <h4>Adaptive learning platforms</h4>
+        <p>Platforms like Duolingo that personalize content sequence and difficulty. Effective for skill building but rarely address the motivational and metacognitive dimensions of learning explicitly.</p>
+        <span class="verdict verdict-caution">Skill-focused only</span>
+      </div>
+      <div class="ai-type">
+        <span class="icon">🔍</span>
+        <h4>AI assessment tools</h4>
+        <p>Automated essay scoring and formative assessment. Useful for rapid feedback at scale but current models struggle with higher-order thinking and can reinforce surface-level writing strategies.</p>
+        <span class="verdict verdict-caution">Use with human review</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The central problem</p>
+    <div class="bypass-box">
+      <h3>The bypass problem</h3>
+      <p>The most significant risk of AI in education is not that it gives wrong answers. It is that it removes the productive cognitive struggle that builds self-regulation. <span class="highlight">Learning requires effort. Metacognition develops through repeated cycles of planning, monitoring failure, and adjusting.</span> An AI that removes that cycle, however helpfully intended, removes the conditions under which self-regulated learning develops.</p>
+      <p>The design question for every educational AI tool is not "does it help students get the right answer?" but "does it build or erode the student's capacity to regulate their own learning over time?" These are very different questions with very different answers depending on how the tool is designed.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Open research questions</p>
+    <h2>What we still do not know</h2>
+
+    <div class="rq-list">
+      <div class="rq-item">
+        <span class="rq-num">RQ 01</span>
+        <p>Does using LLMs as study aids increase or decrease metacognitive accuracy over time? No longitudinal study has answered this cleanly yet.</p>
+      </div>
+      <div class="rq-item">
+        <span class="rq-num">RQ 02</span>
+        <p>Can AI systems detect motivational states from behavioral signals accurately enough to trigger useful interventions? Current models have high false-positive rates.</p>
+      </div>
+      <div class="rq-item">
+        <span class="rq-num">RQ 03</span>
+        <p>How do cultural differences in self-regulation interact with AI tool design? Most EdAI research is conducted in Western, English-speaking contexts.</p>
+      </div>
+      <div class="rq-item">
+        <span class="rq-num">RQ 04</span>
+        <p>What design features of AI tutors specifically support the forethought and self-reflection phases of Zimmerman's SRL cycle, not just the performance phase?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="research-note">
+    <p><strong style="color:var(--ink)">Primary sources</strong> — VanLehn, K. (2011). The relative effectiveness of human tutoring, intelligent tutoring systems, and other tutoring systems. Educational Psychologist, 46(4), 197-221. Zawacki-Richter, O., et al. (2019). Systematic review of research on artificial intelligence applications in higher education. International Journal of Educational Technology in Higher Education, 16, 39. Kasneci, E., et al. (2023). ChatGPT for good? On opportunities and challenges of large language models for education. Learning and Individual Differences, 103, 102274.</p>
+  </div>
+
+  <div class="cta-strip">
+    <div>
+      <h3>Experience AI tutoring done right</h3>
+      <p>SRLens AI prompts reflection rather than giving answers. See the difference.</p>
+    </div>
+    <a href="ai-tool.html" class="btn-teal">Try SRLens AI</a>
+  </div>
+
+</main>
 </body>
 </html>

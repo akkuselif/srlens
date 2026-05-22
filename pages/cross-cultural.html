@@ -3,22 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SRLens — Coming soon</title>
+<title>SRLens — Cross-Cultural Learning</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  body { font-family: 'DM Sans', sans-serif; background: #f7f4ef; color: #1a1814; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-  .wrap { text-align: center; }
-  h1 { font-family: 'DM Serif Display', serif; font-size: 32px; margin-bottom: 12px; }
-  p { color: #8a8780; margin-bottom: 24px; font-size: 20px; }
-  a { color: #1D9E75; text-decoration: none; font-size: 18px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
+    --paper: #f7f4ef; --paper-2: #ede9e2; --paper-3: #e2ddd5;
+    --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --amber: #c8821a; --amber-light: #faecd4;
+    --purple: #534AB7; --purple-light: #eeedfe;
+    --coral: #D85A30; --coral-light: #faece7;
+    --border: rgba(26,24,20,0.12);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; overflow-x: hidden; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+  .nav-logo { font-family: var(--font-display); font-size: 20px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--teal) !important; }
+
+  .page-header { max-width: 920px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .page-header h1 em { color: var(--coral); font-style: italic; }
+  .page-header p { font-size: 17px; color: var(--ink-2); max-width: 580px; line-height: 1.8; }
+  .header-meta { display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
+  .meta-pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); color: var(--ink-2); }
+
+  .content { max-width: 920px; margin: 0 auto; padding: 0 2rem 80px; }
+  .section { margin-top: 64px; }
+  .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1rem; }
+  .section h2 { font-family: var(--font-display); font-size: 30px; letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.2; }
+  .section p { font-size: 17px; color: var(--ink-2); line-height: 1.85; max-width: 680px; }
+  .section p + p { margin-top: 14px; }
+
+  /* CHART */
+  .chart-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-top: 2rem; }
+  .chart-card h3 { font-family: var(--font-display); font-size: 22px; margin-bottom: 6px; }
+  .chart-card p { font-size: 14px; color: var(--ink-3); margin-bottom: 20px; }
+  .chart-wrap { position: relative; height: 280px; }
+
+  /* REGION CARDS */
+  .region-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 2rem; }
+  .region-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .region-card .region-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; display: block; }
+  .region-card h4 { font-family: var(--font-display); font-size: 20px; margin-bottom: 8px; }
+  .region-card p { font-size: 15px; color: var(--ink-2); line-height: 1.7; }
+
+  /* FINDINGS */
+  .findings { display: flex; flex-direction: column; gap: 14px; margin-top: 1.5rem; }
+  .finding-row { display: grid; grid-template-columns: 80px 1fr; gap: 20px; align-items: start; padding: 20px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; }
+  .finding-num { font-family: var(--font-display); font-size: 36px; color: var(--teal); line-height: 1; }
+  .finding-row h4 { font-size: 17px; font-weight: 500; margin-bottom: 4px; }
+  .finding-row p { font-size: 15px; color: var(--ink-2); line-height: 1.7; }
+
+  /* QUOTE */
+  .quote-block { margin-top: 2rem; border-left: 3px solid var(--coral); padding: 16px 20px; background: var(--coral-light); border-radius: 0 10px 10px 0; }
+  .quote-block p { font-family: var(--font-display); font-size: 18px; color: #4A1B0C; font-style: italic; line-height: 1.65; }
+  .quote-block cite { font-size: 13px; color: var(--coral); font-style: normal; font-family: var(--font-mono); display: block; margin-top: 8px; }
+
+  /* PISA CALLOUT */
+  .pisa-callout { margin-top: 2rem; background: var(--ink); border-radius: 16px; padding: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  .pisa-callout h3 { font-family: var(--font-display); font-size: 24px; color: var(--paper); margin-bottom: 12px; }
+  .pisa-callout p { font-size: 15px; color: rgba(247,244,239,0.7); line-height: 1.8; }
+  .pisa-stat { text-align: center; }
+  .pisa-stat .big { font-family: var(--font-display); font-size: 64px; color: var(--teal); line-height: 1; }
+  .pisa-stat p { font-size: 14px; color: rgba(247,244,239,0.55); margin-top: 8px; line-height: 1.6; }
+
+  .research-note { margin-top: 48px; padding: 20px 24px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; }
+  .research-note p { font-size: 14px; color: var(--ink-3); line-height: 1.7; }
+
+  .cta-strip { margin-top: 48px; background: var(--ink); border-radius: 16px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-strip h3 { font-family: var(--font-display); font-size: 22px; color: var(--paper); }
+  .cta-strip p { font-size: 15px; color: rgba(247,244,239,0.6); margin-top: 4px; }
+  .btn-teal { background: var(--teal); color: white; padding: 11px 24px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+  .btn-teal:hover { background: var(--teal-dark); }
+
+  @media (max-width: 640px) {
+    .region-grid { grid-template-columns: 1fr; }
+    .finding-row { grid-template-columns: 1fr; }
+    .pisa-callout { grid-template-columns: 1fr; }
+    .cta-strip { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Coming soon</h1>
-  <p>This page is under construction.</p>
-  <a href="../index.html">Back to home</a>
-</div>
+
+<nav>
+  <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+  <div class="nav-links">
+    <a href="../index.html#topics" class="active">Topics</a>
+    <a href="analytics.html">Data</a>
+    <a href="about.html">About</a>
+    <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <p class="breadcrumb"><a href="../index.html">SRLens</a> → Topics → Cross-Cultural Learning</p>
+  <h1>Does self-regulation work the <em>same everywhere?</em></h1>
+  <p>PISA 2022 surveyed over 690,000 students across 80 countries on motivation, self-efficacy, and learning strategies. The data reveals both universal patterns and striking cultural differences in how students regulate their learning.</p>
+  <div class="header-meta">
+    <span class="meta-pill">PISA 2022</span>
+    <span class="meta-pill">80 countries</span>
+    <span class="meta-pill">690,000 students</span>
+    <span class="meta-pill">Comparative research</span>
+  </div>
+</header>
+
+<main class="content">
+
+  <div class="section">
+    <p class="section-label">PISA 2022 data</p>
+    <h2>Self-efficacy across regions</h2>
+    <p>Academic self-efficacy, the belief in your ability to succeed on a specific task, varies dramatically across countries. East Asian education systems consistently show a paradox: high performance alongside surprisingly low self-efficacy. Western systems show the reverse pattern in some contexts.</p>
+
+    <div class="chart-card">
+      <h3>Mean self-efficacy scores by region</h3>
+      <p>PISA 2022 mathematics self-efficacy scale, regional averages, higher scores indicate stronger belief in capability</p>
+      <div class="chart-wrap">
+        <canvas id="chart-efficacy" role="img" aria-label="Bar chart showing self-efficacy scores across world regions"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Regional patterns</p>
+    <h2>Four distinct cultural approaches</h2>
+
+    <div class="region-grid">
+      <div class="region-card">
+        <span class="region-tag">East Asia</span>
+        <h4>High performance, low self-report</h4>
+        <p>Students in Japan, South Korea, and Singapore consistently outperform on assessments but report lower enjoyment and self-efficacy than their scores would suggest. Effort attribution over ability attribution is culturally embedded.</p>
+      </div>
+      <div class="region-card">
+        <span class="region-tag">Northern Europe</span>
+        <h4>Autonomy-supportive environments</h4>
+        <p>Scandinavian education systems emphasize student autonomy and intrinsic motivation. Students report higher enjoyment of learning and show strong self-regulation, particularly in planning and monitoring behaviors.</p>
+      </div>
+      <div class="region-card">
+        <span class="region-tag">Latin America</span>
+        <h4>Relatedness-driven motivation</h4>
+        <p>Students in Brazil, Chile, and Colombia report high relatedness and belonging in school contexts. Social motivation is a stronger predictor of engagement than in individualistic Western contexts.</p>
+      </div>
+      <div class="region-card">
+        <span class="region-tag">Southeast Asia</span>
+        <h4>Mixed regulatory profiles</h4>
+        <p>Countries like Indonesia and the Philippines show diverse SRL profiles within populations, reflecting transitional educational systems combining collectivist values with increasingly individualized learning contexts.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Key findings</p>
+    <h2>What the cross-national data shows</h2>
+
+    <div class="findings">
+      <div class="finding-row">
+        <div class="finding-num">01</div>
+        <div>
+          <h4>SRL strategies are universal but their use is not</h4>
+          <p>All cultures produce students who plan, monitor, and reflect. But the frequency, context, and form these strategies take varies significantly by educational system, cultural values, and teacher practice.</p>
+        </div>
+      </div>
+      <div class="finding-row">
+        <div class="finding-num">02</div>
+        <div>
+          <h4>The self-efficacy paradox</h4>
+          <p>High-performing East Asian students consistently underestimate their own ability relative to their actual performance. This challenges Western assumptions that high self-efficacy is a prerequisite for high achievement.</p>
+        </div>
+      </div>
+      <div class="finding-row">
+        <div class="finding-num">03</div>
+        <div>
+          <h4>Gender gaps differ by country</h4>
+          <p>The gender gap in mathematics anxiety is present in almost every PISA country, but its size and direction vary. In some countries girls report significantly higher anxiety than boys despite similar performance. In others the gap is minimal.</p>
+        </div>
+      </div>
+      <div class="finding-row">
+        <div class="finding-num">04</div>
+        <div>
+          <h4>Socioeconomic status moderates SRL</h4>
+          <p>Across all countries, students from higher socioeconomic backgrounds show stronger self-regulation skills. But the strength of this relationship varies: some systems partially buffer SES effects while others amplify them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="quote-block">
+      <p>"The assumption that Western psychological models of motivation and self-regulation apply universally is one of the most consequential untested assumptions in educational research."</p>
+      <cite>Adapted from cross-cultural educational psychology literature, PISA 2022 conceptual framework.</cite>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Coming in 2026</p>
+    <div class="pisa-callout">
+      <div>
+        <h3>PISA 2025 will change this field</h3>
+        <p>For the first time, PISA 2025 includes process-level measures of self-regulated learning across all participating countries, capturing motivation, emotion regulation, and metacognitive monitoring as dynamic processes rather than static traits.</p>
+        <p>The analysis pipeline for cross-national SRL profile comparison is already built and ready. Results expected late 2026.</p>
+      </div>
+      <div class="pisa-stat">
+        <div class="big">80+</div>
+        <p>countries will have comparable SRL process data for the first time in PISA 2025</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="research-note">
+    <p><strong style="color:var(--ink)">Primary sources</strong> — OECD (2023). PISA 2022 Results. Volumes I-VII. OECD Publishing. Heine, S. J., Lehman, D. R., Markus, H. R., & Kitayama, S. (1999). Is there a universal need for positive self-regard? Psychological Review, 106(4), 766-794. Elliot, A. J., Chirkov, V. I., Kim, Y., & Sheldon, K. M. (2001). A cross-cultural analysis of avoidance personal goals. Psychological Science, 12(6), 505-510.</p>
+  </div>
+
+  <div class="cta-strip">
+    <div>
+      <h3>How does your learning compare?</h3>
+      <p>The SRLens AI assessment identifies your profile using the same constructs measured in PISA 2022.</p>
+    </div>
+    <a href="ai-tool.html" class="btn-teal">Take the assessment</a>
+  </div>
+
+</main>
+
+<script>
+const ctx = document.getElementById('chart-efficacy').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Northern Europe', 'North America', 'Western Europe', 'Latin America', 'Southeast Asia', 'East Asia'],
+    datasets: [{
+      data: [3.4, 3.2, 3.1, 2.9, 2.7, 2.5],
+      backgroundColor: ['#1D9E75cc','#1D9E75aa','#1D9E7588','#EF9F27aa','#EF9F2788','#534AB7aa'],
+      borderColor: ['#1D9E75','#1D9E75','#1D9E75','#EF9F27','#EF9F27','#534AB7'],
+      borderWidth: 1, borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { min: 0, max: 4, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { font: { size: 12 }, color: '#8a8780' },
+           title: { display: true, text: 'Mean self-efficacy score (PISA scale)', font: { size: 12 }, color: '#8a8780' } },
+      y: { grid: { display: false }, ticks: { font: { size: 13 }, color: '#4a4740' } }
+    }
+  }
+});
+</script>
 </body>
 </html>

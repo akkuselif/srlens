@@ -3,22 +3,284 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SRLens — Coming soon</title>
+<title>SRLens — Motivation & Emotion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'DM Sans', sans-serif; background: #f7f4ef; color: #1a1814; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-  .wrap { text-align: center; }
-  h1 { font-family: 'DM Serif Display', serif; font-size: 32px; margin-bottom: 12px; }
-  p { color: #8a8780; margin-bottom: 24px; font-size: 20px; }
-  a { color: #1D9E75; text-decoration: none; font-size: 18px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
+    --paper: #f7f4ef; --paper-2: #ede9e2; --paper-3: #e2ddd5;
+    --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --amber: #c8821a; --amber-light: #faecd4;
+    --purple: #534AB7; --purple-light: #eeedfe;
+    --coral: #D85A30; --coral-light: #faece7;
+    --border: rgba(26,24,20,0.12);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; overflow-x: hidden; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+  .nav-logo { font-family: var(--font-display); font-size: 20px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--teal) !important; }
+
+  .page-header { max-width: 920px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .page-header h1 em { color: var(--purple); font-style: italic; }
+  .page-header p { font-size: 17px; color: var(--ink-2); max-width: 580px; line-height: 1.8; }
+  .header-meta { display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
+  .meta-pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); color: var(--ink-2); }
+
+  .content { max-width: 920px; margin: 0 auto; padding: 0 2rem 80px; }
+  .section { margin-top: 64px; }
+  .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1rem; }
+  .section h2 { font-family: var(--font-display); font-size: 30px; letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.2; }
+  .section p { font-size: 17px; color: var(--ink-2); line-height: 1.85; max-width: 680px; }
+  .section p + p { margin-top: 14px; }
+
+  /* SDT DIAGRAM */
+  .sdt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 2rem; }
+  .sdt-card { border-radius: 14px; padding: 28px; border: 2px solid transparent; cursor: pointer; transition: all 0.2s; }
+  .sdt-card:hover { transform: translateY(-2px); }
+  .sdt-card.autonomy { background: var(--teal-light); border-color: rgba(29,158,117,0.2); }
+  .sdt-card.autonomy:hover { border-color: var(--teal); }
+  .sdt-card.competence { background: var(--purple-light); border-color: rgba(83,74,183,0.2); }
+  .sdt-card.competence:hover { border-color: var(--purple); }
+  .sdt-card.relatedness { background: var(--amber-light); border-color: rgba(200,130,26,0.2); }
+  .sdt-card.relatedness:hover { border-color: var(--amber); }
+  .sdt-card .need-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .sdt-card.autonomy .need-label { color: var(--teal); }
+  .sdt-card.competence .need-label { color: var(--purple); }
+  .sdt-card.relatedness .need-label { color: var(--amber); }
+  .sdt-card h3 { font-family: var(--font-display); font-size: 24px; margin-bottom: 10px; }
+  .sdt-card p { font-size: 15px; color: var(--ink-2); line-height: 1.7; }
+
+  /* INTRINSIC VS EXTRINSIC */
+  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 2rem; }
+  .comp-card { border-radius: 14px; padding: 28px; }
+  .comp-card.intrinsic { background: var(--ink); }
+  .comp-card.extrinsic { background: var(--paper-2); border: 1px solid var(--border); }
+  .comp-card h3 { font-family: var(--font-display); font-size: 24px; margin-bottom: 12px; }
+  .comp-card.intrinsic h3 { color: var(--paper); }
+  .comp-card.intrinsic p { font-size: 16px; color: rgba(247,244,239,0.7); line-height: 1.75; }
+  .comp-card.extrinsic p { font-size: 16px; color: var(--ink-2); line-height: 1.75; }
+  .comp-card .examples { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .example-item { padding: 10px 14px; border-radius: 8px; font-size: 14px; }
+  .comp-card.intrinsic .example-item { background: rgba(247,244,239,0.08); color: rgba(247,244,239,0.8); }
+  .comp-card.extrinsic .example-item { background: var(--paper); border: 1px solid var(--border); color: var(--ink-2); }
+
+  /* QUOTE */
+  .quote-block { margin-top: 2rem; border-left: 3px solid var(--purple); padding: 16px 20px; background: var(--purple-light); border-radius: 0 10px 10px 0; }
+  .quote-block p { font-family: var(--font-display); font-size: 18px; color: #26215C; font-style: italic; line-height: 1.65; }
+  .quote-block cite { font-size: 13px; color: var(--purple); font-style: normal; font-family: var(--font-mono); display: block; margin-top: 8px; }
+
+  /* EMOTION SECTION */
+  .emotion-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 1.5rem; }
+  .emotion-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .emotion-card .icon { font-size: 24px; margin-bottom: 10px; display: block; }
+  .emotion-card h4 { font-family: var(--font-display); font-size: 20px; margin-bottom: 6px; }
+  .emotion-card p { font-size: 15px; color: var(--ink-2); line-height: 1.7; }
+
+  /* CONTINUUM */
+  .continuum { margin-top: 2rem; background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; }
+  .continuum h3 { font-family: var(--font-display); font-size: 22px; margin-bottom: 20px; }
+  .continuum-bar { position: relative; height: 8px; background: linear-gradient(to right, #D85A30, #EF9F27, #1D9E75); border-radius: 4px; margin: 32px 0 16px; }
+  .continuum-labels { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-3); font-family: var(--font-mono); }
+  .continuum-points { display: flex; justify-content: space-between; margin-top: 20px; gap: 8px; }
+  .continuum-point { flex: 1; text-align: center; }
+  .continuum-point .point-label { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .continuum-point .point-desc { font-size: 12px; color: var(--ink-3); line-height: 1.4; }
+
+  /* RESEARCH NOTE */
+  .research-note { margin-top: 48px; padding: 20px 24px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; }
+  .research-note p { font-size: 14px; color: var(--ink-3); line-height: 1.7; }
+
+  /* CTA */
+  .cta-strip { margin-top: 48px; background: var(--ink); border-radius: 16px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-strip h3 { font-family: var(--font-display); font-size: 22px; color: var(--paper); }
+  .cta-strip p { font-size: 15px; color: rgba(247,244,239,0.6); margin-top: 4px; }
+  .btn-teal { background: var(--teal); color: white; padding: 11px 24px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+  .btn-teal:hover { background: var(--teal-dark); }
+
+  @media (max-width: 640px) {
+    .sdt-grid { grid-template-columns: 1fr; }
+    .comparison { grid-template-columns: 1fr; }
+    .emotion-grid { grid-template-columns: 1fr; }
+    .cta-strip { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Coming soon</h1>
-  <p>This page is under construction.</p>
-  <a href="../index.html">Back to home</a>
-</div>
+
+<nav>
+  <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+  <div class="nav-links">
+    <a href="../index.html#topics" class="active">Topics</a>
+    <a href="analytics.html">Data</a>
+    <a href="about.html">About</a>
+    <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <p class="breadcrumb"><a href="../index.html">SRLens</a> → Topics → Motivation & Emotion</p>
+  <h1>Why students learn: <em>motivation, emotion,</em> and what drives behavior</h1>
+  <p>Motivation is not a fixed trait you either have or lack. It is a dynamic psychological state shaped by beliefs, context, and emotional experience. Understanding it changes how you teach, study, and design learning environments.</p>
+  <div class="header-meta">
+    <span class="meta-pill">Deci & Ryan, 1985</span>
+    <span class="meta-pill">Pintrich, 2003</span>
+    <span class="meta-pill">Pekrun, 2006</span>
+    <span class="meta-pill">PISA 2022</span>
+  </div>
+</header>
+
+<main class="content">
+
+  <div class="section">
+    <p class="section-label">Self-determination theory</p>
+    <h2>Three basic psychological needs</h2>
+    <p>Deci and Ryan's self-determination theory (1985) proposes that human motivation is rooted in three universal psychological needs. When these needs are met, intrinsic motivation flourishes. When they are thwarted, motivation becomes controlled or disappears entirely.</p>
+
+    <div class="sdt-grid">
+      <div class="sdt-card autonomy">
+        <p class="need-label">Need 1</p>
+        <h3>Autonomy</h3>
+        <p>The need to feel that your actions are self-initiated and aligned with your values. Students who have choice over how they learn show higher intrinsic motivation and deeper engagement than those given no agency.</p>
+      </div>
+      <div class="sdt-card competence">
+        <p class="need-label">Need 2</p>
+        <h3>Competence</h3>
+        <p>The need to feel effective and capable in your interactions with the environment. Optimal challenge, where tasks are neither too easy nor overwhelming, is the condition under which competence and motivation grow together.</p>
+      </div>
+      <div class="sdt-card relatedness">
+        <p class="need-label">Need 3</p>
+        <h3>Relatedness</h3>
+        <p>The need to feel connected to others. Even in individualistic academic contexts, students who feel a sense of belonging and care from teachers and peers are significantly more motivated to engage with learning.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Intrinsic vs extrinsic motivation</p>
+    <h2>Not a binary, but a continuum</h2>
+    <p>A common misconception is that motivation is either intrinsic (good) or extrinsic (bad). SDT describes a continuum of regulation, from purely external control to fully internalized motivation. The goal is not to eliminate external motivators but to support internalization over time.</p>
+
+    <div class="comparison">
+      <div class="comp-card intrinsic">
+        <h3>Intrinsic motivation</h3>
+        <p>Engaging in an activity for its own sake because it is inherently interesting, enjoyable, or satisfying. Produces deeper learning, greater creativity, and better long-term retention.</p>
+        <div class="examples">
+          <div class="example-item">Reading beyond what is assigned because you are curious</div>
+          <div class="example-item">Spending extra time on a problem because it is genuinely interesting</div>
+          <div class="example-item">Returning to a subject months later for pleasure</div>
+        </div>
+      </div>
+      <div class="comp-card extrinsic">
+        <h3>Extrinsic motivation</h3>
+        <p>Engaging in an activity to obtain a separable outcome such as a grade, reward, or to avoid punishment. Not inherently harmful, but can undermine intrinsic interest if poorly designed.</p>
+        <div class="examples">
+          <div class="example-item">Studying the night before an exam to avoid failing</div>
+          <div class="example-item">Completing assignments only when they are graded</div>
+          <div class="example-item">Participating in class to get participation points</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="continuum">
+      <h3>The motivational continuum</h3>
+      <div class="continuum-bar"></div>
+      <div class="continuum-labels">
+        <span>Amotivation</span>
+        <span>Fully internalized</span>
+      </div>
+      <div class="continuum-points">
+        <div class="continuum-point">
+          <p class="point-label">Amotivation</p>
+          <p class="point-desc">No intention to act</p>
+        </div>
+        <div class="continuum-point">
+          <p class="point-label">External</p>
+          <p class="point-desc">Rewards and punishments</p>
+        </div>
+        <div class="continuum-point">
+          <p class="point-label">Introjected</p>
+          <p class="point-desc">Guilt and ego involvement</p>
+        </div>
+        <div class="continuum-point">
+          <p class="point-label">Identified</p>
+          <p class="point-desc">Personal importance</p>
+        </div>
+        <div class="continuum-point">
+          <p class="point-label">Integrated</p>
+          <p class="point-desc">Aligned with values</p>
+        </div>
+        <div class="continuum-point">
+          <p class="point-label">Intrinsic</p>
+          <p class="point-desc">Pure interest and enjoyment</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="quote-block">
+      <p>"The most important question in education is not how to motivate students, but how to avoid demotivating them."</p>
+      <cite>Adapted from Deci, E. L., & Ryan, R. M. (1985). Intrinsic motivation and self-determination in human behavior.</cite>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Academic emotions</p>
+    <h2>How emotions shape learning</h2>
+    <p>Reinhard Pekrun's control-value theory (2006) proposed that academic emotions, the emotions students experience in achievement contexts, are among the most powerful and underappreciated influences on learning. Emotions affect attention, memory encoding, strategy use, and self-regulation directly.</p>
+
+    <div class="emotion-grid">
+      <div class="emotion-card">
+        <span class="icon">⚡</span>
+        <h4>Activating positive emotions</h4>
+        <p>Enjoyment, curiosity, and pride activate engagement and support deep processing. Students experiencing enjoyment in learning use more elaborative strategies and show better retention.</p>
+      </div>
+      <div class="emotion-card">
+        <span class="icon">🔒</span>
+        <h4>Deactivating negative emotions</h4>
+        <p>Boredom and hopelessness reduce cognitive engagement and lead to surface processing. Boredom is the most common academic emotion reported by students and is strongly linked to disengagement.</p>
+      </div>
+      <div class="emotion-card">
+        <span class="icon">⚠️</span>
+        <h4>Activating negative emotions</h4>
+        <p>Anxiety and shame activate arousal but direct cognitive resources toward threat monitoring rather than learning. Test anxiety specifically impairs working memory during high-stakes performance.</p>
+      </div>
+      <div class="emotion-card">
+        <span class="icon">🌍</span>
+        <h4>Cross-cultural patterns</h4>
+        <p>PISA 2022 data across 80 countries shows that anxiety about mathematics is nearly universal, but its relationship to performance varies significantly by cultural context and gender.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="research-note">
+    <p><strong style="color:var(--ink)">Primary sources</strong> — Deci, E. L., & Ryan, R. M. (1985). Intrinsic motivation and self-determination in human behavior. Springer. Ryan, R. M., & Deci, E. L. (2000). Self-determination theory and the facilitation of intrinsic motivation. American Psychologist, 55(1), 68-78. Pekrun, R. (2006). The control-value theory of achievement emotions. Educational Psychology Review, 18(4), 315-341. Pintrich, P. R. (2003). A motivational science perspective on the role of student motivation in learning and teaching. Journal of Educational Psychology, 95(4), 667-686.</p>
+  </div>
+
+  <div class="cta-strip">
+    <div>
+      <h3>What motivates your learning?</h3>
+      <p>The SRLens AI assessment reveals your motivational profile alongside your SRL type.</p>
+    </div>
+    <a href="ai-tool.html" class="btn-teal">Take the assessment</a>
+  </div>
+
+</main>
 </body>
 </html>
