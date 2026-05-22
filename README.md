@@ -2,7 +2,7 @@
 
 > The science of how you learn — interactive visualizations and AI-powered tools grounded in Educational Psychology research.
 
-**Live site:** [srlens.netlify.app](https://srlens.netlify.app)
+**Live site:** [akkuselif.github.io/srlens](https://akkuselif.github.io/srlens)
 
 ---
 
@@ -10,7 +10,7 @@
 
 SRLens translates cutting-edge research on self-regulated learning (SRL), metacognition, and motivation into accessible interactive visualizations and AI-powered tools — no jargon, no paywalls.
 
-Built by a PhD candidate in Teacher Education & Learning Sciences (concentration: Educational Psychology) with an MS in Data Science & AI.
+Built by a PhD student in Teacher Education & Learning Sciences (concentration: Educational Psychology) with an MS in Data Science & AI.
 
 ---
 
@@ -77,7 +77,7 @@ srlens/
 ## Tech stack
 
 - Plain HTML, CSS, JavaScript — no framework needed yet
-- Hosted on Netlify (free tier)
+- Hosted on GitHub Pages (free)
 - AI tool powered by Claude API (Anthropic)
 - Visualizations: Chart.js + D3.js
 
