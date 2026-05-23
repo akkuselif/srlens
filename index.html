@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
   <meta property="og:title" content="SRLens, The Science of How You Learn">
-  <meta property="og:description" content="Explore self-regulated learning, metacognition, and motivation through interactive visualizations and a research-based learning profile assessment. Built by a researcher, grounded in evidence.">
+  <meta property="og:description" content="Explore self-regulated learning, metacognition, and motivation through interactive visualizations and AI-powered tools. Built by a researcher, grounded in evidence.">
   <meta property="og:image" content="https://akkuselif.github.io/srlens/og-image.png">
   <meta property="og:url" content="https://akkuselif.github.io/srlens/">
   <meta property="og:type" content="website">
@@ -42,7 +42,7 @@
     background: var(--paper);
     color: var(--ink);
     line-height: 1.7;
-    font-size: 22px;
+    font-size: 20px;
     overflow-x: hidden;
   }
 
@@ -51,24 +51,23 @@
   .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--ink); text-decoration: none; }
   .nav-logo span { color: var(--teal); }
   .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
-  .nav-links a { font-size: 15px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--teal); }
   .nav-links a.active { color: var(--teal); font-weight: 500; }
-  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 15px !important; font-weight: 500 !important; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
   .nav-cta:hover { background: var(--teal) !important; color: white !important; }
 
   /* HERO */
   .hero {
     max-width: 920px; margin: 0 auto;
     padding: 64px 2rem 48px;
-    padding-left: 2rem;
     border-bottom: 1px solid var(--border);
   }
   .hero-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px; letter-spacing: 0.1em;
-    color: var(--ink-3); text-transform: uppercase;
-    margin-bottom: 1.25rem;
+    font-family: var(--font-body);
+    font-size: 11px; letter-spacing: 0.12em;
+    color: var(--teal); text-transform: uppercase;
+    margin-bottom: 1rem;
   }
   .hero h1 {
     font-family: var(--font-display);
@@ -78,10 +77,10 @@
   }
   .hero h1 em { color: var(--teal); font-style: italic; }
   .hero-desc {
-    font-size: 19px; color: var(--ink-2);
-    line-height: 1.75; margin-bottom: 2rem; max-width: 720px;
+    font-size: 16px; color: var(--ink-2);
+    line-height: 1.75; margin-bottom: 2rem;
   }
-  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
   .btn-primary {
     background: var(--teal); color: white;
     padding: 10px 22px; border-radius: 8px;
@@ -300,10 +299,6 @@
     border: 1px solid var(--border); color: var(--ink-2);
   }
 
-  /* EP BRIDGE */
-  .ep-bridge { max-width: 920px; margin: 0 auto; padding: 16px 2rem 16px; padding-left: 2rem; text-align: center; }
-  .ep-bridge p { font-size: 19px; color: var(--ink-2); line-height: 1.85; max-width: 760px; margin: 0 auto; background: var(--paper-2); border-radius: 14px; padding: 20px 28px; box-shadow: 0 2px 16px rgba(26,24,20,0.07); }
-
   /* FOOTER */
   footer {
     border-top: 1px solid var(--border);
@@ -325,7 +320,8 @@
   }
 
   /* HOOK SECTION */
-  .hook-section { max-width: 920px; margin: 0 auto; padding: 40px 2rem 40px; }
+  .hook-section { max-width: 920px; margin: 0 auto; padding: 64px 2rem; }
+  .hook-intro { font-size: 18px; color: var(--ink-2); margin-bottom: 2rem; line-height: 1.7; }
   .hook-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 2rem; }
   .hook-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; text-decoration: none; color: inherit; display: block; transition: border-color 0.2s, transform 0.15s; }
   .hook-card:hover { border-color: var(--teal); transform: translateY(-2px); }
@@ -335,7 +331,7 @@
   .hook-link { font-size: 13px; color: var(--teal); font-weight: 500; }
 
   /* ENTRY SECTION */
-  .entry-section { max-width: 920px; margin: 0 auto; padding: 40px 2rem 64px; }
+  .entry-section { max-width: 920px; margin: 0 auto; padding: 64px 2rem; }
   .entry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 2rem; }
   .entry-card:last-child { grid-column: 1 / -1; max-width: 50%; margin: 0 auto; width: 100%; }
   .entry-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; text-decoration: none; color: inherit; display: block; transition: border-color 0.2s, transform 0.15s; }
@@ -378,13 +374,10 @@
   </div>
 </section>
 
-<div class="ep-bridge">
-  <p>None of this is random. Educational psychology has been studying these exact struggles for decades, and the findings are consistent across ages, subjects, and backgrounds. The patterns are well understood, and so are the strategies that actually help.</p>
-</div>
-
 <!-- HOOK -->
 <section class="hook-section">
   <p class="section-label">Sound familiar?</p>
+  <p class="hook-intro">These are not random failures. Each one has a name, a mechanism, and a research-backed explanation.</p>
   <div class="hook-grid">
     <a href="pages/metacognition.html" class="hook-card">
       <span class="hook-icon">📖</span>
@@ -412,15 +405,15 @@
   <p class="section-label">Explore SRLens</p>
   <div class="entry-grid">
     <a href="pages/srl.html" class="entry-card entry-featured">
-      <p class="entry-label">Core topic</p>
+      <p class="entry-label">Start here</p>
       <h3>What is self-regulated learning?</h3>
       <p>The research-backed framework that explains why some students consistently outperform others regardless of raw ability.</p>
       <span class="entry-link">Explore SRL →</span>
     </a>
     <a href="pages/ai-tool.html" class="entry-card">
-      <p class="entry-label">Learning Profile Assessment</p>
+      <p class="entry-label">AI tool</p>
       <h3>What type of learner are you?</h3>
-      <p>A research-based assessment that identifies your learning profile based on real research.</p>
+      <p>A short AI-powered assessment that identifies your learning profile based on real research.</p>
       <span class="entry-link">Take the assessment →</span>
     </a>
     <a href="pages/analytics.html" class="entry-card">
@@ -450,7 +443,7 @@
   </div>
   <div>
     <p>I built SRLens to explore the questions I work on every day as a researcher. How students learn, what motivates them, and what the data actually shows.</p>
-    <p>Every visualization is grounded in peer-reviewed research. No pseudoscience, no productivity-culture myths.</p>
+    <p>Everything here is grounded in peer-reviewed research. No pseudoscience, no productivity myths.</p>
     <div class="credential-pills">
       <span class="pill">EdPsych PhD student</span>
       <span class="pill">MS Data Science & AI</span>

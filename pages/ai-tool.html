@@ -6,11 +6,7 @@
 <title>SRLens — SRL Profile Assessment</title>
 <meta property="og:title" content="SRLens — Find Your Learning Profile">
 <meta property="og:description" content="A 10-question assessment based on Zimmerman's SRL model. Discover how you plan, monitor, and reflect on your own learning.">
-<meta property="og:image" content="https://akkuselif.github.io/srlens/og-image.png">
-<meta property="og:url" content="https://akkuselif.github.io/srlens/pages/ai-tool.html">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://akkuselif.github.io/srlens/og-image.png">
+<meta property="og:image" content="https://srlens.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -28,30 +24,29 @@
     --font-mono: 'DM Mono', monospace;
   }
   html { scroll-behavior: smooth; }
-  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 22px; min-height: 100vh; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; min-height: 100vh; }
 
   nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); }
   .nav-inner { max-width: 920px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
   .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--ink); text-decoration: none; }
   .nav-logo span { color: var(--teal); }
   .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
-  .nav-links a { font-size: 15px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--teal); }
-  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 15px !important; font-weight: 500 !important; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 13px !important; font-weight: 500 !important; }
   .nav-cta:hover { background: var(--teal) !important; color: white !important; }
 
-  .assessment-wrap { max-width: 920px; margin: 0 auto; padding: 64px 2rem 80px; padding-left: 2rem; }
+  .assessment-wrap { max-width: 680px; margin: 0 auto; padding: 48px 2rem 80px; }
 
   .screen { display: none; }
   .screen.active { display: block; animation: fadeIn 0.3s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .intro-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 1.25rem; }
-  .intro-eyebrow a { color: var(--teal); text-decoration: none; }
+  .intro-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; }
   .intro-title { font-family: var(--font-display); font-size: clamp(32px, 5vw, 48px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
   .intro-title em { color: var(--teal); font-style: italic; }
-  .intro-desc { font-size: 20px; color: var(--ink-2); line-height: 1.8; margin-bottom: 2rem; max-width: 720px; }
-  .intro-meta { display: flex; gap: 20px; margin-bottom: 2.5rem; flex-wrap: wrap; max-width: 720px; }
+  .intro-desc { font-size: 17px; color: var(--ink-2); line-height: 1.8; margin-bottom: 2rem; }
+  .intro-meta { display: flex; gap: 20px; margin-bottom: 2.5rem; flex-wrap: wrap; }
   .intro-meta-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-3); }
   .btn-start { background: var(--ink); color: var(--paper); padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 500; border: none; cursor: pointer; font-family: var(--font-body); transition: background 0.2s; }
   .btn-start:hover { background: var(--teal); }
@@ -113,13 +108,6 @@
   .btn-explore { background: var(--teal); color: white; border: none; padding: 12px 28px; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: var(--font-body); text-decoration: none; display: inline-block; transition: background 0.2s; margin-right: 12px; }
   .btn-explore:hover { background: var(--teal-dark); }
 
-  .consent-box { margin: 24px 0 20px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
-  .consent-box p { font-size: 14px; color: var(--ink-2); line-height: 1.7; margin-bottom: 14px; }
-  .consent-label { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 14px; color: var(--ink-2); line-height: 1.6; }
-  .consent-label input[type="checkbox"] { margin-top: 3px; accent-color: var(--teal); width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }
-  .btn-start { opacity: 0.4; pointer-events: none; }
-  .btn-start.enabled { opacity: 1; pointer-events: all; }
-
   @media (max-width: 640px) { .tips-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -141,22 +129,15 @@
 <div class="assessment-wrap">
 
   <div class="screen active" id="screen-intro">
-    <p class="intro-eyebrow"><a href="../index.html">SRLens</a> → Learning Profile Assessment</p>
+    <p class="intro-eyebrow">SRL Profile Assessment</p>
     <h1 class="intro-title">How do you <em>actually</em> learn?</h1>
     <p class="intro-desc">Ten questions grounded in Zimmerman's cyclical SRL model and Pintrich's motivational framework. You will find out how you plan before learning, monitor during it, and reflect afterward.</p>
     <div class="intro-meta">
       <div class="intro-meta-item"><span>⏱</span> 3 to 5 minutes</div>
-      <div class="intro-meta-item"><span>🔒</span> Anonymous</div>
+      <div class="intro-meta-item"><span>🔒</span> No data collected</div>
       <div class="intro-meta-item"><span>📋</span> 10 questions</div>
     </div>
-    <div class="consent-box">
-      <p>Your responses are anonymous. No names, emails, or identifying information are collected. Aggregated data from this assessment may be used in academic research on self-regulated learning.</p>
-      <label class="consent-label">
-        <input type="checkbox" id="consent-check" onchange="document.getElementById('btn-start').classList.toggle('enabled', this.checked)">
-        I understand my anonymous responses may be used for research purposes.
-      </label>
-    </div>
-    <button class="btn-start" id="btn-start" onclick="startAssessment()">Start the assessment</button>
+    <button class="btn-start" onclick="startAssessment()">Start the assessment</button>
     <div class="theory-note">Based on Zimmerman (2000), Pintrich (2004), and the Motivated Strategies for Learning Questionnaire (MSLQ).</div>
   </div>
 
@@ -194,7 +175,7 @@
       <div class="tips-grid" id="tips-grid"></div>
     </div>
     <div class="retake-row">
-      <a href="srl.html" class="btn-explore">Learn more about SRL</a>
+      <a id="profile-topic-link" href="srl.html" class="btn-explore">Learn more</a>
       <button class="btn-retake" onclick="retake()">Retake the assessment</button>
     </div>
   </div>
@@ -268,6 +249,7 @@ const QUESTIONS = [
 const PROFILES = {
   high_srl: {
     name: 'High SRL', color: '#1D9E75', bg: '#d0f0e4', textColor: '#085041',
+    topicLink: 'srl.html', topicLabel: 'Explore the SRL framework',
     subtitle: 'You actively regulate your own learning across all three phases of Zimmerman\'s cycle.',
     desc: '<h3>What this means</h3><p>You demonstrate strong self-regulated learning across planning, monitoring, and reflection. You set specific goals before studying, monitor your understanding in real time rather than relying on feeling, and systematically review what worked.</p><p>Research shows that learners with your profile consistently outperform peers with similar ability levels. The difference is not intelligence but metacognitive skill and deliberate strategy use.</p>',
     tips: [
@@ -279,6 +261,7 @@ const PROFILES = {
   },
   anxious: {
     name: 'Anxious Striver', color: '#EF9F27', bg: '#faecd4', textColor: '#412402',
+    topicLink: 'motivation.html', topicLabel: 'Read about motivation and anxiety',
     subtitle: 'You work hard and monitor closely, but anxiety shapes how you use that effort.',
     desc: '<h3>What this means</h3><p>You put in significant effort and pay close attention to your performance, but high anxiety and low self-efficacy beliefs may be redirecting that energy toward threat management rather than deep learning.</p><p>Pekrun\'s control-value theory explains this pattern: when you believe an outcome matters but doubt your ability to achieve it, activating negative emotions like anxiety emerge. These consume the cognitive resources you need for learning.</p>',
     tips: [
@@ -290,6 +273,7 @@ const PROFILES = {
   },
   surface: {
     name: 'Surface Learner', color: '#534AB7', bg: '#eeedfe', textColor: '#26215C',
+    topicLink: 'metacognition.html', topicLabel: 'Read about the illusion of knowing',
     subtitle: 'You engage with material but your strategies are working against long-term retention.',
     desc: '<h3>What this means</h3><p>You are engaged and willing to put in time, but your current strategies favor recognition over recall. Re-reading produces fluency and familiarity, which feel like understanding but are not the same thing. This is the illusion of knowing.</p><p>The good news is that strategy change produces rapid improvement. Switching from re-reading to retrieval practice typically produces large gains within weeks.</p>',
     tips: [
@@ -301,6 +285,7 @@ const PROFILES = {
   },
   disengaged: {
     name: 'Disengaged Learner', color: '#D85A30', bg: '#faece7', textColor: '#4A1B0C',
+    topicLink: 'motivation.html', topicLabel: 'Read about what drives motivation',
     subtitle: 'Low engagement across all three phases is limiting what you get from your learning time.',
     desc: '<h3>What this means</h3><p>Your responses suggest low engagement with the planning, monitoring, and reflection phases. This does not mean you cannot learn, it means your current approach is not capturing the value of your study time.</p><p>Deci and Ryan\'s self-determination theory points to three possible causes: lack of autonomy, unmet competence needs, or disconnection from purpose. Addressing the right cause makes a bigger difference than just trying harder.</p>',
     tips: [
@@ -311,19 +296,6 @@ const PROFILES = {
     ]
   }
 };
-
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznDK03nfl1YFj-l3Fp1n_bXCynVdtV3lIy53hDJzPjPJd6Wp9zFxYYSI860RKaNK97lA/exec';
-
-function logProfile(profileName, planPct, monitorPct, reflectPct, avgPct) {
-  const params = new URLSearchParams({
-    profile: profileName,
-    plan: Math.round(planPct),
-    monitor: Math.round(monitorPct),
-    reflect: Math.round(reflectPct),
-    avg: Math.round(avgPct)
-  });
-  fetch(SCRIPT_URL + '?' + params.toString(), { mode: 'no-cors' }).catch(() => {});
-}
 
 let currentQ = 0;
 let answers = [];
@@ -399,8 +371,6 @@ function showResults() {
   else if (avgPct >= 40) profile = PROFILES.surface;
   else profile = PROFILES.disengaged;
 
-  logProfile(profile.name, planPct, monitorPct, reflectPct, avgPct);
-
   const badge = document.getElementById('result-badge');
   badge.textContent = profile.name;
   badge.style.background = profile.bg;
@@ -417,6 +387,8 @@ function showResults() {
   document.getElementById('profile-desc').innerHTML = profile.desc;
   document.getElementById('tips-grid').innerHTML = profile.tips.map(t => '<div class="tip-card"><span class="tip-icon">' + t.icon + '</span><h4>' + t.title + '</h4><p>' + t.text + '</p></div>').join('');
   showScreen('screen-results');
+  const topicLink = document.getElementById('profile-topic-link');
+  if (topicLink) { topicLink.href = profile.topicLink; topicLink.textContent = profile.topicLabel; }
   setTimeout(() => { document.querySelectorAll('.dim-fill').forEach(bar => { bar.style.width = bar.dataset.target + '%'; }); }, 100);
 }
 
