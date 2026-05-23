@@ -113,6 +113,16 @@
   .concept-card h4 { font-family: var(--font-display); font-size: 21px; margin-bottom: 6px; line-height: 1.3; }
   .concept-card p { font-size: 18px; color: var(--ink-2); line-height: 1.7; }
 
+  /* FRAMEWORK CARDS */
+  .framework-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 1.5rem; }
+  .framework-card { background: var(--paper-2); border: 1px solid var(--border); border-left: 3px solid var(--teal); border-radius: 0 12px 12px 0; padding: 24px; }
+  .framework-card .fw-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; display: block; }
+  .framework-card h4 { font-family: var(--font-display); font-size: 22px; margin-bottom: 10px; line-height: 1.2; }
+  .framework-card p { font-size: 18px; color: var(--ink-2); line-height: 1.75; }
+  .framework-card p + p { margin-top: 10px; }
+  .framework-compare { margin-top: 20px; padding: 18px 20px; background: var(--teal-light); border-radius: 10px; }
+  .framework-compare p { font-size: 17px; color: var(--teal-dark); line-height: 1.75; }
+
   /* RESEARCH NOTE */
   .research-note { margin-top: 48px; padding: 20px 24px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; }
   .research-note p { font-size: 18px; color: var(--ink-3); line-height: 1.7; }
@@ -258,9 +268,35 @@
     </div>
   </div>
 
+  <!-- PINTRICH AND WINNE -->
+  <div class="section">
+    <p class="section-label">Going deeper</p>
+    <h2>Two more frameworks worth knowing</h2>
+    <p>Zimmerman's model is the most widely applied in classroom research, but two other frameworks offer perspectives it alone does not capture: one adds the motivational and contextual dimensions, the other maps the cognitive mechanics underneath.</p>
+
+    <div class="framework-grid">
+      <div class="framework-card">
+        <span class="fw-tag">Pintrich, 2000</span>
+        <h4>The four-phase, four-area framework</h4>
+        <p>Pintrich mapped self-regulated learning across two dimensions simultaneously: four phases (forethought, monitoring, control, and reflection) and four regulatory areas (cognition, motivation and affect, behavior, and context). At every phase of learning, regulation is happening at multiple levels at once. You are not only planning your strategy. You are also managing your confidence, your attention, and your environment.</p>
+        <p>This matrix structure explains why purely cognitive interventions sometimes fail. A student who has strong planning skills but low self-efficacy or a distracting environment may still underperform. Pintrich's framework makes those interactions visible. His Motivated Strategies for Learning Questionnaire (MSLQ) remains the most widely used SRL measurement tool in education research.</p>
+      </div>
+      <div class="framework-card">
+        <span class="fw-tag">Winne and Hadwin, 1998</span>
+        <h4>The COPES model</h4>
+        <p>Winne approached SRL from an information processing perspective. His COPES model identifies five components that interact recursively during learning: Conditions (what you know about the task and context), Operations (the cognitive processes you apply), Products (the outcomes of those processes), Evaluations (comparing products against internal standards), and Standards (the benchmarks guiding your judgments).</p>
+        <p>Where Zimmerman describes what learners do across phases of a task, Winne describes the cognitive mechanics of how monitoring and control actually work moment to moment. COPES treats every study act as a micro-cycle of setting a standard, performing an operation, generating a product, and evaluating whether the product met the standard. This granularity is why Winne's work has been especially influential in research on metacognitive monitoring and adaptive help-seeking.</p>
+      </div>
+    </div>
+
+    <div class="framework-compare">
+      <p>All three models agree that SRL is cyclical, metacognitive, and teachable. They differ in emphasis: Zimmerman on the social cognitive origins of self-regulation, Pintrich on the motivational and contextual dimensions alongside cognition, and Winne on the information processing mechanisms that underpin metacognitive control. In practice, most contemporary SRL research draws on all three.</p>
+    </div>
+  </div>
+
   <!-- RESEARCH NOTE -->
   <div class="research-note">
-    <p><strong style="color:var(--ink)">Primary sources</strong>, Zimmerman, B. J. (2000). Attaining self-regulation: A social cognitive perspective. In M. Boekaerts, P. R. Pintrich, & M. Zeidner (Eds.), Handbook of self-regulation (pp. 13-39). Academic Press. Pintrich, P. R. (2004). A conceptual framework for assessing motivation and self-regulated learning in college students. Educational Psychology Review, 16(4), 385-407. Bandura, A. (1986). Social foundations of thought and action. Prentice Hall.</p>
+    <p><strong style="color:var(--ink)">Primary sources:</strong> Zimmerman, B. J. (2000). Attaining self-regulation: A social cognitive perspective. In M. Boekaerts, P. R. Pintrich, & M. Zeidner (Eds.), Handbook of self-regulation (pp. 13-39). Academic Press. Pintrich, P. R. (2000). The role of goal orientation in self-regulated learning. In M. Boekaerts, P. R. Pintrich, & M. Zeidner (Eds.), Handbook of self-regulation (pp. 451-502). Academic Press. Pintrich, P. R. (2004). A conceptual framework for assessing motivation and self-regulated learning in college students. Educational Psychology Review, 16(4), 385-407. Winne, P. H., & Hadwin, A. F. (1998). Studying as self-regulated learning. In D. J. Hacker, J. Dunlosky, & A. C. Graesser (Eds.), Metacognition in educational theory and practice (pp. 277-304). Erlbaum. Bandura, A. (1986). Social foundations of thought and action. Prentice Hall.</p>
   </div>
 
   <!-- CTA -->
