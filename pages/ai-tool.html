@@ -42,7 +42,8 @@
   .screen.active { display: block; animation: fadeIn 0.3s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .intro-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; }
+  .intro-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 1.25rem; }
+  .intro-eyebrow a { color: var(--teal); text-decoration: none; }
   .intro-title { font-family: var(--font-display); font-size: clamp(32px, 5vw, 48px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
   .intro-title em { color: var(--teal); font-style: italic; }
   .intro-desc { font-size: 20px; color: var(--ink-2); line-height: 1.8; margin-bottom: 2rem; max-width: 720px; }
@@ -136,7 +137,7 @@
 <div class="assessment-wrap">
 
   <div class="screen active" id="screen-intro">
-    <p class="intro-eyebrow">SRL Profile Assessment</p>
+    <p class="intro-eyebrow"><a href="../index.html">SRLens</a> → Learning Profile Assessment</p>
     <h1 class="intro-title">How do you <em>actually</em> learn?</h1>
     <p class="intro-desc">Ten questions grounded in Zimmerman's cyclical SRL model and Pintrich's motivational framework. You will find out how you plan before learning, monitor during it, and reflect afterward.</p>
     <div class="intro-meta">
