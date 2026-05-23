@@ -293,6 +293,23 @@ const PROFILES = {
   }
 };
 
+const SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+
+function logProfile(profileName, planPct, monitorPct, reflectPct, avgPct) {
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
+      profile: profileName,
+      plan: Math.round(planPct),
+      monitor: Math.round(monitorPct),
+      reflect: Math.round(reflectPct),
+      avg: Math.round(avgPct)
+    })
+  }).catch(() => {});
+}
+
 let currentQ = 0;
 let answers = [];
 let scores = { plan: 0, monitor: 0, reflect: 0 };
@@ -366,6 +383,8 @@ function showResults() {
   else if (selfEfficacyAns !== undefined && selfEfficacyAns <= 1 && monitorPct >= 50) profile = PROFILES.anxious;
   else if (avgPct >= 40) profile = PROFILES.surface;
   else profile = PROFILES.disengaged;
+
+  logProfile(profile.name, planPct, monitorPct, reflectPct, avgPct);
 
   const badge = document.getElementById('result-badge');
   badge.textContent = profile.name;
