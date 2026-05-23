@@ -27,7 +27,7 @@
     --font-mono: 'DM Mono', monospace;
   }
   html { scroll-behavior: smooth; }
-  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 22px; overflow-x: hidden; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 18px; overflow-x: hidden; }
 
   nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); }
   .nav-inner { max-width: 920px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
@@ -106,9 +106,9 @@
   <div class="nav-links">
     <a href="topics.html">Topics</a>
     <a href="analytics.html">Data</a>
-      <a href="ai-tools.html" class="active">AI Tools</a>
+    <a href="ai-tools.html">AI Tools</a>
     <a href="about.html">About</a>
-    <a href="ai-tool.html" class="nav-cta">Try SRLens AI</a>
+    <a href="ai-tool.html" class="nav-cta">Learning Profile Assessment</a>
   </div>
 </div>
 </nav>
@@ -124,8 +124,7 @@
   <div class="tabs">
     <button class="tab active" onclick="switchTab('researchers', this)">Researchers and PhD students</button>
     <button class="tab" onclick="switchTab('educators', this)">Educators and teachers</button>
-    <button class="tab" onclick="switchTab('k12', this)">K-12 students</button>
-    <button class="tab" onclick="switchTab('learners', this)">General learners</button>
+    <button class="tab" onclick="switchTab('students', this)">Students and general learners</button>
   </div>
 
   <!-- RESEARCHERS -->
@@ -358,9 +357,9 @@
     </div>
   </div>
 
-  <!-- K-12 STUDENTS -->
-  <div class="audience-section" id="section-k12">
-    <p class="audience-intro">These tools are designed with younger learners in mind — either purpose-built for K-12, or well-suited to structured school subjects. The best ones make students think rather than do the thinking for them.</p>
+  <!-- STUDENTS -->
+  <div class="audience-section" id="section-students">
+    <p class="audience-intro">AI tools can help students learn more effectively, but only if used in ways that build understanding rather than bypass it. The most important question to ask is: is this tool making me think, or thinking for me?</p>
 
     <div class="tools-grid">
 
@@ -368,26 +367,26 @@
         <div class="tool-header">
           <div class="tool-name-row">
             <div class="tool-icon" style="background:#d0f0e4">🌐</div>
-            <h3>Khan Academy / Khanmigo</h3>
+            <h3>Khan Academy</h3>
           </div>
           <span class="tool-badge badge-free">Free</span>
         </div>
-        <p class="tool-desc">The gold standard for free K-12 learning. Covers math, science, computing, history, and more with short videos, adaptive practice, and immediate feedback. Khanmigo adds an AI tutor that asks guiding questions rather than giving answers — one of the few tools designed to protect self-regulation.</p>
+        <p class="tool-desc">Free learning platform covering thousands of topics from elementary school to university level. Combines short video explanations with practice exercises and immediate feedback. One of the most research-validated free learning tools available.</p>
         <div class="use-cases">
           <div class="use-case-col good">
             <h4>Good for</h4>
             <ul class="use-case-list">
               <li>Building foundational understanding step by step</li>
-              <li>Filling knowledge gaps in math and science</li>
-              <li>SAT, AP, and standardized test preparation</li>
-              <li>Practice with immediate, specific feedback</li>
+              <li>Practice with immediate feedback</li>
+              <li>Filling knowledge gaps at your own pace</li>
+              <li>Math, science, computing, humanities and more</li>
             </ul>
           </div>
           <div class="use-case-col caution">
             <h4>Be careful</h4>
             <ul class="use-case-list">
-              <li>Passive video watching without exercises does not build retention</li>
-              <li>Use the practice tools, not just the content</li>
+              <li>Passive watching without practice does not build retention</li>
+              <li>Use the exercises, not just the videos</li>
             </ul>
           </div>
         </div>
@@ -397,123 +396,27 @@
       <div class="tool-card">
         <div class="tool-header">
           <div class="tool-name-row">
-            <div class="tool-icon" style="background:#faecd4">🧩</div>
-            <h3>Carnegie Learning MATHia</h3>
-          </div>
-          <span class="tool-badge badge-paid">School license</span>
-        </div>
-        <p class="tool-desc">One of the most rigorously evaluated intelligent tutoring systems for K-12 math. Builds a cognitive model of each student and adjusts in real time. Typically deployed through schools, not individual purchase.</p>
-        <div class="use-cases">
-          <div class="use-case-col good">
-            <h4>Good for</h4>
-            <ul class="use-case-list">
-              <li>Middle and high school math skill-building</li>
-              <li>Identifying specific knowledge gaps precisely</li>
-              <li>Structured practice with adaptive feedback</li>
-            </ul>
-          </div>
-          <div class="use-case-col caution">
-            <h4>Be careful</h4>
-            <ul class="use-case-list">
-              <li>Math only — not useful for other subjects</li>
-              <li>Requires school or district license</li>
-            </ul>
-          </div>
-        </div>
-        <a href="https://carnegielearning.com" target="_blank" class="tool-link">Visit Carnegie Learning →</a>
-      </div>
-
-      <div class="tool-card">
-        <div class="tool-header">
-          <div class="tool-name-row">
-            <div class="tool-icon" style="background:#eeedfe">✍️</div>
-            <h3>Grammarly (writing feedback)</h3>
-          </div>
-          <span class="tool-badge badge-freemium">Freemium</span>
-        </div>
-        <p class="tool-desc">AI writing assistant that flags grammar, clarity, and style issues. At its best, it acts as a first-pass editor that flags problems for the student to fix — preserving the cognitive work of revision rather than doing it automatically.</p>
-        <div class="use-cases">
-          <div class="use-case-col good">
-            <h4>Good for</h4>
-            <ul class="use-case-list">
-              <li>Catching grammar and punctuation errors</li>
-              <li>Learning to identify weak sentence structure</li>
-              <li>First-draft editing before submitting</li>
-            </ul>
-          </div>
-          <div class="use-case-col caution">
-            <h4>Be careful</h4>
-            <ul class="use-case-list">
-              <li>Accepting all suggestions without understanding them defeats the purpose</li>
-              <li>Does not teach you why something is wrong, only that it is</li>
-            </ul>
-          </div>
-        </div>
-        <a href="https://grammarly.com" target="_blank" class="tool-link">Visit Grammarly →</a>
-      </div>
-
-      <div class="tool-card">
-        <div class="tool-header">
-          <div class="tool-name-row">
-            <div class="tool-icon" style="background:#d0f0e4">🎮</div>
-            <h3>Duolingo</h3>
-          </div>
-          <span class="tool-badge badge-freemium">Freemium</span>
-        </div>
-        <p class="tool-desc">AI-powered language learning app with spaced repetition and adaptive difficulty. Good for building vocabulary and reading skills in a second language, especially at beginner levels. Widely used in K-12 language classes.</p>
-        <div class="use-cases">
-          <div class="use-case-col good">
-            <h4>Good for</h4>
-            <ul class="use-case-list">
-              <li>Vocabulary and grammar in a second language</li>
-              <li>Daily habit formation through short sessions</li>
-              <li>Supplementing classroom language instruction</li>
-            </ul>
-          </div>
-          <div class="use-case-col caution">
-            <h4>Be careful</h4>
-            <ul class="use-case-list">
-              <li>Not sufficient for conversational fluency on its own</li>
-              <li>Streaks can replace genuine learning as the goal</li>
-            </ul>
-          </div>
-        </div>
-        <a href="https://duolingo.com" target="_blank" class="tool-link">Visit Duolingo →</a>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- GENERAL LEARNERS -->
-  <div class="audience-section" id="section-learners">
-    <p class="audience-intro">For adult learners, self-directed study, university students, and anyone learning outside a formal classroom. These tools reward learners who already know how to set goals and monitor their own progress.</p>
-
-    <div class="tools-grid">
-
-      <div class="tool-card">
-        <div class="tool-header">
-          <div class="tool-name-row">
             <div class="tool-icon" style="background:#faecd4">🃏</div>
             <h3>Anki</h3>
           </div>
           <span class="tool-badge badge-free">Free</span>
         </div>
-        <p class="tool-desc">Spaced repetition flashcard system with decades of cognitive science support. Schedules each card at the optimal moment before forgetting — one of the most evidence-backed study methods available. High initial investment, very high long-term payoff.</p>
+        <p class="tool-desc">Spaced repetition flashcard app with decades of research support. Anki schedules review at the optimal time before you would forget — one of the most evidence-backed study strategies available. Steep learning curve but high payoff.</p>
         <div class="use-cases">
           <div class="use-case-col good">
             <h4>Good for</h4>
             <ul class="use-case-list">
-              <li>Medical, law, language, and exam preparation</li>
-              <li>Any fact-dense content you need long-term</li>
-              <li>Building cumulative knowledge over months or years</li>
               <li>Vocabulary in any subject or language</li>
+              <li>Medical, law, and exam preparation</li>
+              <li>Any fact-heavy content you need long-term</li>
+              <li>Building cumulative knowledge over months</li>
             </ul>
           </div>
           <div class="use-case-col caution">
             <h4>Be careful</h4>
             <ul class="use-case-list">
               <li>Does not build conceptual understanding on its own</li>
-              <li>Making your own cards is more effective than using shared decks</li>
+              <li>Making your own cards is more effective than downloading shared decks</li>
             </ul>
           </div>
         </div>
@@ -524,26 +427,27 @@
         <div class="tool-header">
           <div class="tool-name-row">
             <div class="tool-icon" style="background:#eeedfe">🤖</div>
-            <h3>Claude or ChatGPT as a study partner</h3>
+            <h3>Claude or ChatGPT for studying</h3>
           </div>
           <span class="tool-badge badge-freemium">Freemium</span>
         </div>
-        <p class="tool-desc">General LLMs are powerful self-directed learning tools when used to check understanding rather than generate it. The most effective approach: study first, then use AI to quiz you, challenge your reasoning, or explain what you got wrong.</p>
+        <p class="tool-desc">General AI assistants can be powerful study tools if used correctly. The key distinction: use them to check your understanding, not to skip building it. Ask them to quiz you, explain your reasoning back to you, or find the flaw in your thinking.</p>
         <div class="use-cases">
           <div class="use-case-col good">
             <h4>Good for</h4>
             <ul class="use-case-list">
-              <li>Asking it to quiz you after you have already studied</li>
-              <li>Getting alternative explanations when stuck</li>
-              <li>Thinking through complex arguments or ideas</li>
-              <li>Breaking down unfamiliar topics into components</li>
+              <li>Asking it to quiz you on material you have already studied</li>
+              <li>Explaining a concept in a different way when you are stuck</li>
+              <li>Getting feedback on your own written explanation of something</li>
+              <li>Breaking down a complex topic into smaller steps</li>
             </ul>
           </div>
           <div class="use-case-col caution">
             <h4>Be careful</h4>
             <ul class="use-case-list">
+              <li>Having AI write your essays bypasses the learning entirely</li>
               <li>Reading AI explanations without testing yourself does not build memory</li>
-              <li>It can sound confident while being wrong — verify key claims</li>
+              <li>It can be confidently wrong — always verify important facts</li>
             </ul>
           </div>
         </div>
@@ -552,58 +456,30 @@
       <div class="tool-card">
         <div class="tool-header">
           <div class="tool-name-row">
-            <div class="tool-icon" style="background:#d0f0e4">🎓</div>
-            <h3>Coursera / edX with AI features</h3>
+            <div class="tool-icon" style="background:#d0f0e4">🎮</div>
+            <h3>Duolingo</h3>
           </div>
           <span class="tool-badge badge-freemium">Freemium</span>
         </div>
-        <p class="tool-desc">University-level courses from top institutions, increasingly augmented with AI tutors and automated feedback. Strong on structured content and credentialed learning paths for adult self-directed learners.</p>
+        <p class="tool-desc">AI-powered language learning app using spaced repetition, adaptive difficulty, and gamification. Research shows it can build real vocabulary and reading skills, especially at beginner to intermediate levels.</p>
         <div class="use-cases">
           <div class="use-case-col good">
             <h4>Good for</h4>
             <ul class="use-case-list">
-              <li>Structured university-level courses with certificates</li>
-              <li>Career-focused skill development</li>
-              <li>Learning a new field systematically with expert instruction</li>
+              <li>Building vocabulary and reading in a new language</li>
+              <li>Daily habit formation through short sessions</li>
+              <li>Beginner to intermediate level in many languages</li>
             </ul>
           </div>
           <div class="use-case-col caution">
             <h4>Be careful</h4>
             <ul class="use-case-list">
-              <li>Completion rates for MOOCs are low without external accountability</li>
-              <li>Certificates vary widely in recognition</li>
+              <li>Not sufficient alone for conversational fluency</li>
+              <li>Streaks can become the goal rather than actual learning</li>
             </ul>
           </div>
         </div>
-        <a href="https://coursera.org" target="_blank" class="tool-link">Visit Coursera →</a>
-      </div>
-
-      <div class="tool-card">
-        <div class="tool-header">
-          <div class="tool-name-row">
-            <div class="tool-icon" style="background:#d0f0e4">🎯</div>
-            <h3>SRLens AI</h3>
-          </div>
-          <span class="tool-badge badge-free">Free</span>
-        </div>
-        <p class="tool-desc">AI assessment and concept explainer built on the SRL research literature. The assessment identifies your learning profile across four dimensions. The concept explainer grounds every response in peer-reviewed educational psychology theory rather than general knowledge.</p>
-        <div class="use-cases">
-          <div class="use-case-col good">
-            <h4>Good for</h4>
-            <ul class="use-case-list">
-              <li>Understanding your own learning patterns and tendencies</li>
-              <li>Getting research-grounded explanations of learning science concepts</li>
-              <li>Reflecting on why specific study habits work or do not work</li>
-            </ul>
-          </div>
-          <div class="use-case-col caution">
-            <h4>Be careful</h4>
-            <ul class="use-case-list">
-              <li>Designed for reflection, not subject-matter tutoring</li>
-            </ul>
-          </div>
-        </div>
-        <a href="ai-tool.html" class="tool-link">Try SRLens AI →</a>
+        <a href="https://duolingo.com" target="_blank" class="tool-link">Visit Duolingo →</a>
       </div>
 
     </div>
@@ -617,19 +493,12 @@
 </main>
 
 <script>
-function switchTab(id, btn) {
+function switchTab(audience, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.audience-section').forEach(s => s.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('section-' + id).classList.add('active');
+  document.getElementById('section-' + audience).classList.add('active');
 }
 </script>
-
-<footer>
-  <p>© 2026 SRLens · Research-backed, open access</p>
-  <a href="mailto:eakkus@ncsu.edu">Contact</a>
-</footer>
-
 </body>
-</html>
 </html>
