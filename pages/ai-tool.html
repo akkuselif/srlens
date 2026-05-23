@@ -310,18 +310,14 @@ const PROFILES = {
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznDK03nfl1YFj-l3Fp1n_bXCynVdtV3lIy53hDJzPjPJd6Wp9zFxYYSI860RKaNK97lA/exec';
 
 function logProfile(profileName, planPct, monitorPct, reflectPct, avgPct) {
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({
-      profile: profileName,
-      plan: Math.round(planPct),
-      monitor: Math.round(monitorPct),
-      reflect: Math.round(reflectPct),
-      avg: Math.round(avgPct)
-    })
-  }).catch(() => {});
+  const params = new URLSearchParams({
+    profile: profileName,
+    plan: Math.round(planPct),
+    monitor: Math.round(monitorPct),
+    reflect: Math.round(reflectPct),
+    avg: Math.round(avgPct)
+  });
+  fetch(SCRIPT_URL + '?' + params.toString(), { mode: 'no-cors' }).catch(() => {});
 }
 
 let currentQ = 0;
