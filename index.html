@@ -320,6 +320,13 @@
     footer { flex-direction: column; gap: 8px; text-align: center; }
   }
 
+  /* WHAT'S HERE STRIP */
+  .whats-here { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 2rem; }
+  .here-chip { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 8px; font-size: 14px; color: var(--ink-2); text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+  .here-chip:hover { border-color: var(--teal); color: var(--teal); }
+  .here-chip .chip-icon { font-size: 15px; }
+  .here-chip strong { color: var(--ink); font-weight: 500; }
+
   /* HOOK SECTION */
   .hook-section { max-width: 920px; margin: 0 auto; padding: 64px 2rem; }
   .hook-intro { font-size: 18px; color: var(--ink-2); margin-bottom: 2rem; line-height: 1.7; }
@@ -366,12 +373,18 @@
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <p class="hero-eyebrow">For students · For researchers · Open access</p>
+  <p class="hero-eyebrow">Educational psychology research · Open access</p>
   <h1>You study hard. But are you learning <em>the right way?</em></h1>
-  <p class="hero-desc">Most people were never taught how to learn. Educational psychology has spent decades figuring out exactly why some students thrive and others struggle, and the answers are surprisingly clear. SRLens makes that science visible.</p>
+  <p class="hero-desc">SRLens is a research-grounded site covering the science of how people learn. Topic explainers on self-regulated learning, metacognition, and motivation. Interactive visualizations built on real student data. A learning profile assessment. All grounded in peer-reviewed educational psychology.</p>
   <div class="hero-actions">
     <a href="pages/ai-tool.html" class="btn-primary">Take the assessment</a>
-    <a href="pages/srl.html" class="btn-ghost">Explore the science</a>
+    <a href="pages/topics.html" class="btn-ghost">Browse all topics</a>
+  </div>
+  <div class="whats-here">
+    <a href="pages/topics.html" class="here-chip"><span class="chip-icon">📚</span><span><strong>Topic explainers</strong> — SRL, metacognition, motivation, AI</span></a>
+    <a href="pages/analytics.html" class="here-chip"><span class="chip-icon">📊</span><span><strong>Interactive data</strong> — real student behavior from 2,847 learners</span></a>
+    <a href="pages/ai-tool.html" class="here-chip"><span class="chip-icon">🧠</span><span><strong>Learning profile assessment</strong> — find your SRL profile</span></a>
+    <a href="pages/ai-learning.html" class="here-chip"><span class="chip-icon">🤖</span><span><strong>AI research</strong> — what the evidence actually shows</span></a>
   </div>
 </section>
 
