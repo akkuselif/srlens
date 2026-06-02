@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Environment variables (never commit API keys)
+.env
+.env.local
+.env.production
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Raw data files (too large for GitHub)
+data/pisa2022/raw/
+data/ku-leuven/raw/
+*.sav
+*.sas7bdat
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

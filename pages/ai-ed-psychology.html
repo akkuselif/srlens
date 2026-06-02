@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <meta property="og:title" content="SRLens — AI & Educational Psychology">
+  <meta property="og:description" content="What AI research says about metacognition, motivation, self-efficacy, and emotion regulation — construct by construct.">
+  <meta property="og:image" content="https://akkuselif.github.io/srlens/og-image.png">
+  <meta property="og:url" content="https://akkuselif.github.io/srlens/pages/ai-ed-psychology.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://akkuselif.github.io/srlens/og-image.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRLens — AI & Educational Psychology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-2: #4a4740; --ink-3: #8a8780;
+    --paper: #f7f4ef; --paper-2: #ede9e2; --paper-3: #e2ddd5;
+    --teal: #1D9E75; --teal-light: #d0f0e4; --teal-dark: #0a5c44;
+    --amber: #c8821a; --amber-light: #faecd4;
+    --purple: #534AB7; --purple-light: #eeedfe;
+    --coral: #D85A30; --coral-light: #faece7;
+    --border: rgba(26,24,20,0.12);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 22px; overflow-x: hidden; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 920px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+  .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; align-items: center; }
+  .nav-links a { font-size: 15px; color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 7px 16px; border-radius: 6px; font-size: 15px !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--teal) !important; color: white !important; }
+
+  /* PAGE HEADER */
+  .page-header { max-width: 920px; margin: 0 auto; padding: 64px 2rem 48px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .page-header h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .page-header h1 em { color: var(--teal); font-style: italic; }
+  .page-header p { font-size: 20px; color: var(--ink-2); max-width: 720px; line-height: 1.8; }
+  .page-header p + p { margin-top: 14px; }
+  .header-meta { display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
+  .meta-pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); color: var(--ink-2); }
+
+  /* CONTENT */
+  .content { max-width: 920px; margin: 0 auto; padding: 0 2rem 80px; }
+  .section { margin-top: 64px; }
+  .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 1rem; }
+  .section h2 { font-family: var(--font-display); font-size: 30px; letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.2; }
+  .section p { font-size: 20px; color: var(--ink-2); line-height: 1.85; max-width: 720px; }
+  .section p + p { margin-top: 14px; }
+
+  /* CONSTRUCT SECTIONS */
+  .construct-block { margin-top: 2rem; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .construct-header { padding: 24px 28px 20px; display: flex; align-items: flex-start; gap: 18px; }
+  .construct-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .construct-header-text h3 { font-family: var(--font-display); font-size: 24px; margin-bottom: 4px; line-height: 1.2; }
+  .construct-header-text .subtitle { font-size: 15px; color: var(--ink-3); }
+  .construct-body { padding: 0 28px 28px; }
+  .construct-body p { font-size: 19px; color: var(--ink-2); line-height: 1.85; max-width: 720px; }
+  .construct-body p + p { margin-top: 12px; }
+
+  .signal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .signal { padding: 14px 16px; border-radius: 10px; }
+  .signal .signal-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .signal p { font-size: 15px; line-height: 1.6; }
+  .signal.positive { background: var(--teal-light); }
+  .signal.positive .signal-label { color: var(--teal-dark); }
+  .signal.positive p { color: var(--teal-dark); }
+  .signal.concern { background: var(--coral-light); }
+  .signal.concern .signal-label { color: var(--coral); }
+  .signal.concern p { color: #4A1B0C; }
+  .signal.mixed { background: var(--amber-light); }
+  .signal.mixed .signal-label { color: var(--amber); }
+  .signal.mixed p { color: #412402; }
+  .signal.open { background: var(--purple-light); }
+  .signal.open .signal-label { color: var(--purple); }
+  .signal.open p { color: #26215C; }
+
+  .evidence-bar { margin-top: 18px; display: flex; align-items: center; gap: 12px; }
+  .evidence-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
+  .evidence-track { flex: 1; height: 6px; background: var(--paper-3); border-radius: 3px; overflow: hidden; }
+  .evidence-fill { height: 100%; border-radius: 3px; }
+  .evidence-text { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; color: var(--ink-3); white-space: nowrap; }
+
+  /* MECHANISM BOX */
+  .mechanism-box { margin-top: 2rem; background: var(--ink); border-radius: 16px; padding: 36px; }
+  .mechanism-box h3 { font-family: var(--font-display); font-size: 26px; color: var(--paper); margin-bottom: 16px; }
+  .mechanism-box p { font-size: 16px; color: rgba(247,244,239,0.72); line-height: 1.85; max-width: 720px; }
+  .mechanism-box p + p { margin-top: 12px; }
+  .mechanism-box .highlight { color: var(--teal); }
+  .mechanism-box .highlight-amber { color: #e8a836; }
+
+  /* RESEARCH LANDSCAPE */
+  .landscape-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 1.5rem; }
+  .landscape-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .landscape-card .tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; display: block; }
+  .landscape-card h4 { font-family: var(--font-display); font-size: 19px; margin-bottom: 8px; line-height: 1.3; }
+  .landscape-card p { font-size: 15px; color: var(--ink-2); line-height: 1.65; }
+
+  /* TIMELINE */
+  .timeline { margin-top: 2rem; display: flex; flex-direction: column; gap: 0; }
+  .timeline-item { display: flex; gap: 20px; padding-bottom: 28px; position: relative; }
+  .timeline-item:not(:last-child)::before { content: ''; position: absolute; left: 24px; top: 44px; bottom: 0; width: 1px; background: var(--border); }
+  .timeline-dot { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; flex-shrink: 0; border: 2px solid var(--border); background: var(--paper-2); color: var(--ink-3); }
+  .timeline-content h4 { font-family: var(--font-display); font-size: 20px; margin-bottom: 4px; line-height: 1.3; }
+  .timeline-content p { font-size: 16px; color: var(--ink-2); line-height: 1.7; }
+
+  /* CITATIONS */
+  .research-note { margin-top: 48px; padding: 20px 24px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; }
+  .research-note p { font-size: 14px; color: var(--ink-3); line-height: 1.7; }
+  .research-note p + p { margin-top: 8px; }
+
+  /* CTA */
+  .cta-strip { margin-top: 48px; background: var(--ink); border-radius: 16px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-strip h3 { font-family: var(--font-display); font-size: 22px; color: var(--paper); }
+  .cta-strip p { font-size: 15px; color: rgba(247,244,239,0.6); margin-top: 4px; }
+  .btn-teal { background: var(--teal); color: white; padding: 11px 24px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+  .btn-teal:hover { background: var(--teal-dark); }
+
+  /* RELATED */
+  .related-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.5rem; }
+  .related-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-decoration: none; color: inherit; transition: border-color 0.15s; }
+  .related-card:hover { border-color: var(--teal); }
+  .related-card .related-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .related-card h4 { font-family: var(--font-display); font-size: 19px; margin-bottom: 4px; line-height: 1.3; }
+  .related-card p { font-size: 15px; color: var(--ink-3); line-height: 1.5; }
+
+  @media (max-width: 720px) {
+    .signal-row { grid-template-columns: 1fr; }
+    .landscape-grid { grid-template-columns: 1fr; }
+    .related-row { grid-template-columns: 1fr; }
+    .cta-strip { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+<div class="nav-inner">
+  <a href="../index.html" class="nav-logo">SRL<span>ens</span></a>
+  <div class="nav-links">
+    <a href="topics.html" class="active">Topics</a>
+    <a href="analytics.html">Data</a>
+    <a href="ai-tools.html">AI Tools</a>
+    <a href="about.html">About</a>
+    <a href="ai-tool.html" class="nav-cta">Learning Profile Assessment</a>
+  </div>
+</div>
+</nav>
+
+<header class="page-header">
+  <p class="breadcrumb"><a href="../index.html">SRLens</a> &rarr; Topics &rarr; AI &amp; Educational Psychology</p>
+  <h1>What AI does to the <em>psychology</em> of learning</h1>
+  <p>Most conversations about AI and education focus on tools and tasks. The deeper question is about psychological processes: what happens to metacognition, motivation, self-efficacy, and emotion regulation when AI becomes part of how students learn? The research is young and often contradictory, but the construct-level picture is already more nuanced than either AI optimism or AI panic suggests.</p>
+  <p>This page goes through each major construct from self-regulated learning theory and asks: what does the evidence actually show?</p>
+  <div class="header-meta">
+    <span class="meta-pill">Metacognition</span>
+    <span class="meta-pill">Motivation theory</span>
+    <span class="meta-pill">Self-efficacy</span>
+    <span class="meta-pill">Emotion regulation</span>
+    <span class="meta-pill">EdAI research</span>
+  </div>
+</header>
+
+<main class="content">
+
+  <!-- WHY THIS MATTERS -->
+  <div class="section">
+    <p class="section-label">Why construct-level analysis matters</p>
+    <h2>Tool-level evaluations miss the mechanism</h2>
+    <p>Studies that ask "does AI improve learning outcomes?" typically measure performance on assessments. That tells you whether students got the right answers. It does not tell you whether they built the cognitive and motivational infrastructure to keep getting right answers when the AI is no longer available.</p>
+    <p>Educational psychology focuses on the underlying constructs: the metacognitive skills, motivational orientations, and self-regulatory processes that determine long-term learning capacity. AI's effect on those constructs is a separate question from its effect on immediate performance, and it is the more consequential one.</p>
+
+    <div class="mechanism-box">
+      <h3>The proximal versus distal performance distinction</h3>
+      <p>AI can improve <span class="highlight">proximal performance</span> (scores on the task at hand) while degrading <span class="highlight-amber">distal performance</span> (ability to perform without AI in novel contexts). This distinction is well-established in educational psychology: scaffolding that is never faded can produce permanent dependency. The central empirical question for AI in education is not "does it help?" but "does the help transfer?"</p>
+      <p>Current research cannot yet answer the transfer question cleanly because most studies are short-term. But the construct-level signals we do have suggest the risk is real, particularly for metacognition and intrinsic motivation.</p>
+    </div>
+  </div>
+
+  <!-- METACOGNITION -->
+  <div class="section">
+    <p class="section-label">Construct 01</p>
+    <h2>Metacognition</h2>
+    <p>Metacognition -- the capacity to plan, monitor, and evaluate one's own thinking -- is the construct most directly threatened by AI offloading. Planning and monitoring require effort precisely because they are self-generated. When an AI takes over those functions, students may be bypassing the process by which metacognitive skill is built.</p>
+
+    <div class="construct-block">
+      <div class="construct-header">
+        <div class="construct-icon" style="background:var(--teal-light)">🧠</div>
+        <div class="construct-header-text">
+          <h3>Metacognitive monitoring</h3>
+          <p class="subtitle">The ability to track one's own comprehension in real time</p>
+        </div>
+      </div>
+      <div class="construct-body">
+        <p>Metacognitive monitoring develops through the experience of being wrong. Students build calibration accuracy -- the alignment between confidence and actual performance -- by repeatedly estimating, attempting, and checking. AI that provides immediate correct answers short-circuits this cycle.</p>
+        <p>Studies on LLM-assisted studying show mixed results on calibration. Several find that students who use AI explanations report high comprehension confidence but perform no better on delayed tests, a pattern consistent with reduced metacognitive accuracy rather than genuine learning.</p>
+        <div class="signal-row">
+          <div class="signal concern">
+            <p class="signal-label">Concern</p>
+            <p>Students using AI explanation tools show inflated confidence-accuracy correlations compared to retrieval practice conditions. The "feeling of knowing" is unreliable when content was AI-generated rather than self-constructed.</p>
+          </div>
+          <div class="signal open">
+            <p class="signal-label">Open question</p>
+            <p>Does this effect persist over time, or do students recalibrate? No study has tracked metacognitive accuracy longitudinally across a full academic year with AI tool use as a variable.</p>
+          </div>
+        </div>
+        <div class="evidence-bar">
+          <span class="evidence-label">Evidence strength</span>
+          <div class="evidence-track"><div class="evidence-fill" style="width:40%;background:var(--amber)"></div></div>
+          <span class="evidence-text">Emerging / mixed</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="construct-block" style="margin-top:14px">
+      <div class="construct-header">
+        <div class="construct-icon" style="background:var(--purple-light)">📋</div>
+        <div class="construct-header-text">
+          <h3>Metacognitive planning and strategy selection</h3>
+          <p class="subtitle">Deciding how to approach a learning task before beginning</p>
+        </div>
+      </div>
+      <div class="construct-body">
+        <p>Planning is effortful because it requires the learner to represent the task, their current knowledge state, and the gap between them. AI tutors that prompt metacognitive planning -- asking students "what do you already know?" and "what's your approach?" before providing help -- consistently outperform those that simply answer questions, across multiple randomized controlled trials.</p>
+        <p>This is one of the clearest positive findings in EdAI: when AI is designed to scaffold metacognitive planning rather than replace it, measurable gains in strategic behavior follow. The design implication is direct: AI that asks before it answers supports metacognition; AI that answers without asking may erode it.</p>
+        <div class="signal-row">
+          <div class="signal positive">
+            <p class="signal-label">Positive signal</p>
+            <p>ITS systems with metacognitive prompting (Socratic questioning, planning scaffolds) produce measurable gains in self-reported and behavioral planning across multiple RCTs.</p>
+          </div>
+          <div class="signal concern">
+            <p class="signal-label">Concern</p>
+            <p>Students who use general-purpose LLMs without structured metacognitive prompts show no improvement in planning behavior, and some studies find deterioration on unsupported tasks.</p>
+          </div>
+        </div>
+        <div class="evidence-bar">
+          <span class="evidence-label">Evidence strength</span>
+          <div class="evidence-track"><div class="evidence-fill" style="width:72%;background:var(--teal)"></div></div>
+          <span class="evidence-text">Moderately strong (ITS context)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOTIVATION -->
+  <div class="section">
+    <p class="section-label">Construct 02</p>
+    <h2>Motivation</h2>
+    <p>Self-determination theory distinguishes intrinsic motivation (driven by genuine interest and satisfaction) from extrinsic motivation (driven by external rewards or pressures) and from amotivation (absence of motivation). The quality of motivation, not just its quantity, predicts deep learning and long-term persistence.</p>
+    <p>AI's effects on motivation are theoretically complex: it could support intrinsic motivation by reducing frustration and enabling flow, or undermine it by removing the challenge and sense of competence that are core to intrinsic motivation. Both happen, in different students and different contexts.</p>
+
+    <div class="construct-block">
+      <div class="construct-header">
+        <div class="construct-icon" style="background:var(--amber-light)">🔥</div>
+        <div class="construct-header-text">
+          <h3>Intrinsic motivation and autonomy</h3>
+          <p class="subtitle">Learning for its own sake, driven by interest and self-determination</p>
+        </div>
+      </div>
+      <div class="construct-body">
+        <p>SDT holds that intrinsic motivation requires three basic psychological needs: autonomy (feeling of volition), competence (sense of effectiveness), and relatedness (feeling of connection). AI can satisfy or frustrate each.</p>
+        <p>Adaptive learning systems that give students meaningful control over their learning path (pacing, topic selection, difficulty) support autonomy and have consistently positive motivational effects. AI that makes decisions for students, adjusting difficulty silently without transparency, tends to reduce perceived autonomy and suppress intrinsic motivation in students who were already intrinsically motivated. The paradox: optimization designed to help can undermine motivation in the learners who need it least.</p>
+        <div class="signal-row">
+          <div class="signal positive">
+            <p class="signal-label">Positive signal</p>
+            <p>Transparent adaptive systems where students understand and can influence the algorithm show gains in autonomous motivation. Control matters as much as optimization.</p>
+          </div>
+          <div class="signal concern">
+            <p class="signal-label">Concern</p>
+            <p>High prior intrinsic motivation is actually a risk factor for motivational erosion under heavy AI use. Students who were self-driven can become tool-dependent without noticing the shift.</p>
+          </div>
+        </div>
+        <div class="evidence-bar">
+          <span class="evidence-label">Evidence strength</span>
+          <div class="evidence-track"><div class="evidence-fill" style="width:55%;background:var(--amber)"></div></div>
+          <span class="evidence-text">Moderate, context-dependent</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="construct-block" style="margin-top:14px">
+      <div class="construct-header">
+        <div class="construct-icon" style="background:var(--coral-light)">🎯</div>
+        <div class="construct-header-text">
+          <h3>Goal orientation</h3>
+          <p class="subtitle">Mastery goals (learning for growth) versus performance goals (learning for grades)</p>
+        </div>
+      </div>
+      <div class="construct-body">
+        <p>Achievement goal theory predicts that mastery-oriented students (focused on genuine understanding) will respond differently to AI than performance-oriented students (focused on grades and outcomes). Early evidence supports this: performance-oriented students are more likely to use AI to complete tasks, while mastery-oriented students are more likely to use AI as a thinking partner.</p>
+        <p>This suggests that AI amplifies pre-existing goal orientations rather than creating new ones. Institutions that emphasize performance metrics (grades, rankings) may be structurally biased toward producing the kind of AI use that erodes learning. The goal orientation a student brings to AI use determines, in large part, what they get from it.</p>
+        <div class="signal-row">
+          <div class="signal mixed">
+            <p class="signal-label">Mixed signal</p>
+            <p>AI use predicts task completion across all goal orientations. But mastery-oriented students show better transfer to unaided tasks; performance-oriented students show minimal transfer gains.</p>
+          </div>
+          <div class="signal open">
+            <p class="signal-label">Design implication</p>
+            <p>AI interfaces that make mastery goals salient (framing success as understanding, not answer-getting) may shift goal orientation during use. This is an active research area.</p>
+          </div>
+        </div>
+        <div class="evidence-bar">
+          <span class="evidence-label">Evidence strength</span>
+          <div class="evidence-track"><div class="evidence-fill" style="width:35%;background:var(--amber)"></div></div>
+          <span class="evidence-text">Early / theoretical</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELF-EFFICACY -->
+  <div class="section">
+    <p class="section-label">Construct 03</p>
+    <h2>Self-efficacy</h2>
+    <p>Bandura's social cognitive theory defines self-efficacy as a person's belief in their capacity to execute the behaviors required for specific outcomes. It is domain-specific, constructed through mastery experiences, and highly predictive of persistence and effort. For AI research, the central question is whether AI assistance inflates perceived self-efficacy beyond actual capability -- and what happens when that gap is exposed.</p>
+
+    <div class="construct-block">
+      <div class="construct-header">
+        <div class="construct-icon" style="background:var(--teal-light)">💪</div>
+        <div class="construct-header-text">
+          <h3>Mastery experiences and capability beliefs</h3>
+          <p class="subtitle">Self-efficacy built through genuine success at difficult tasks</p>
+        </div>
+      </div>
+      <div class="construct-body">
+        <p>Mastery experiences -- succeeding at something genuinely challenging -- are the primary source of self-efficacy. AI-assisted success is an ambiguous mastery experience: the difficulty was real, but the agency was shared. How students attribute AI-assisted success matters enormously for what self-efficacy beliefs it builds.</p>
+        <p>Students who attribute AI-assisted success to themselves ("I solved it with a useful tool") show self-efficacy gains comparable to unassisted success. Students who attribute it to the AI ("the AI did it for me") show no self-efficacy gains. This attribution difference predicts transfer performance better than any feature of the AI tool itself.</p>
+        <div class="signal-row">
+          <div class="signal positive">
+            <p class="signal-label">Positive signal</p>
+            <p>AI tutors that attribute student success to the student's thinking ("you identified the key issue") produce stronger self-efficacy gains than those that attribute it to the system.</p>
+          </div>
+          <div class="signal concern">
+            <p class="signal-label">Concern</p>
+            <p>Inflated self-efficacy from AI-assisted performance can create a "confidence cliff" -- high reported self-efficacy followed by significant underperformance when AI is removed.</p>
+          </div>
+        </div>
+        <div class="evidence-bar">
+          <span class="evidence-label">Evidence strength</span>
+          <div class="evidence-track"><div class="evidence-fill" style="width:62%;background:var(--teal)"></div></div>
+          <span class="evidence-text">Moderate-strong (attribution studies)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMOTION REGULATION -->
+  <div class="section">
+    <p class="section-label">Construct 04</p>
+    <h2>Emotion regulation</h2>
+    <p>Learning is emotionally demanding. Frustration, anxiety, boredom, and shame are all regular parts of academic experience. Emotion regulation -- the ability to manage those states in ways that support continued engagement -- is a core component of self-regulated learning and a strong predictor of academic outcomes independent of ability.</p>
+    <p>AI has a complex relationship with academic emotion. It can reduce frustration by providing help when students are stuck. It can also remove the frustration that would have been productive. And for students with high test anxiety, AI availability changes the emotional landscape of high-stakes performance in ways the research is only beginning to map.</p>
+
+    <div class="construct-block">
+      <div class="construct-header">
+        <div class="construct-icon" style="background:var(--purple-light)">🌊</div>
+        <div class="construct-header-text">
+          <h3>Test anxiety and AI availability</h3>
+          <p class="subtitle">How the prospect of AI assistance changes anxiety regulation strategies</p>
+        </div>
+      </div>
+      <div class="construct-body">
+        <p>For students with high test anxiety, AI availability during formative practice can serve as a genuine anxiety-reduction mechanism, allowing repeated low-stakes attempts and reducing catastrophic thinking about errors. Several studies show significant anxiety reduction effects for ITS-supported practice in mathematics, where immediate corrective feedback interrupts the rumination cycle that amplifies test anxiety.</p>
+        <p>The concern is downstream: students who regulate anxiety by relying on AI availability may not develop robust emotion regulation strategies for contexts where AI is unavailable. If high-stakes assessments remain AI-free (as most do), students who learned to regulate anxiety via AI may be less prepared to regulate it through self-generated strategies when it matters most.</p>
+        <div class="signal-row">
+          <div class="signal positive">
+            <p class="signal-label">Positive signal</p>
+            <p>ITS with immediate corrective feedback reduces test anxiety and improves performance on low-stakes formative tasks. Effect sizes are moderate to large (d = 0.4-0.8) in well-designed studies.</p>
+          </div>
+          <div class="signal concern">
+            <p class="signal-label">Concern</p>
+            <p>Anxiety-reduction via AI availability may not transfer to unaided high-stakes settings. Students may become reliant on external regulation rather than developing internal strategies.</p>
+          </div>
+        </div>
+        <div class="evidence-bar">
+          <span class="evidence-label">Evidence strength</span>
+          <div class="evidence-track"><div class="evidence-fill" style="width:50%;background:var(--amber)"></div></div>
+          <span class="evidence-text">Moderate, formative contexts only</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESEARCH LANDSCAPE -->
+  <div class="section">
+    <p class="section-label">The broader research field</p>
+    <h2>Where EdAI psychology research is going</h2>
+    <p>The construct-level research described above draws from several distinct research traditions that have only recently begun to converge around AI as a common subject. Understanding which tradition a study comes from helps interpret its findings and limitations.</p>
+
+    <div class="landscape-grid">
+      <div class="landscape-card">
+        <span class="tag">ITS literature</span>
+        <h4>Intelligent tutoring systems</h4>
+        <p>30 years of controlled research, primarily in mathematics and language learning. Strong internal validity, limited generalizability to LLM-era tools. The gold standard for evidence in EdAI.</p>
+      </div>
+      <div class="landscape-card">
+        <span class="tag">LLM studies (2022+)</span>
+        <h4>Large language model research</h4>
+        <p>Growing fast but methodologically heterogeneous. Short study durations, convenience samples, self-report measures. Findings should be treated as directional rather than definitive.</p>
+      </div>
+      <div class="landscape-card">
+        <span class="tag">Learning analytics</span>
+        <h4>Behavioral trace data</h4>
+        <p>Large-scale VLE clickstream studies (including the KU Leuven data used in this site) provide behavioral correlates of SRL constructs. Less reliant on self-report but require careful interpretation.</p>
+      </div>
+      <div class="landscape-card">
+        <span class="tag">SDT research</span>
+        <h4>Motivation theory studies</h4>
+        <p>Applies Deci and Ryan's Self-Determination Theory to AI contexts. Theoretically grounded and increasingly empirical, but most studies measure motivation as an outcome rather than a mechanism.</p>
+      </div>
+      <div class="landscape-card">
+        <span class="tag">Metacognition research</span>
+        <h4>Monitoring and calibration studies</h4>
+        <p>Uses judgment-of-learning paradigms to measure metacognitive accuracy. Increasingly applied to AI tool use, but transfer measures are rarely included. Duration is a key limitation.</p>
+      </div>
+      <div class="landscape-card">
+        <span class="tag">Cross-cultural</span>
+        <h4>Comparative and PISA studies</h4>
+        <p>Most EdAI research is WEIRD (Western, Educated, Industrialized, Rich, Democratic). PISA data offers cross-cultural construct measurement but not direct AI effect measurement.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE: OPEN QUESTIONS -->
+  <div class="section">
+    <p class="section-label">What the field still needs</p>
+    <h2>The unanswered questions</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">RQ1</div>
+        <div class="timeline-content">
+          <h4>Longitudinal calibration studies</h4>
+          <p>Do students who use AI extensively over one or more years show measurable degradation in metacognitive calibration accuracy compared to matched controls? No study has answered this with adequate duration and measurement rigor.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">RQ2</div>
+        <div class="timeline-content">
+          <h4>Transfer measurement</h4>
+          <p>How much of AI-assisted performance transfers to unaided performance in novel contexts? Transfer is the gold standard of learning research, but almost no AI studies measure it at adequate delays (weeks to months after treatment).</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">RQ3</div>
+        <div class="timeline-content">
+          <h4>Differential effects by SRL profile</h4>
+          <p>High SRL and low SRL students likely respond very differently to the same AI tool. Studies that aggregate across learner profiles may be masking effects that are strong and directionally opposite in different subgroups.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">RQ4</div>
+        <div class="timeline-content">
+          <h4>Design features that preserve agency</h4>
+          <p>Which specific interface and interaction design choices maintain or strengthen psychological ownership of learning? This is a design science question as much as a psychology question, and the two fields have barely begun to collaborate on it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="research-note">
+    <p><strong style="color:var(--ink)">Primary sources</strong></p>
+    <p>Bandura, A. (1997). Self-efficacy: The exercise of control. Freeman. &bull; Deci, E. L., &amp; Ryan, R. M. (2000). The "what" and "why" of goal pursuits: Human needs and the self-determination of behavior. Psychological Inquiry, 11(4), 227-268.</p>
+    <p>Flavell, J. H. (1979). Metacognition and cognitive monitoring. American Psychologist, 34(10), 906-911. &bull; Pintrich, P. R. (2004). A conceptual framework for assessing motivation and self-regulated learning in college students. Educational Psychology Review, 16(4), 385-407.</p>
+    <p>VanLehn, K. (2011). The relative effectiveness of human tutoring, intelligent tutoring systems, and other tutoring systems. Educational Psychologist, 46(4), 197-221. &bull; Azevedo, R., et al. (2022). Unraveling the complex interplay between cognitive, metacognitive, affective, and motivational processes during learning with advanced technologies. Metacognition and Learning, 17, 317-328.</p>
+    <p>Kasneci, E., et al. (2023). ChatGPT for good? On opportunities and challenges of large language models for education. Learning and Individual Differences, 103, 102274. &bull; Zawacki-Richter, O., et al. (2019). Systematic review of research on artificial intelligence applications in higher education. International Journal of Educational Technology in Higher Education, 16, 39.</p>
+  </div>
+
+  <div class="section" style="margin-top:48px">
+    <p class="section-label">Related topics</p>
+    <h2>Go deeper</h2>
+    <div class="related-row">
+      <a href="ai-learning.html" class="related-card">
+        <p class="related-label">Practical guide</p>
+        <h4>AI in education: what actually works and what does not</h4>
+        <p>Verdict-level overview of EdAI evidence, the bypass problem, and open research questions.</p>
+      </a>
+      <a href="metacognition.html" class="related-card">
+        <p class="related-label">Core topic</p>
+        <h4>Metacognition</h4>
+        <p>What metacognition is, how it develops, and why it is the construct most central to self-regulated learning.</p>
+      </a>
+      <a href="motivation.html" class="related-card">
+        <p class="related-label">Core topic</p>
+        <h4>Motivation</h4>
+        <p>Intrinsic versus extrinsic motivation, goal orientation, and the research on what sustains long-term learning effort.</p>
+      </a>
+      <a href="analytics.html" class="related-card">
+        <p class="related-label">Data</p>
+        <h4>Learner behavior data</h4>
+        <p>Interactive visualizations showing how these constructs manifest in real student behavior across thousands of learners.</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="cta-strip">
+    <div>
+      <h3>Understand your own learning psychology</h3>
+      <p>The SRLens Learning Profile Assessment identifies how you currently regulate your learning across these constructs.</p>
+    </div>
+    <a href="ai-tool.html" class="btn-teal">Learning Profile Assessment</a>
+  </div>
+
+</main>
+</body>
+</html>

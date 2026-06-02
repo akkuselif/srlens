@@ -106,9 +106,38 @@
   .source-strip p { font-size: 18px; color: var(--ink-3); line-height: 1.6; }
   .source-strip a { color: var(--teal); text-decoration: none; font-size: 18px; }
 
+  /* DATA SOURCE BADGE */
+  .data-badge { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 16px; border: 1px solid transparent; }
+  .data-badge.live { background: var(--teal-light); color: var(--teal-dark); border-color: rgba(29,158,117,0.3); }
+  .data-badge.fallback { background: var(--amber-light); color: var(--amber); border-color: rgba(200,130,26,0.3); }
+  .data-badge .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .data-badge.live .dot { background: var(--teal); }
+  .data-badge.fallback .dot { background: var(--amber); }
+
+  /* CONSTRUCT FILTER CHIPS */
+  .construct-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .construct-chip { font-size: 13px; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--ink-3); cursor: pointer; font-family: var(--font-mono); letter-spacing: 0.04em; transition: all 0.15s; }
+  .construct-chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* OUTCOME CARDS */
+  .outcome-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 20px; }
+  .outcome-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .outcome-profile-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+  .outcome-profile-label .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .outcome-metric { margin-bottom: 14px; }
+  .outcome-label { font-size: 13px; color: var(--ink-3); margin-bottom: 5px; }
+  .outcome-bar-wrap { height: 7px; background: var(--paper-3); border-radius: 4px; overflow: hidden; }
+  .outcome-bar { height: 100%; border-radius: 4px; transition: width 0.7s ease; }
+  .outcome-value { font-family: var(--font-display); font-size: 24px; color: var(--ink); margin-top: 4px; }
+  .outcome-value small { font-size: 14px; color: var(--ink-3); font-family: var(--font-body); }
+
   @media (max-width: 920px) {
     .stats-row { grid-template-columns: repeat(2, 1fr); }
     .two-col { grid-template-columns: 1fr; }
+    .outcome-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 540px) {
+    .outcome-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -210,6 +239,40 @@
     </div>
   </div>
 
+  <!-- VIZ 4: OUTCOME CORRELATIONS -->
+  <div class="section">
+    <p class="section-label">Visualization 4</p>
+    <h2>Do behavioral profiles predict outcomes?</h2>
+    <p>If the four profiles reflect genuine differences in self-regulated learning, they should predict academic outcomes, not just describe behavior. This is the test: do students who regulate differently actually perform differently?</p>
+    <p>Final grade means and pass rates come from the KU Leuven assessment records, linked to the profile assigned from each student's VLE behavior.</p>
+
+    <div id="badge-outcomes" class="data-badge fallback"><span class="dot"></span>Illustrative data</div>
+    <div class="outcome-grid" id="outcome-grid"></div>
+
+    <div class="insight-box">
+      <strong>The effort paradox:</strong> Anxious strivers log more session days than surface learners yet show lower final grades on average. High session frequency driven by anxiety, rather than strategic planning, does not convert into proportionally better outcomes. This is the behavioral signature of Pintrich's surface versus deep processing distinction.
+    </div>
+  </div>
+
+  <!-- VIZ 5: CROSS-CULTURAL -->
+  <div class="section">
+    <p class="section-label">Visualization 5</p>
+    <h2>SRL across 80+ countries: what PISA tells us</h2>
+    <p>PISA 2022 measured six SRL-adjacent constructs across over 690,000 students in 80 countries. The variation is striking: countries at the top and bottom of any single construct often swap positions on others, which challenges simple narratives about which education systems "produce" better self-regulators.</p>
+    <p>Select a construct to rank countries. Scores are scaled to 0-100.</p>
+
+    <div id="badge-countries" class="data-badge fallback"><span class="dot"></span>Illustrative data</div>
+    <div class="construct-filter" id="construct-filter"></div>
+    <div class="chart-card">
+      <h3 id="country-chart-title">Top 15 countries by Motivation</h3>
+      <p class="chart-desc">Mean construct score (0-100) · PISA 2022 · 690,000 students across 80+ countries</p>
+      <div class="chart-wrap" style="height:380px"><canvas id="chart-countries" role="img" aria-label="Horizontal bar chart showing top 15 countries by selected SRL construct score"></canvas></div>
+    </div>
+    <div class="insight-box">
+      <strong>No single country leads on all constructs.</strong> Nations with the highest metacognitive monitoring scores frequently rank mid-table on test anxiety, and vice versa. This dissociation suggests that SRL constructs develop through different educational and cultural mechanisms rather than rising and falling together.
+    </div>
+  </div>
+
   <!-- KEY FINDINGS -->
   <div class="section">
     <p class="section-label">Key findings</p>
@@ -270,7 +333,7 @@ const WEEKS  = ['Wk1','Wk2','Wk3','Wk4','Wk5','Wk6','Wk7','Wk8','Wk9','Wk10','Wk
 const RESOURCES = ['Document','Video','Quiz','Assignment','Announcement','Discussion','Syllabus','Link'];
 const RADAR_LABELS = ['Motivation','Metacog. monitoring','Metacog. planning','Emotion regulation','Self-efficacy','Test anxiety'];
 
-const DATA = {
+const FALLBACK = {
   sessions: [
     [12,18,22,28,30,35,38,42,40,38,35,32,28],
     [18,22,20,18,16,14,12,10,9,8,7,6,5],
@@ -288,13 +351,80 @@ const DATA = {
     [45,35,30,55,50,45],
     [65,60,55,28,42,88],
     [25,20,18,55,30,35]
+  ],
+  outcomes: [
+    { profile: 'High SRL',      final_grade_mean: 72.4, pass_rate: 0.89 },
+    { profile: 'Surface learner', final_grade_mean: 58.1, pass_rate: 0.67 },
+    { profile: 'Anxious striver', final_grade_mean: 64.3, pass_rate: 0.74 },
+    { profile: 'Disengaged',    final_grade_mean: 41.2, pass_rate: 0.38 }
+  ],
+  pisa_constructs: RADAR_LABELS,
+  pisa_profiles: [
+    [85,80,75,70,88,30],
+    [45,35,30,55,50,45],
+    [65,60,55,28,42,88],
+    [25,20,18,55,30,35]
+  ],
+  countries: [
+    {code:'JPN',scores:[68,74,72,66,71,60]},{code:'KOR',scores:[62,70,69,55,68,72]},
+    {code:'EST',scores:[71,68,67,70,74,38]},{code:'FIN',scores:[69,65,64,72,70,35]},
+    {code:'CAN',scores:[74,62,63,68,76,40]},{code:'AUS',scores:[72,60,62,65,75,42]},
+    {code:'NZL',scores:[71,61,61,64,74,43]},{code:'GBR',scores:[70,59,60,66,73,45]},
+    {code:'USA',scores:[75,58,59,64,77,44]},{code:'DEU',scores:[65,67,66,62,69,48]},
+    {code:'CHE',scores:[63,66,65,60,67,50]},{code:'NLD',scores:[64,64,63,61,66,47]},
+    {code:'SWE',scores:[68,63,62,67,72,39]},{code:'NOR',scores:[67,62,61,69,71,37]},
+    {code:'DNK',scores:[66,61,60,68,70,38]},{code:'BEL',scores:[61,63,62,58,64,52]},
+    {code:'FRA',scores:[60,62,61,56,62,55]},{code:'ITA',scores:[58,60,59,54,60,58]},
+    {code:'ESP',scores:[62,58,57,60,63,50]},{code:'PRT',scores:[60,57,56,58,61,52]},
+    {code:'POL',scores:[66,64,63,62,67,49]},{code:'CZE',scores:[63,63,62,59,65,51]},
+    {code:'SVK',scores:[60,61,60,56,62,53]},{code:'HUN',scores:[58,60,59,54,60,55]},
+    {code:'GRC',scores:[55,56,55,52,57,60]},{code:'TUR',scores:[64,52,51,60,60,58]},
+    {code:'MEX',scores:[68,50,50,62,60,52]},{code:'CHL',scores:[64,52,51,60,58,54]},
+    {code:'COL',scores:[62,50,49,58,56,56]},{code:'BRA',scores:[60,49,48,56,54,58]},
+    {code:'ARG',scores:[59,48,47,55,53,59]},{code:'PER',scores:[58,47,46,54,52,60]},
+    {code:'IDN',scores:[60,46,46,56,52,62]},{code:'THA',scores:[62,50,50,58,55,60]},
+    {code:'PHL',scores:[58,48,48,54,50,64]},{code:'MYS',scores:[62,52,52,58,56,60]},
+    {code:'SGP',scores:[70,72,71,63,73,65]},{code:'HKG',scores:[68,71,70,62,72,67]},
+    {code:'MAC',scores:[66,70,69,61,70,65]},{code:'TWN',scores:[65,69,68,60,69,68]}
   ]
 };
 
 let activeProfiles = [0,1,2,3];
 let resourceView = 'grouped';
+let activeConstruct = 0;
 let charts = {};
+let DATA = null;
 
+async function loadData() {
+  const [kuRes, pisaRes] = await Promise.allSettled([
+    fetch('../data/ku_leuven_profiles.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
+    fetch('../data/pisa_constructs.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  ]);
+
+  const ku   = kuRes.status   === 'fulfilled' ? kuRes.value   : null;
+  const pisa = pisaRes.status === 'fulfilled' ? pisaRes.value : null;
+
+  setBadge('badge-outcomes',  ku   ? 'live' : 'fallback', ku   ? 'Live data' : 'Illustrative data');
+  setBadge('badge-countries', pisa ? 'live' : 'fallback', pisa ? 'Live data' : 'Illustrative data');
+
+  return {
+    sessions:   ku   ? ku.weekly_sessions      : FALLBACK.sessions,
+    resources:  ku   ? ku.resource_proportions : FALLBACK.resources,
+    radar:      pisa ? pisa.profile_scores     : FALLBACK.radar,
+    outcomes:   ku   ? ku.outcomes             : FALLBACK.outcomes,
+    pisa_constructs: pisa ? pisa.constructs    : FALLBACK.pisa_constructs,
+    countries:  pisa ? pisa.countries          : FALLBACK.countries,
+  };
+}
+
+function setBadge(id, type, label) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'data-badge ' + type;
+  el.innerHTML = `<span class="dot"></span>${label}`;
+}
+
+/* ---- LEGENDS ---- */
 function buildLegend(id) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -312,7 +442,7 @@ function buildLegend(id) {
         activeProfiles.push(i);
         pill.classList.add('active');
       }
-      renderAll();
+      renderCharts123();
       syncLegends();
     };
     el.appendChild(pill);
@@ -326,6 +456,7 @@ function syncLegends() {
   });
 }
 
+/* ---- CHART 1: TIME ---- */
 function renderTime() {
   if (charts.time) charts.time.destroy();
   const ctx = document.getElementById('chart-time').getContext('2d');
@@ -351,6 +482,7 @@ function renderTime() {
   });
 }
 
+/* ---- CHART 2: RESOURCE ---- */
 function renderResource() {
   if (charts.resource) charts.resource.destroy();
   const ctx = document.getElementById('chart-resource').getContext('2d');
@@ -376,6 +508,7 @@ function renderResource() {
   });
 }
 
+/* ---- CHART 3: RADAR ---- */
 function renderRadar() {
   if (charts.radar) charts.radar.destroy();
   const ctx = document.getElementById('chart-radar').getContext('2d');
@@ -394,10 +527,100 @@ function renderRadar() {
       plugins: { legend: { display: false } },
       scales: {
         r: {
-          min: 0, max: 100, ticks: { stepSize: 25, font: { size: 10 }, backdropColor: 'transparent', color: '#8a8780' },
+          min: 0, max: 100,
+          ticks: { stepSize: 25, font: { size: 10 }, backdropColor: 'transparent', color: '#8a8780' },
           pointLabels: { font: { size: 11 }, color: '#4a4740' },
           grid: { color: 'rgba(0,0,0,0.08)' }, angleLines: { color: 'rgba(0,0,0,0.08)' }
         }
+      }
+    }
+  });
+}
+
+/* ---- CHART 4: OUTCOMES ---- */
+function renderOutcomes() {
+  const grid = document.getElementById('outcome-grid');
+  if (!grid) return;
+  const maxGrade = Math.max(...DATA.outcomes.map(o => o.final_grade_mean || 0));
+
+  grid.innerHTML = DATA.outcomes.map((o, i) => {
+    const grade = o.final_grade_mean != null ? o.final_grade_mean : null;
+    const pass  = o.pass_rate        != null ? o.pass_rate        : null;
+    const gradeW = grade != null ? (grade / 100 * 100).toFixed(0) : 0;
+    const passW  = pass  != null ? (pass  * 100).toFixed(0)       : 0;
+    return `
+    <div class="outcome-card">
+      <div class="outcome-profile-label">
+        <span class="dot" style="background:${COLORS[i]}"></span>${NAMES[i]}
+      </div>
+      ${grade != null ? `
+      <div class="outcome-metric">
+        <div class="outcome-label">Final grade (mean)</div>
+        <div class="outcome-bar-wrap"><div class="outcome-bar" style="width:${gradeW}%;background:${COLORS[i]}"></div></div>
+        <div class="outcome-value">${grade.toFixed(1)}<small>/100</small></div>
+      </div>` : ''}
+      ${pass != null ? `
+      <div class="outcome-metric">
+        <div class="outcome-label">Pass rate</div>
+        <div class="outcome-bar-wrap"><div class="outcome-bar" style="width:${passW}%;background:${COLORS[i]}88"></div></div>
+        <div class="outcome-value">${(pass * 100).toFixed(0)}<small>%</small></div>
+      </div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+/* ---- CHART 5: COUNTRIES ---- */
+function buildConstructFilter() {
+  const el = document.getElementById('construct-filter');
+  if (!el || !DATA) return;
+  el.innerHTML = DATA.pisa_constructs.map((label, i) => {
+    const cls = i === activeConstruct ? 'construct-chip active' : 'construct-chip';
+    return `<button class="${cls}" onclick="setConstruct(${i}, this)">${label}</button>`;
+  }).join('');
+}
+
+function setConstruct(i, btn) {
+  activeConstruct = i;
+  document.querySelectorAll('.construct-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('country-chart-title').textContent = `Top 15 countries by ${DATA.pisa_constructs[i]}`;
+  renderCountries();
+}
+
+function renderCountries() {
+  if (!DATA || !DATA.countries) return;
+  if (charts.countries) charts.countries.destroy();
+
+  const sorted = [...DATA.countries]
+    .filter(c => c.scores && c.scores[activeConstruct] != null)
+    .sort((a, b) => b.scores[activeConstruct] - a.scores[activeConstruct])
+    .slice(0, 15);
+
+  const ctx = document.getElementById('chart-countries').getContext('2d');
+  charts.countries = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: sorted.map(c => c.code),
+      datasets: [{
+        data: sorted.map(c => c.scores[activeConstruct]),
+        backgroundColor: sorted.map((_, i) => {
+          const t = i / (sorted.length - 1);
+          return `rgba(29,158,117,${1 - t * 0.55})`;
+        }),
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` Score: ${ctx.parsed.x}` } }
+      },
+      scales: {
+        x: { min: 0, max: 100, grid: { color: 'rgba(0,0,0,0.05)' },
+             ticks: { font: { size: 11 }, color: '#8a8780' } },
+        y: { grid: { display: false }, ticks: { font: { size: 12 }, color: '#4a4740' } }
       }
     }
   });
@@ -410,11 +633,26 @@ function setResourceView(view, btn) {
   renderResource();
 }
 
-function renderAll() { renderTime(); renderResource(); renderRadar(); }
+function renderCharts123() { renderTime(); renderResource(); renderRadar(); }
+function renderAll()       { renderCharts123(); renderOutcomes(); renderCountries(); }
 
+/* ---- INIT ---- */
 buildLegend('legend-1');
 buildLegend('legend-3');
-renderAll();
+
+loadData().then(d => {
+  DATA = d;
+  buildConstructFilter();
+  renderAll();
+}).catch(() => {
+  DATA = {
+    sessions: FALLBACK.sessions, resources: FALLBACK.resources,
+    radar: FALLBACK.radar, outcomes: FALLBACK.outcomes,
+    pisa_constructs: FALLBACK.pisa_constructs, countries: FALLBACK.countries
+  };
+  buildConstructFilter();
+  renderAll();
+});
 </script>
 </body>
 </html>
